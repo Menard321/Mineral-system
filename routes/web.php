@@ -4,54 +4,22 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 /**
- * EXECUTIVE INTELLIGENCE PORTAL (General Access)
+ * PUBLIC LANDING PAGE (Sovereign & Enterprise Entry)
  */
 Route::get('/', function () {
-    return view('generaldashboard');
-});
-
-Route::get('/homepage', function () {
-    return view('generaldashboard');
-});
-
-Route::get('/mineral-atlas', function () {
-    return view('mineral_atlas');
-});
-
-Route::get('/intelligence-map', function () {
-    return view('intelligence_map');
-});
-
-Route::get('/analytics', function () {
-    return view('analytics');
-});
-
-Route::get('/trade-oversight', function () {
-    return view('trade_oversight');
-});
-
-Route::get('/mineral-governance', function () {
-    return view('mineral_governance');
-});
-
-Route::get('/compliance', function () {
-    return view('compliance');
-});
-
-Route::get('/laboratory', function () {
-    return view('laboratory');
+    return view('welcome');
 });
 
 
 /**
- * ADMINISTRATION SYSTEM (Restricted Access)
+ * SECURE AUTHENTICATION TERMINAL
  */
-Route::get('/admin', function () {
+Route::get('/login', function () {
     if (session('admin_authenticated')) {
-        return redirect('/admin/dashboard');
+        return redirect('/dashboard');
     }
     return view('admin.login');
-})->name('admin.login');
+})->name('login');
 
 Route::post('/admin/authenticate', function (Request $request) {
     $username = $request->input('username');
@@ -63,7 +31,7 @@ Route::post('/admin/authenticate', function (Request $request) {
         return redirect('/admin/dashboard');
     }
 
-    return redirect('/admin')->with('error', 'Authentication Failed: Invalid Credentials');
+    return redirect('/login')->with('error', 'Authentication Failed: Invalid Credentials');
 });
 
 Route::get('/admin/logout', function () {
@@ -71,31 +39,63 @@ Route::get('/admin/logout', function () {
     return redirect('/');
 });
 
-Route::prefix('admin')->middleware(['web'])->group(function () {
+
+/**
+ * PROTECTED INTELLIGENCE & ADMINISTRATION
+ * Restricted Access: Mandatory Admin Login Required
+ */
+Route::middleware(['web'])->group(function () {
     
-    // Protection Middleware Simulation
-    Route::get('/dashboard', function () {
-        if (!session('admin_authenticated')) return redirect('/admin');
-        return view('dashboard');
-    })->name('admin.dashboard');
+    // Protection Interceptor Logic
+    $protect = function ($view) {
+        if (!session('admin_authenticated')) return redirect('/login');
+        return view($view);
+    };
 
-    Route::get('/users', function () {
-        if (!session('admin_authenticated')) return redirect('/admin');
-        return view('users');
+    // Intelligence Portal (Executive Level)
+    Route::get('/dashboard', function () use ($protect) {
+        return $protect('generaldashboard');
+    })->name('dashboard');
+
+    Route::get('/mineral-atlas', function () use ($protect) {
+        return $protect('mineral_atlas');
+    })->name('atlas');
+
+    Route::get('/intelligence-map', function () use ($protect) {
+        return $protect('intelligence_map');
     });
 
-    Route::get('/security', function () {
-        if (!session('admin_authenticated')) return redirect('/admin');
-        return view('security');
+    Route::get('/analytics', function () use ($protect) {
+        return $protect('analytics');
     });
 
-    Route::get('/reporting', function () {
-        if (!session('admin_authenticated')) return redirect('/admin');
-        return view('reporting');
+    Route::get('/trade-oversight', function () use ($protect) {
+        return $protect('trade_oversight');
     });
 
-    Route::get('/configuration', function () {
-        if (!session('admin_authenticated')) return redirect('/admin');
-        return view('configuration');
+    Route::get('/mineral-governance', function () use ($protect) {
+        return $protect('mineral_governance');
+    });
+
+    Route::get('/compliance', function () use ($protect) {
+        return $protect('compliance');
+    });
+
+    Route::get('/laboratory', function () use ($protect) {
+        return $protect('laboratory');
+    });
+
+    // Administrative Control Center (Management Level)
+    Route::group(['prefix' => 'admin'], function () use ($protect) {
+        Route::get('/', function () { return redirect('/dashboard'); });
+        
+        Route::get('/dashboard', function () use ($protect) {
+            return $protect('dashboard'); // This refers to the original 'admin dashboard'
+        });
+
+        Route::get('/users', function () use ($protect) { return $protect('users'); });
+        Route::get('/security', function () use ($protect) { return $protect('security'); });
+        Route::get('/reporting', function () use ($protect) { return $protect('reporting'); });
+        Route::get('/configuration', function () use ($protect) { return $protect('configuration'); });
     });
 });

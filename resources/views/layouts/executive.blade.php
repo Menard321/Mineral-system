@@ -50,7 +50,7 @@
             </div>
             
             <!-- ADMIN SECURE GATEWAY -->
-            <a href="/admin" class="flex items-center gap-3 group">
+            <button onclick="toggleAdminTerminal(true)" class="flex items-center gap-3 group outline-none">
                 <div class="text-right hidden md:block">
                     <div class="text-[9px] font-bold text-white/40 uppercase tracking-widest leading-none mb-1">Restricted</div>
                     <div class="text-[10px] font-black text-white uppercase tracking-tighter">Admin Login</div>
@@ -58,9 +58,43 @@
                 <div class="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all shadow-[0_4px_15px_rgba(173,198,255,0.1)]">
                     <span class="material-symbols-outlined text-xl">admin_panel_settings</span>
                 </div>
-            </a>
+            </button>
         </div>
     </nav>
+
+    <!-- SECURE ADMIN GATEWAY TERMINAL (MODAL) -->
+    <div id="admin-terminal" class="fixed inset-0 z-[1000] hidden flex items-center justify-center p-6 bg-black/80 backdrop-blur-2xl">
+        <div class="w-full max-w-sm p-10 bg-[#0C0D10] border border-white/5 rounded-[40px] shadow-2xl relative animate-in zoom-in duration-300">
+            <button onclick="toggleAdminTerminal(false)" class="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-red-500 transition-all text-white/40 hover:text-white">
+                <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-primary/10 rounded-2xl border border-primary/20 flex items-center justify-center mx-auto mb-6">
+                    <span class="material-symbols-outlined text-primary text-3xl">lock</span>
+                </div>
+                <h3 class="text-xl font-black text-white uppercase tracking-tighter">Admin Entry</h3>
+                <p class="text-[9px] font-bold text-white/20 uppercase tracking-widest mt-1">Level 4 Clearance Required</p>
+            </div>
+
+            <form action="/admin/authenticate" method="POST" class="space-y-4">
+                @csrf
+                <div class="relative group">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary transition-colors text-sm">person</span>
+                    <input type="text" name="username" placeholder="Master ID" required
+                           class="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-[11px] text-white outline-none focus:border-primary transition-all">
+                </div>
+                <div class="relative group">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary transition-colors text-sm">key</span>
+                    <input type="password" name="password" placeholder="Access Key" required
+                           class="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-[11px] text-white outline-none focus:border-primary transition-all">
+                </div>
+                <button type="submit" class="w-full py-4 bg-primary text-black font-black text-[11px] uppercase tracking-widest rounded-xl hover:brightness-110 active:scale-95 transition-all mt-4">
+                    Authenticate Session
+                </button>
+            </form>
+        </div>
+    </div>
 
     <div class="flex flex-1 overflow-hidden">
         <!-- Executive Sidebar (Intelligence Only, No Admin Links) -->
@@ -128,5 +162,17 @@
             <span>NICKEL: $16.4K <span>--</span></span>
         </div>
     </footer>
+    <script>
+        function toggleAdminTerminal(show) {
+            const terminal = document.getElementById('admin-terminal');
+            if (show) {
+                terminal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                terminal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+    </script>
 </body>
 </html>
