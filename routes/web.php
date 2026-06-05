@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
  * EXECUTIVE INTELLIGENCE PORTAL (General Access)
  */
 Route::get('/', function () {
-    return view('homepage');
+    return view('generaldashboard');
 });
 
 Route::get('/homepage', function () {
-    return view('homepage');
+    return view('generaldashboard');
 });
 
 Route::get('/mineral-atlas', function () {
