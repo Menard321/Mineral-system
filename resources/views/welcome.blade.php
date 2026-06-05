@@ -18,7 +18,7 @@
             </div>
             
             <h1 class="text-6xl lg:text-8xl font-black font-display tracking-tighter leading-[0.9] text-white">
-                Transforming <span class="text-gradient">Digital Operations</span> Through Intelligence.
+                The Global Platform for <span class="text-gradient">Mineral Intelligence</span>, Trade, and Compliance.
             </h1>
             
             <p class="text-lg text-white/50 leading-relaxed max-w-xl font-medium">
@@ -26,14 +26,10 @@
             </p>
 
             <div class="flex flex-wrap gap-5">
-                <a href="/dashboard" class="group relative px-10 py-5 bg-primary text-white font-black text-[12px] uppercase tracking-[0.2em] rounded-full overflow-hidden hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] transition-all transform hover:-translate-y-1">
-                    <span class="relative z-10 flex items-center gap-3">
-                         Get Started <span class="material-symbols-outlined text-sm transform group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                    </span>
+                <a href="/dashboard" data-action="get-started" class="group relative px-10 py-5 bg-primary text-white font-black text-[12px] uppercase tracking-[0.2em] rounded-full overflow-hidden hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] transition-all transform hover:-translate-y-1">
+                    <span class="relative z-10 flex items-center gap-3">Get Started <span class="material-symbols-outlined text-sm transform group-hover:translate-x-1 transition-transform">arrow_forward</span></span>
                 </a>
-                <a href="#features" class="px-10 py-5 bg-white/5 border border-white/10 text-white font-black text-[12px] uppercase tracking-[0.2em] rounded-full hover:bg-white/10 transition-all flex items-center gap-3">
-                    Explore Features
-                </a>
+                <a href="#features" data-action="explore-features" class="px-10 py-5 bg-white/5 border border-white/10 text-white font-black text-[12px] uppercase tracking-[0.2em] rounded-full hover:bg-white/10 transition-all flex items-center gap-3">Explore Features</a>
             </div>
 
             <div class="grid grid-cols-3 gap-10 pt-10 border-t border-white/5">
@@ -220,8 +216,8 @@
         <p class="text-white/50 text-xl leading-relaxed max-w-2xl mx-auto font-medium">Join the global network of sovereign nations and enterprise leaders transforming the future of resource governance.</p>
         
         <div class="flex flex-wrap justify-center gap-6 pt-10">
-            <a href="/register" class="px-12 py-6 bg-primary text-white font-black text-[13px] uppercase tracking-[0.25em] rounded-full hover:shadow-[0_0_50px_rgba(59,130,246,0.6)] hover:-translate-y-1 transition-all">Request Executive Access</a>
-            <a href="/login" class="px-12 py-6 bg-white/5 border border-white/10 text-white font-black text-[13px] uppercase tracking-[0.25em] rounded-full hover:bg-white/10 transition-all">Institutional Login</a>
+            <a href="/register" data-action="request-executive-access" class="px-12 py-6 bg-primary text-white font-black text-[13px] uppercase tracking-[0.25em] rounded-full hover:shadow-[0_0_50px_rgba(59,130,246,0.6)] hover:-translate-y-1 transition-all">Request Executive Access</a>
+            <a href="/login" data-action="institutional-login" class="px-12 py-6 bg-white/5 border border-white/10 text-white font-black text-[13px] uppercase tracking-[0.25em] rounded-full hover:bg-white/10 transition-all">Institutional Login</a>
         </div>
     </div>
 </section>
@@ -298,5 +294,12 @@
         card.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700');
         observer.observe(card);
     });
-</script>
+                e.preventDefault();
+                const target = document.querySelector(anchor.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    </script>
 @endsection

@@ -64,6 +64,7 @@
                     <button onclick="toggleAboutModal(true)" class="hover:text-primary transition-colors cursor-pointer outline-none">About</button>
                     <a href="#services" class="hover:text-primary transition-colors">Services</a>
                     <a href="#features" class="hover:text-primary transition-colors">Features</a>
+                    <a href="/events-center" class="hover:text-primary transition-colors">Events</a>
                     <a href="/dashboard" class="flex items-center gap-2 text-primary">
                         <span class="material-symbols-outlined text-sm">dashboard</span> Dashboard Access
                     </a>
@@ -125,82 +126,224 @@
         </div>
     </div>
 
-    <!-- Professional Footer -->
-    <footer class="bg-dark pt-24 pb-12 border-t border-white/5 overflow-hidden relative">
-        <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[120px]"></div>
+    <!-- Professional Enterprise Footer -->
+    <footer class="bg-[#050A15] pt-32 pb-12 border-t border-white/5 relative overflow-hidden">
+        <!-- Background Accents -->
+        <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[140px]"></div>
+        
         <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-                <div class="space-y-6">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                             <span class="material-symbols-outlined text-white text-md">query_stats</span>
+            <!-- Footer Top: News & Highlights -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-20 border-b border-white/5 items-center">
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center shadow-[0_0_25px_rgba(59,130,246,0.4)]">
+                            <span class="material-symbols-outlined text-white text-2xl">query_stats</span>
                         </div>
-                        <span class="text-xl font-black font-display uppercase tracking-tight">GMITE</span>
+                        <div>
+                            <h3 class="text-2xl font-black text-white font-display tracking-tight uppercase">GMITE ECOSYSTEM</h3>
+                            <p class="text-[10px] font-bold text-primary uppercase tracking-[0.4em]">The Global Platform for Mineral Intelligence, Trade, and Compliance</p>
+                        </div>
                     </div>
-                    <p class="text-sm text-white/40 leading-relaxed max-w-xs">
-                        The global standard for mineral intelligence, trade compliance, and operational ecosystem management. 
+                    <p class="text-sm text-white/40 leading-relaxed max-w-sm">
+                        The definitive sovereign platform for mineral intelligence, trade corridor oversight, and global extraction compliance. Committed to institutional transparency and data-driven governance.
                     </p>
-                    <div class="flex gap-4">
-                        @foreach(['linkedin', 'facebook', 'youtube', 'terminal'] as $social)
-                            <a href="#" class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-primary transition-all group">
-                                <span class="material-symbols-outlined text-md text-white/40 group-hover:text-white">{{ $social }}</span>
-                            </a>
-                        @endforeach
+                </div>
+                <!-- Newsletter Section -->
+                <div class="lg:col-span-7 bg-white/5 border border-white/10 p-10 rounded-[32px] glass-card flex flex-col md:flex-row gap-8 items-center justify-between">
+                    <div class="space-y-2">
+                        <h4 class="text-xl font-black text-white uppercase tracking-tighter">Stay Updated</h4>
+                        <p class="text-[10px] font-bold text-white/30 uppercase tracking-widest">Receive executive reports & platform releases</p>
                     </div>
-                </div>
-
-                <div>
-                    <h4 class="text-sm font-bold uppercase tracking-widest mb-6 text-white">Strategic Sections</h4>
-                    <ul class="space-y-4 text-sm text-white/40">
-                        <li><a href="#" class="hover:text-primary transition-colors">Global Intelligence Map</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Trade Oversight Dashboard</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Mineral Governance</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Compliance Verification</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-sm font-bold uppercase tracking-widest mb-6 text-white">Support & Resources</h4>
-                    <ul class="space-y-4 text-sm text-white/40">
-                        <li><a href="#" class="hover:text-primary transition-colors">Help Center</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">API Documentation</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Laboratory Standards</a></li>
-                        <li><a href="#" class="hover:text-primary transition-colors">Market Reports</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-sm font-bold uppercase tracking-widest mb-6 text-white">Contact Authority</h4>
-                    <ul class="space-y-4 text-sm text-white/40">
-                        <li class="flex items-center gap-3">
-                            <span class="material-symbols-outlined text-primary text-sm">mail</span>
-                            intelligence@gmite.int
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <span class="material-symbols-outlined text-primary text-sm">location_on</span>
-                            Global Operations Hub • CH
-                        </li>
-                        <li class="mt-8">
-                             <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                                 <div class="text-[9px] font-bold uppercase tracking-widest text-primary mb-1">System Version</div>
-                                 <div class="text-[10px] font-bold text-white">v4.2.0-STABLE (ENTERPRISE)</div>
-                             </div>
-                        </li>
-                    </ul>
+                    <div class="flex-1 w-full max-w-md">
+                        <form class="flex gap-2 p-1.5 bg-dark rounded-2xl border border-white/10 focus-within:border-primary transition-all">
+                            <input type="email" placeholder="Institutional Email" class="bg-transparent border-none focus:ring-0 text-sm text-white flex-1 pl-4">
+                            <button type="submit" class="px-6 py-3 bg-primary text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:brightness-110 active:scale-95 transition-all">Subscribe</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-            
-            <div class="flex flex-col md:flex-row justify-between items-center gap-8 pt-12 border-t border-white/5 text-[10px] font-bold uppercase tracking-[0.25em] text-white/10 px-4">
-                <span>© 2026 GMITE ECOSYSTEM — TRANS-GLOBAL MINERAL AUTHORITY. ALL RIGHTS RESERVED.</span>
+
+            <!-- Footer Main: Navigation Columns -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 py-24">
+                <!-- Column 1: Quick Navigation -->
+                <div>
+                    <h5 class="text-[11px] font-black text-white uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
+                        <span class="w-1 h-3 bg-primary rounded-full"></span> Quick Navigation
+                    </h5>
+                    <ul class="space-y-4 text-sm text-white/40 font-medium tracking-tight">
+                        <li><a href="/" class="hover:text-primary transition-colors">Home Terminal</a></li>
+                        <li><button onclick="toggleAboutModal(true)" class="hover:text-primary transition-colors cursor-pointer outline-none">About Authority</button></li>
+                        <li><a href="#features" class="hover:text-primary transition-colors">Platform Features</a></li>
+                        <li><a href="#services" class="hover:text-primary transition-colors">Sovereign Services</a></li>
+                        <li><a href="/dashboard" class="hover:text-primary transition-colors">Executive Dashboard</a></li>
+                        <li><a href="/dashboard" class="hover:text-primary transition-colors">News & Updates</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 2: Products & Modules -->
+                <div>
+                    <h5 class="text-[11px] font-black text-white uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
+                        <span class="w-1 h-3 bg-secondary rounded-full"></span> Core Systems
+                    </h5>
+                    <ul class="space-y-4 text-sm text-white/40 font-medium">
+                        <li><a href="/intelligence-map" class="flex items-center gap-2 hover:text-white transition-colors"><span class="material-symbols-outlined text-xs text-primary">public</span> Intelligence Map</a></li>
+                        <li><a href="/trade-oversight" class="flex items-center gap-2 hover:text-white transition-colors"><span class="material-symbols-outlined text-xs text-primary">currency_exchange</span> Trade Oversight</a></li>
+                        <li><a href="/compliance" class="flex items-center gap-2 hover:text-white transition-colors"><span class="material-symbols-outlined text-xs text-primary">gavel</span> Compliance Auditor</a></li>
+                        <li><a href="/laboratory" class="flex items-center gap-2 hover:text-white transition-colors"><span class="material-symbols-outlined text-xs text-primary">science</span> Laboratory Terminal</a></li>
+                        <li><a href="/admin/configuration" class="flex items-center gap-2 hover:text-white transition-colors"><span class="material-symbols-outlined text-xs text-primary">terminal</span> API Core Access</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Global Support -->
+                <div>
+                    <h5 class="text-[11px] font-black text-white uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
+                        <span class="w-1 h-3 bg-accent rounded-full"></span> Support Center
+                    </h5>
+                    <ul class="space-y-4 text-sm text-white/40 font-medium">
+                        <li><a href="/dashboard" class="hover:text-primary transition-colors">Technical Help Center</a></li>
+                        <li><a href="/dashboard" class="hover:text-primary transition-colors">User Documentation</a></li>
+                        <li><a href="/dashboard" class="hover:text-primary transition-colors">System Status: <span class="text-secondary font-black">OK</span></a></li>
+                        <li><a href="/dashboard" class="hover:text-primary transition-colors">Raise Support Ticket</a></li>
+                        <li><a href="/dashboard" class="hover:text-primary transition-colors">Knowledge Base</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Legal & Security -->
+                <div>
+                    <h5 class="text-[11px] font-black text-white uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
+                        <span class="w-1 h-3 bg-red-400 rounded-full"></span> Governance
+                    </h5>
+                    <ul class="space-y-4 text-sm text-white/40 font-medium">
+                        <li><a href="/compliance" class="hover:text-primary transition-colors">Privacy Declaration</a></li>
+                        <li><a href="/compliance" class="hover:text-primary transition-colors">Terms of Engagement</a></li>
+                        <li><a href="/compliance" class="hover:text-primary transition-colors">Cookie Policy</a></li>
+                        <li><a href="/compliance" class="hover:text-primary transition-colors">Secure Data Standard</a></li>
+                        <li><a href="/mineral-governance" class="hover:text-primary transition-colors">Regulatory Framework</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 5: Contact Intelligence -->
+                <div class="space-y-8">
+                    <div>
+                        <h5 class="text-[11px] font-black text-white uppercase tracking-[0.3em] mb-6">Headquarters</h5>
+                        <p class="text-sm text-white/40 font-medium leading-relaxed">
+                            Trans-Global Operations Hub<br>
+                            Administrative District SW-2<br>
+                            Geneva, Switzerland
+                        </p>
+                    </div>
+                    <div class="space-y-3">
+                        <a href="mailto:intelligence@gmite.int" class="flex items-center gap-3 text-sm text-white/40 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-primary text-sm">mail</span> intelligence@gmite.int
+                        </a>
+                        <div class="flex items-center gap-3 text-sm text-white/40">
+                            <span class="material-symbols-outlined text-primary text-sm">schedule</span> 09:00 - 18:00 CET
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Stats Area -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 py-16 border-y border-white/5">
+                <div class="text-center group">
+                    <div class="text-3xl font-black text-white font-display tabular-nums group-hover:text-primary transition-colors">42,842</div>
+                    <div class="text-[9px] font-bold text-white/20 uppercase tracking-widest mt-2">Active Extraction Nodes</div>
+                </div>
+                <div class="text-center group">
+                    <div class="text-3xl font-black text-white font-display tabular-nums group-hover:text-primary transition-colors">1.4M+</div>
+                    <div class="text-[9px] font-bold text-white/20 uppercase tracking-widest mt-2">Verified Trade Records</div>
+                </div>
+                <div class="text-center group">
+                    <div class="text-3xl font-black text-white font-display tabular-nums group-hover:text-primary transition-colors">100%</div>
+                    <div class="text-[9px] font-bold text-white/20 uppercase tracking-widest mt-2">Regulatory Compliance</div>
+                </div>
+                <div class="text-center group">
+                    <div class="text-3xl font-black text-white font-display tabular-nums group-hover:text-primary transition-colors">24/7</div>
+                    <div class="text-[9px] font-bold text-white/20 uppercase tracking-widest mt-2">System Availability</div>
+                </div>
+            </div>
+
+            <!-- Bottom Section: Language & Rights -->
+            <div class="pt-12 flex flex-col lg:flex-row justify-between items-center gap-12 mb-12">
+                <div class="flex flex-wrap justify-center gap-4">
+                    @foreach(['LinkedIn', 'X-Twitter', 'YouTube', 'Facebook', 'GitHub'] as $social)
+                        <a href="#" class="px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold text-white/30 uppercase tracking-widest hover:bg-primary hover:text-white hover:border-primary transition-all">{{ $social }}</a>
+                    @endforeach
+                </div>
+                
+                <!-- CUSTOM SOVEREIGN LANGUAGE SELECTOR -->
+                <div class="relative inline-block text-left" id="language-gate">
+                    <button onclick="toggleLanguageDropdown()" class="flex items-center gap-4 bg-white/5 border border-white/10 p-2 rounded-full pr-6 hover:bg-white/10 transition-all outline-none">
+                        <div class="flex items-center gap-3 pl-4">
+                            <span class="material-symbols-outlined text-sm text-primary">language</span>
+                            <span id="current-lang" class="text-[10px] font-black text-white uppercase tracking-widest">English (US)</span>
+                        </div>
+                        <span class="material-symbols-outlined text-xs text-white/20 transition-transform" id="lang-chevron">expand_more</span>
+                    </button>
+                    
+                    <!-- HIGH-CONTRAST DROPDOWN -->
+                    <div id="lang-dropdown" class="absolute bottom-full mb-4 right-0 w-48 bg-[#0C0D10] border border-white/10 rounded-2xl shadow-2xl hidden animate-in slide-in-from-bottom-2 duration-200 z-[200]">
+                        <div class="p-2 space-y-1">
+                            <button onclick="selectLang('English (US)')" class="w-full text-left px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all">English (US)</button>
+                            <button onclick="selectLang('Mandarin (中文)')" class="w-full text-left px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all">Mandarin (中文)</button>
+                            <button onclick="selectLang('Spanish (ES)')" class="w-full text-left px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all">Spanish (ES)</button>
+                            <button onclick="selectLang('Arabic (العربية)')" class="w-full text-left px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all">Arabic (العربية)</button>
+                            <button onclick="selectLang('French (FR)')" class="w-full text-left px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all">French (FR)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-white/10 mt-12 pt-8 border-t border-white/5">
                 <div class="flex gap-10">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Security Audit</a>
-                    <a href="#">Legal Disclosure</a>
+                    <span>© 2026 GMITE ECOSYSTEM Authority.</span>
+                    <a href="#" class="hover:text-white/20 transition-colors">Sitemap</a>
+                    <a href="#" class="hover:text-white/20 transition-colors">Developer Portal</a>
+                </div>
+                <div class="flex items-center gap-6">
+                    <span>Platform Version: 4.2.0-STABLE</span>
+                    <span class="text-secondary/20 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_5px_#4edea3] opacity-20"></span> API Status: Secure</span>
                 </div>
             </div>
         </div>
+
+        <!-- Scroll to Top -->
+        <button onclick="window.scrollTo({top:0, behavior:'smooth'})" class="fixed bottom-10 right-10 w-14 h-14 bg-primary text-white rounded-2xl shadow-2xl flex items-center justify-center hover:-translate-y-2 transition-all z-[100] group active:scale-90">
+             <span class="material-symbols-outlined text-2xl group-hover:-translate-y-1 transition-transform">arrow_upward</span>
+        </button>
     </footer>
     <script>
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('lang-dropdown');
+            const chevron = document.getElementById('lang-chevron');
+            const isHidden = dropdown.classList.contains('hidden');
+            
+            if (isHidden) {
+                dropdown.classList.remove('hidden');
+                chevron.style.transform = 'rotate(180deg)';
+            } else {
+                dropdown.classList.add('hidden');
+                chevron.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function selectLang(lang) {
+            document.getElementById('current-lang').textContent = lang;
+            toggleLanguageDropdown();
+        }
+
+        // Close dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.closest('#language-gate')) {
+                const dropdown = document.getElementById('lang-dropdown');
+                const chevron = document.getElementById('lang-chevron');
+                if (dropdown && !dropdown.classList.contains('hidden')) {
+                    dropdown.classList.add('hidden');
+                    chevron.style.transform = 'rotate(0deg)';
+                }
+            }
+        }
+
         function toggleAboutModal(show) {
             const modal = document.getElementById('about-modal');
             if (show) {
