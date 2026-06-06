@@ -26,6 +26,14 @@ class AdminUser extends Authenticatable
         'password_hash',
     ];
 
+    /**
+     * Get the password for the user.
+     */
+    public function getAuthPassword()
+    {
+        return $this->password_hash;
+    }
+
     public function role()
     {
         return $this->belongsTo(AdminRole::class, 'role_id');

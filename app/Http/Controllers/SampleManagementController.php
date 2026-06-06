@@ -31,6 +31,18 @@ class SampleManagementController extends Controller
             'sample_purpose' => 'required|string',
         ]);
 
+        // Anti-Duplicate Detection: License + Weight combination within 24h
+        $exists = MineralSample::where('mining_license_number', $request->mining_license_number)
+            ->where('estimated_weight', $request->estimated_weight)
+            ->where('created_at', '>=', now()->subHours(24))
+            ->exists();
+
+        if ($exists) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'CRITICAL ERROR: A sample with this license and weight combination was already filed in the last 24 hours. Submission blocked to prevent duplicates.');
+        }
+
         $sample = MineralSample::create([
             'sample_id' => MineralSample::generateId(),
             'user_id' => Auth::id(),

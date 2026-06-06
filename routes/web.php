@@ -74,8 +74,30 @@ Route::post('/admin/authenticate', function (Request $request) {
 
     // Specified Admin Credentials
     if ($username === 'gmiteadmin@gmail.com' && $password === '@menard123') {
-        session(['admin_authenticated' => true]);
-        return redirect('/admin/dashboard');
+        // Ensure the AdminUser exists in the database
+        $admin = \App\Models\AdminUser::where('email', $username)->first();
+        
+        if (!$admin) {
+            // Fallback: Check if the user is in the main users table
+            $user = \App\Models\User::where('email', $username)->first();
+            if ($user && $user->is_admin) {
+                // For legacy support, we can use the main guard or map them (but Compliance expects AdminUser)
+                // Let's ensure an AdminUser exists for this master login
+                $admin = \App\Models\AdminUser::create([
+                    'full_name' => 'GMITE Master Authority',
+                    'email' => $username,
+                    'password_hash' => \Illuminate\Support\Facades\Hash::make($password),
+                    'role_id' => \App\Models\AdminRole::where('role_name', 'SUPER_ADMIN')->first()->id ?? 1,
+                    'status' => 'ACTIVE'
+                ]);
+            }
+        }
+
+        if ($admin) {
+            \Illuminate\Support\Facades\Auth::guard('admin')->login($admin);
+            session(['admin_authenticated' => true]);
+            return redirect('/admin/dashboard');
+        }
     }
 
     return redirect('/login')->with('error', 'Authentication Failed: Invalid Credentials');
@@ -107,7 +129,11 @@ Route::middleware(['web'])->group(function () {
         Route::get('/control-center', [AdminDashboardController::class, 'controlCenter'])->name('admin.control_center');
         Route::get('/trade-market', [AdminDashboardController::class, 'tradeMarket'])->name('admin.trade_market');
         Route::get('/analytics', [AdminDashboardController::class, 'analytics'])->name('admin.analytics');
-        Route::get('/compliance', [AdminDashboardController::class, 'compliance'])->name('admin.compliance');
+        Route::get('/compliance', [\App\Http\Controllers\ComplianceEnforcementController::class, 'index'])->name('admin.compliance');
+        Route::get('/compliance/case/{case}', [\App\Http\Controllers\ComplianceEnforcementController::class, 'show'])->name('admin.compliance.show');
+        Route::post('/compliance/create', [\App\Http\Controllers\ComplianceEnforcementController::class, 'createCase'])->name('admin.compliance.create');
+        Route::post('/compliance/action/{case}', [\App\Http\Controllers\ComplianceEnforcementController::class, 'action'])->name('admin.compliance.action');
+        Route::post('/compliance/evidence/{case}', [\App\Http\Controllers\ComplianceEnforcementController::class, 'uploadEvidence'])->name('admin.compliance.evidence');
 
         // 🧪 Refined Sample Management Zone (Layers 2 & 3)
         Route::get('/samples/receiving', [AdminSampleController::class, 'receiving'])->name('admin.samples.receiving');
@@ -121,6 +147,9 @@ Route::middleware(['web'])->group(function () {
         Route::get('/alerts-center', [AdminDashboardController::class, 'alertsCenter'])->name('admin.alerts_center');
         Route::get('/reporting', function () use ($protect) { return $protect('reporting'); });
         Route::get('/configuration', [AdminDashboardController::class, 'configuration'])->name('admin.configuration');
+
+        // 💰 MOCC Revenue Assurance Control Center
+        Route::get('/revenue', [\App\Http\Controllers\MOCCRevenueController::class, 'index'])->name('admin.revenue.index');
     });
 });
 
@@ -144,4 +173,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user-analytics', fn() => view('generaldashboard'))->name('user.analytics');
     Route::get('/vault', fn() => view('generaldashboard'))->name('user.vault');
     Route::get('/compliance-status', fn() => view('generaldashboard'))->name('user.compliance');
+
+    // 🚢 Export Intelligence & Trade Hub
+    Route::get('/trades', [\App\Http\Controllers\TradeRequestController::class, 'index'])->name('user.trades.index');
+    Route::get('/trades/create', [\App\Http\Controllers\TradeRequestController::class, 'create'])->name('user.trades.create');
+    Route::post('/trades/store', [\App\Http\Controllers\TradeRequestController::class, 'store'])->name('user.trades.store');
 });

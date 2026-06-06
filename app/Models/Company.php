@@ -18,7 +18,8 @@ class Company extends Model
     public function licenses(): HasMany { return $this->hasMany(License::class); }
     public function directors(): HasMany { return $this->hasMany(CompanyDirector::class); }
     public function documents() { return $this->morphMany(Document::class, 'owner'); }
-    public function complianceRecord() { return $this->hasOne(ComplianceRecord::class); }
+    public function complianceReviews(): HasMany { return $this->hasMany(ComplianceReview::class); }
+    public function latestComplianceReview() { return $this->hasOne(ComplianceReview::class)->latestOfMany(); }
     public function violations(): HasMany { return $this->hasMany(Violation::class); }
 
     public function getStatusColorAttribute(): string

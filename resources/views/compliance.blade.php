@@ -141,8 +141,8 @@
                 @if(isset($companies) && count($companies) > 0)
                     @foreach($companies as $c)
                     @php
-                        $score = $c->complianceRecord->compliance_score ?? 100.0;
-                        $status = $c->complianceRecord->status ?? 'COMPLIANT';
+                        $score = $c->latestComplianceReview->compliance_score ?? 100.0;
+                        $status = $c->latestComplianceReview->status ?? 'COMPLIANT';
                         $col = $status == 'COMPLIANT' ? 'secondary' : ($status == 'WARNING' ? 'primary' : 'error');
                     @endphp
                     <div class="p-6 bg-surface-container-low border border-outline-variant rounded-[32px] group/entity hover:border-{{ $col }}/50 transition-all cursor-pointer">

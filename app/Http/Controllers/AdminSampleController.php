@@ -41,6 +41,13 @@ class AdminSampleController extends Controller
             'notes' => 'Sample received physically. Condition: ' . $sample->physical_condition,
         ]);
 
+        \App\Models\Notification::create([
+            'user_id' => $sample->user_id,
+            'title' => 'Sample Received',
+            'message' => 'Your sample ' . $sample->sample_id . ' has been physically received and verified.',
+            'type' => 'INFO',
+        ]);
+
         return redirect()->back()->with('success', 'Sample Verified and Received in Custody.');
     }
 
@@ -83,6 +90,9 @@ class AdminSampleController extends Controller
             'grade' => $sample->grade ?? 'Verified Grade',
             'quantity_kg' => $sample->quantity_kg,
             'issued_by' => 'Government Mineral Authority',
+            'signing_authority' => 'Dr. Jane Doe (Chief Geologist)',
+            'digital_signature' => hash('sha256', $sample->sample_id . now() . 'GOV_SECRET_KEY'),
+            'signed_at' => now(),
             'status' => 'ACTIVE',
             'expires_at' => now()->addYear(),
         ]);
@@ -93,6 +103,13 @@ class AdminSampleController extends Controller
             'admin_id' => $admin_id,
             'handler_role' => 'CERTIFICATION_OFFICER',
             'notes' => 'Mineral Certification finalized and active.',
+        ]);
+
+        \App\Models\Notification::create([
+            'user_id' => $sample->user_id,
+            'title' => 'Certificate Issued',
+            'message' => 'Congratulations! An official Mineral Quality Certificate has been issued for sample ' . $sample->sample_id,
+            'type' => 'SUCCESS',
         ]);
 
         return redirect()->back()->with('success', 'Certification Issued Successfully.');

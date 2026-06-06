@@ -117,8 +117,8 @@
                     <span class="text-[11px] font-black uppercase tracking-widest">Samples Center</span>
                 </a>
 
-                <a href="/trade" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('trade*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
-                    <span class="material-symbols-outlined text-xl">currency_exchange</span>
+                <a href="{{ route('user.trades.index') }}" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('trades*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
+                    <span class="material-symbols-outlined text-xl">ship</span>
                     <span class="text-[11px] font-black uppercase tracking-widest">Trade Intel</span>
                 </a>
 
@@ -126,6 +126,14 @@
                     <span class="material-symbols-outlined text-xl">workspace_premium</span>
                     <span class="text-[11px] font-black uppercase tracking-widest">Certificates</span>
                 </a>
+
+                <!-- MOCC Specific Intelligence (Admin Only) -->
+                @if(session('admin_authenticated'))
+                <a href="{{ route('admin.revenue.index') }}" class="flex items-center gap-4 px-5 py-3.5 rounded-xl border border-secondary/10 bg-secondary/5 mt-4 transition-all {{ Request::is('admin/revenue*') ? 'executive-sidebar-active' : 'text-secondary/60 hover:text-secondary hover:bg-secondary/10' }}">
+                    <span class="material-symbols-outlined text-xl">payments</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest">Revenue (MOCC)</span>
+                </a>
+                @endif
 
                 <a href="/user-analytics" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('user-analytics*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
                     <span class="material-symbols-outlined text-xl">analytics</span>

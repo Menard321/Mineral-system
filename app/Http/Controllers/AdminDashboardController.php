@@ -60,7 +60,7 @@ class AdminDashboardController extends Controller
 
     public function compliance()
     {
-        $companies = Company::with(['user', 'complianceRecord', 'violations'])->latest()->get();
+        $companies = Company::with(['user', 'latestComplianceReview', 'violations'])->latest()->get();
         $licenses = License::with(['user', 'company'])->latest()->get();
         return view('compliance', compact('companies', 'licenses'));
     }

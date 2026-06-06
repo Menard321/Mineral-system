@@ -226,6 +226,13 @@
                 <span class="material-symbols-outlined {{ Request::is('admin/compliance') ? 'text-primary' : '' }}">gavel</span>
                 <span class="text-label-caps font-label-caps">Compliance</span>
             </a>
+            
+            <!-- 💰 MOCC Revenue Assurance Terminal -->
+            <a href="{{ route('admin.revenue.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg border border-secondary/10 bg-secondary/5 mt-2 cursor-pointer transition-all {{ Request::is('admin/revenue*') ? 'sidebar-item-active' : 'text-secondary/80 hover:text-secondary hover:bg-secondary/10' }}">
+                <span class="material-symbols-outlined {{ Request::is('admin/revenue*') ? 'text-secondary' : '' }}">payments</span>
+                <span class="text-label-caps font-label-caps font-black tracking-tight">Revenue Assurance</span>
+            </a>
+
             <a href="/laboratory" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('laboratory') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
                 <span class="material-symbols-outlined">science</span>
                 <span class="text-label-caps font-label-caps">Laboratory</span>

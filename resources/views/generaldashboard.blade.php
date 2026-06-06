@@ -37,15 +37,15 @@
     <div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-5 gap-6">
         @php
             $kpis = [
-                ['label' => 'Active Samples', 'val' => $stats['samples'] ?? '0', 'sub' => 'SCIENTIFIC VALIDATION', 'col' => 'primary', 'icon' => 'science'],
-                ['label' => 'Pending Trades', 'val' => $stats['trades'] ?? '0', 'sub' => 'MARKET EXECUTION', 'col' => 'secondary', 'icon' => 'currency_exchange'],
-                ['label' => 'Certs Issued', 'val' => $stats['certs'] ?? '0', 'sub' => 'SOVEREIGN TRUST', 'col' => 'primary', 'icon' => 'verified'],
-                ['label' => 'Compliance', 'val' => $stats['compliance'] ?? '0', 'sub' => 'REGULATORY SCORE', 'col' => 'secondary', 'icon' => 'gavel'],
-                ['label' => 'Active Alerts', 'val' => $stats['alerts'] ?? '0', 'sub' => 'RISK DETECTION', 'col' => 'error', 'icon' => 'notifications_active'],
+                ['label' => 'Active Samples', 'val' => $stats['samples'] ?? '0', 'sub' => 'SCIENTIFIC VALIDATION', 'col' => 'primary', 'icon' => 'science', 'link' => route('user.certificates')],
+                ['label' => 'Pending Trades', 'val' => $stats['trades'] ?? '0', 'sub' => 'MARKET EXECUTION', 'col' => 'secondary', 'icon' => 'currency_exchange', 'link' => '#'],
+                ['label' => 'Certs Issued', 'val' => $stats['certs'] ?? '0', 'sub' => 'SOVEREIGN TRUST', 'col' => 'primary', 'icon' => 'verified', 'link' => route('user.certificates')],
+                ['label' => 'Compliance', 'val' => $stats['compliance'] ?? '0', 'sub' => 'REGULATORY SCORE', 'col' => 'secondary', 'icon' => 'gavel', 'link' => route('user.compliance')],
+                ['label' => 'Active Alerts', 'val' => $stats['alerts'] ?? '0', 'sub' => 'RISK DETECTION', 'col' => 'error', 'icon' => 'notifications_active', 'link' => route('user.alerts')],
             ];
         @endphp
         @foreach($kpis as $k)
-        <div class="bg-surface-container-low border border-outline-variant/30 p-8 rounded-[40px] relative overflow-hidden group hover:border-{{ $k['col'] }}/50 transition-all cursor-pointer">
+        <a href="{{ $k['link'] }}" class="bg-surface-container-low border border-outline-variant/30 p-8 rounded-[40px] relative overflow-hidden group hover:border-{{ $k['col'] }}/50 transition-all cursor-pointer block">
             <div class="absolute -top-10 -right-10 w-24 h-24 bg-{{ $k['col'] }}/5 rounded-full blur-3xl group-hover:bg-{{ $k['col'] }}/10 transition-all duration-700"></div>
             <div class="flex justify-between items-start mb-6">
                  <span class="material-symbols-outlined text-{{ $k['col'] }} text-2xl animate-pulse">{{ $k['icon'] }}</span>
@@ -53,7 +53,7 @@
             </div>
             <div class="text-4xl font-black text-on-background tracking-tighter font-data-tabular mb-1">{{ $k['val'] }}</div>
             <div class="text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-60">{{ $k['sub'] }}</div>
-        </div>
+        </a>
         @endforeach
     </div>
 
@@ -103,7 +103,7 @@
         </div>
 
         <!-- GIS Activity Map Visualization -->
-        <div class="card-premium p-10 rounded-[48px] relative overflow-hidden min-h-[500px]">
+        <div class="card-premium p-10 rounded-[48px] relative overflow-hidden min-h-[400px]">
              <div class="flex justify-between items-start mb-10 relative z-10">
                 <div>
                      <h2 class="text-headline-sm font-black tracking-tight text-on-background uppercase mb-2">GIS Mineral Activity Map</h2>
@@ -114,17 +114,16 @@
 
              <!-- Mock Map Layer -->
              <div class="absolute inset-0 bg-[#08090a] opacity-40 rounded-[48px]"></div>
-             <div class="relative h-[300px] w-full flex items-center justify-center">
+             <div class="relative h-[200px] w-full flex items-center justify-center">
                  <div class="w-3/4 h-3/4 border border-white/5 rounded-full flex items-center justify-center animate-[spin_20s_linear_infinite] opacity-5">
                     <div class="w-1/2 h-1/2 border border-primary/20 rounded-full"></div>
                  </div>
                  <!-- Map Markers -->
-                 @foreach(['top-20 left-40', 'bottom-40 left-64', 'top-40 right-48', 'bottom-20 right-20'] as $pos)
+                 @foreach(['top-10 left-40', 'bottom-20 left-64', 'top-20 right-48', 'bottom-10 right-20'] as $pos)
                     <div class="absolute {{ $pos }} flex flex-col items-center gap-2 group/marker">
                          <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/40 group-hover/marker:scale-125 transition-all">
                              <div class="w-2 h-2 rounded-full bg-primary animate-ping"></div>
                          </div>
-                         <div class="px-3 py-1 bg-surface-container-high border border-outline-variant rounded-full text-[8px] font-black uppercase tracking-widest whitespace-nowrap opacity-0 group-hover/marker:opacity-100 transition-opacity">SITE NODE {{ rand(10, 99) }}</div>
                     </div>
                  @endforeach
              </div>
@@ -146,6 +145,54 @@
                      <span class="w-2 h-2 rounded-full bg-error opacity-40"></span>
                 </div>
              </div>
+        </div>
+
+        <!-- Quick Sample Tracking (Transparency Layer) -->
+        <div class="bg-surface-container-low border border-outline-variant p-10 rounded-[48px]">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-headline-sm font-black tracking-tight text-on-background uppercase flex items-center gap-4">
+                    <span class="w-1.5 h-8 bg-secondary rounded-full"></span>
+                    Recent Mineral Shipments
+                </h2>
+                <a href="{{ route('user.certificates') }}" class="text-[10px] font-black text-primary uppercase tracking-widest hover:underline">View All Dossiers</a>
+            </div>
+
+            <div class="space-y-4">
+                @php
+                    $recent_samples = auth()->user()->mineralSamples()->latest()->take(3)->get();
+                @endphp
+                @forelse($recent_samples as $sample)
+                <div class="p-6 bg-surface-container-high border border-outline-variant/30 rounded-[32px] flex flex-col md:flex-row justify-between items-center gap-6 group hover:border-primary/40 transition-all">
+                    <div class="flex items-center gap-5">
+                        <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary text-xl font-bold">science</span>
+                        </div>
+                        <div>
+                            <div class="text-[14px] font-black text-white uppercase tracking-tighter">{{ $sample->sample_id }}</div>
+                            <div class="text-[9px] text-white/30 uppercase font-black tracking-[0.2em] mt-1">{{ $sample->mineral_type }} &bull; {{ $sample->mineral_category }}</div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 max-w-xs w-full px-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-[9px] font-black text-white/40 uppercase tracking-widest">Pipeline Status</span>
+                            <span class="text-[9px] font-black text-{{ $sample->status_color }} uppercase tracking-widest">{{ $sample->status }}</span>
+                        </div>
+                        <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                            <div class="h-full bg-{{ $sample->status_color }} shadow-[0_0_10px_currentColor]" style="width: {{ $sample->progress }}%"></div>
+                        </div>
+                    </div>
+
+                    <a href="{{ route('user.certificates.show', $sample->id) }}" class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-[9px] font-black text-white uppercase tracking-[0.2em] group-hover:bg-primary group-hover:text-black transition-all">
+                        Track Dossier
+                    </a>
+                </div>
+                @empty
+                <div class="text-center py-10 opacity-20">
+                    <p class="text-[10px] font-black uppercase tracking-[0.3em]">No samples registered in system queue</p>
+                </div>
+                @endforelse
+            </div>
         </div>
     </div>
 
