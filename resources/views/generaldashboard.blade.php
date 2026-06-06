@@ -37,11 +37,11 @@
     <div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-5 gap-6">
         @php
             $kpis = [
-                ['label' => 'Active Samples', 'val' => '142', 'sub' => 'SCIENTIFIC VALIDATION', 'col' => 'primary', 'icon' => 'science'],
-                ['label' => 'Pending Trades', 'val' => '18', 'sub' => 'MARKET EXECUTION', 'col' => 'secondary', 'icon' => 'currency_exchange'],
-                ['label' => 'Certs Issued', 'val' => '1,204', 'sub' => 'SOVEREIGN TRUST', 'col' => 'primary', 'icon' => 'verified'],
-                ['label' => 'Compliance', 'val' => '94.2', 'sub' => 'REGULATORY SCORE', 'col' => 'secondary', 'icon' => 'gavel'],
-                ['label' => 'Active Alerts', 'val' => '02', 'sub' => 'RISK DETECTION', 'col' => 'error', 'icon' => 'notifications_active'],
+                ['label' => 'Active Samples', 'val' => $stats['samples'] ?? '0', 'sub' => 'SCIENTIFIC VALIDATION', 'col' => 'primary', 'icon' => 'science'],
+                ['label' => 'Pending Trades', 'val' => $stats['trades'] ?? '0', 'sub' => 'MARKET EXECUTION', 'col' => 'secondary', 'icon' => 'currency_exchange'],
+                ['label' => 'Certs Issued', 'val' => $stats['certs'] ?? '0', 'sub' => 'SOVEREIGN TRUST', 'col' => 'primary', 'icon' => 'verified'],
+                ['label' => 'Compliance', 'val' => $stats['compliance'] ?? '0', 'sub' => 'REGULATORY SCORE', 'col' => 'secondary', 'icon' => 'gavel'],
+                ['label' => 'Active Alerts', 'val' => $stats['alerts'] ?? '0', 'sub' => 'RISK DETECTION', 'col' => 'error', 'icon' => 'notifications_active'],
             ];
         @endphp
         @foreach($kpis as $k)
@@ -76,32 +76,29 @@
             </div>
 
             <div class="flex-1 overflow-y-auto space-y-4 pr-4 custom-scrollbar scroll-smooth" id="ticker-container">
-                 @php
-                    $events = [
-                        ['type' => 'LAB', 'msg' => 'Sample SMP-921 Initial Spectrum Scan Completed', 'time' => '12s ago', 'col' => 'secondary', 'icon' => 'analytics'],
-                        ['type' => 'TRADE', 'msg' => 'Export Request TRD-410 cleared for South Port', 'time' => '1m ago', 'col' => 'primary', 'icon' => 'lan'],
-                        ['type' => 'CERT', 'msg' => 'Lithium Assay A-14 Authorized by Chief Tech', 'time' => '4m ago', 'col' => 'secondary', 'icon' => 'verified'],
-                        ['type' => 'COMPLIANCE', 'msg' => 'AngloGold T. Ltd License Verification Success', 'time' => '12m ago', 'col' => 'primary', 'icon' => 'gavel'],
-                        ['type' => 'SYSTEM', 'msg' => 'Secure Node Sync 04 Handshake Completed', 'time' => '18m ago', 'col' => 'on-surface-variant', 'icon' => 'sync_alt'],
-                        ['type' => 'ALERT', 'msg' => 'Mismatched Gold Purity on Batch B-92 Flagged', 'time' => '22m ago', 'col' => 'error', 'icon' => 'warning'],
-                    ];
-                 @endphp
-                 @foreach($events as $e)
-                 <div class="flex items-start gap-6 p-6 bg-surface-container-low border border-outline-variant/20 rounded-3xl group/item hover:border-{{ $e['col'] }}/40 transition-all duration-500">
-                    <div class="w-12 h-12 bg-surface-container-highest border border-outline-variant rounded-2xl flex items-center justify-center text-{{ $e['col'] }} shrink-0 group-hover/item:scale-110 transition-transform">
-                         <span class="material-symbols-outlined text-2xl">{{ $e['icon'] }}</span>
-                    </div>
-                    <div class="flex-1">
-                        <div class="flex items-center gap-3 mb-1">
-                            <span class="text-[9px] font-black text-{{ $e['col'] }} uppercase tracking-widest font-data-tabular">{{ $e['type'] }}</span>
-                            <span class="w-1 h-1 bg-outline-variant rounded-full"></span>
-                            <span class="text-[9px] font-bold text-on-surface-variant italic opacity-40">{{ $e['time'] }}</span>
+                 @if(isset($activities) && count($activities) > 0)
+                    @foreach($activities as $e)
+                    <div class="flex items-start gap-6 p-6 bg-surface-container-low border border-outline-variant/20 rounded-3xl group/item hover:border-{{ $e['col'] ?? 'primary' }}/40 transition-all duration-500">
+                        <div class="w-12 h-12 bg-surface-container-highest border border-outline-variant rounded-2xl flex items-center justify-center text-{{ $e['col'] ?? 'primary' }} shrink-0 group-hover/item:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-2xl">{{ $e['icon'] ?? 'notifications' }}</span>
                         </div>
-                        <div class="text-[14px] font-black text-on-background uppercase tracking-tight leading-none">{{ $e['msg'] }}</div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-1">
+                                <span class="text-[9px] font-black text-{{ $e['col'] ?? 'primary' }} uppercase tracking-widest font-data-tabular">{{ $e['type'] }} Intelligence</span>
+                                <span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+                                <span class="text-[9px] font-bold text-on-surface-variant italic opacity-40">{{ $e['time'] }}</span>
+                            </div>
+                            <div class="text-[14px] font-black text-on-background uppercase tracking-tight leading-none">{{ $act['msg'] ?? $e['msg'] }}</div>
+                        </div>
+                        <span class="material-symbols-outlined text-xl text-white/5 opacity-0 group-hover/item:opacity-100 transition-opacity">north_east</span>
                     </div>
-                    <span class="material-symbols-outlined text-xl text-white/5 opacity-0 group-hover/item:opacity-100 transition-opacity">north_east</span>
-                 </div>
-                 @endforeach
+                    @endforeach
+                 @else
+                    <div class="flex flex-col items-center justify-center h-full opacity-20 py-20">
+                        <span class="material-symbols-outlined text-6xl mb-4">drafts</span>
+                        <p class="text-[10px] font-black uppercase tracking-[0.3em]">No activity detected</p>
+                    </div>
+                 @endif
             </div>
         </div>
 
@@ -209,22 +206,23 @@
              </div>
              
              <div class="space-y-4">
-                 @php
-                    $alerts = [
-                        ['msg' => 'Suspicious Mineral Price Deviation flagged in Trade-410.', 'type' => 'CRITICAL', 'col' => 'error'],
-                        ['msg' => 'Laboratory certificate G-92 expiring in 48 hours.', 'type' => 'WARNING', 'col' => 'warning'],
-                    ];
-                 @endphp
-                 @foreach($alerts as $a)
-                 <div class="p-6 bg-surface-container-low border border-{{ $a['col'] }}/20 rounded-3xl group cursor-pointer hover:border-{{ $a['col'] }}/50 transition-all">
-                    <div class="text-[8px] font-black text-{{ $a['col'] }} uppercase tracking-widest mb-1">{{ $a['type'] }} THREAT</div>
-                    <p class="text-[11px] font-bold text-on-surface leading-tight uppercase tracking-tight">{{ $a['msg'] }}</p>
-                    <div class="mt-4 flex gap-4">
-                        <button class="text-[9px] font-black text-{{ $a['col'] }} uppercase tracking-widest underline">Resolve Node</button>
-                        <button class="text-[9px] font-black text-on-surface-variant uppercase tracking-widest">Acknowledge</button>
+                 @if(isset($alerts) && count($alerts) > 0)
+                     @foreach($alerts as $a)
+                     <div class="p-6 bg-surface-container-low border border-{{ $a->type == 'CRITICAL' ? 'error' : ($a->type == 'WARNING' ? 'warning' : 'primary') }}/20 rounded-3xl group cursor-pointer hover:border-{{ $a->type == 'CRITICAL' ? 'error' : 'warning' }}/50 transition-all">
+                        <div class="text-[8px] font-black text-{{ $a->type == 'CRITICAL' ? 'error' : 'warning' }} uppercase tracking-widest mb-1">{{ $a->type }} THREAT</div>
+                        <p class="text-[11px] font-bold text-on-surface leading-tight uppercase tracking-tight">{{ $a->title }}: {{ $a->message }}</p>
+                        <div class="mt-4 flex gap-4">
+                            <button class="text-[9px] font-black text-{{ $a->type == 'CRITICAL' ? 'error' : 'warning' }} uppercase tracking-widest underline">Resolve Node</button>
+                            <button class="text-[9px] font-black text-on-surface-variant uppercase tracking-widest">Acknowledge</button>
+                        </div>
+                     </div>
+                     @endforeach
+                 @else
+                    <div class="py-10 text-center opacity-20">
+                        <span class="material-symbols-outlined text-4xl mb-2">shield_check</span>
+                        <p class="text-[9px] font-black uppercase tracking-widest">No Alerts Detected</p>
                     </div>
-                 </div>
-                 @endforeach
+                 @endif
              </div>
         </div>
 
@@ -235,15 +233,15 @@
                  <div class="relative inline-flex items-center justify-center">
                     <svg class="w-24 h-24 transform -rotate-90">
                         <circle cx="48" cy="48" r="42" stroke="currentColor" stroke-width="8" fill="transparent" class="text-surface-container-highest" />
-                        <circle cx="48" cy="48" r="42" stroke="currentColor" stroke-width="8" fill="transparent" stroke-dasharray="263.8" stroke-dashoffset="15.8" class="text-secondary" />
+                        <circle cx="48" cy="48" r="42" stroke="currentColor" stroke-width="8" fill="transparent" stroke-dasharray="263.8" stroke-dashoffset="{{ 263.8 - (263.8 * ($stats['compliance'] ?? 0) / 100) }}" class="text-secondary" />
                     </svg>
                     <div class="absolute text-center">
-                        <div class="text-2xl font-black text-on-background font-data-tabular">94</div>
-                        <div class="text-[7px] font-black text-secondary tracking-widest uppercase">OPTIMAL</div>
+                        <div class="text-2xl font-black text-on-background font-data-tabular">{{ round($stats['compliance'] ?? 0) }}</div>
+                        <div class="text-[7px] font-black text-secondary tracking-widest uppercase">{{ ($stats['compliance'] ?? 0) > 90 ? 'OPTIMAL' : 'MONITORED' }}</div>
                     </div>
                  </div>
                  <div class="mt-8 text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-60 leading-relaxed px-4">
-                    Your institutional compliance rating is currently 94.2. Regulatory audits are synchronized across nodes.
+                    Your institutional compliance rating is currently {{ $stats['compliance'] ?? '0' }}. Regulatory audits are synchronized across nodes.
                  </div>
             </div>
             <button class="w-full py-4 bg-surface-container-high border border-outline-variant rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] text-on-surface hover:text-secondary transition-all">

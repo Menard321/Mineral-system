@@ -19,32 +19,32 @@
     <!-- Active Traders -->
     <div class="card-premium p-4 rounded-xl">
         <div class="flex justify-between items-start mb-2">
-            <span class="text-label-caps text-on-surface-variant">Active Institutions</span>
-            <span class="material-symbols-outlined text-primary text-sm">account_balance</span>
+            <span class="text-label-caps text-on-surface-variant">Active Users</span>
+            <span class="material-symbols-outlined text-primary text-sm">group</span>
         </div>
-        <div class="text-headline-md font-bold text-on-background">1,284</div>
-        <div class="text-[10px] text-on-surface-variant mt-1">42 NEW REGISTRATIONS TODAY</div>
+        <div class="text-headline-md font-bold text-on-background">{{ number_format($stats['total_users'] ?? 1284) }}</div>
+        <div class="text-[10px] text-on-surface-variant mt-1 uppercase">Sovereign Data Authorized</div>
     </div>
 
     <!-- Global Trade Volume -->
     <div class="card-premium p-4 rounded-xl">
         <div class="flex justify-between items-start mb-2">
-            <span class="text-label-caps text-on-surface-variant">24h Trade Volume</span>
+            <span class="text-label-caps text-on-surface-variant">Total Exports (Val)</span>
             <span class="material-symbols-outlined text-primary text-sm">payments</span>
         </div>
-        <div class="text-headline-md font-bold text-on-background">$4.2B</div>
+        <div class="text-headline-md font-bold text-on-background">${{ number_format(($stats['revenue_usd'] ?? 4200000000) / 1000000, 1) }}M</div>
         <div class="text-[10px] text-secondary mt-1 flex items-center gap-1">
-            <span class="material-symbols-outlined text-xs">trending_up</span> +12.5% VS PREVIOUS 24H
+            <span class="material-symbols-outlined text-xs">trending_up</span> MARKET EXECUTION LIVE
         </div>
     </div>
 
     <!-- Critical Alerts -->
     <div class="card-premium p-4 rounded-xl border-l-4 border-l-error">
         <div class="flex justify-between items-start mb-2">
-            <span class="text-label-caps text-on-surface-variant">Critical Anomalies</span>
+            <span class="text-label-caps text-on-surface-variant">Pending Alerts</span>
             <span class="material-symbols-outlined text-error text-sm">warning</span>
         </div>
-        <div class="text-headline-md font-bold text-error">12</div>
+        <div class="text-headline-md font-bold text-error">{{ $stats['alerts'] ?? 12 }}</div>
         <div class="text-[10px] text-error mt-1 flex items-center gap-1">
             <span class="material-symbols-outlined text-xs">security</span> FRAUD DETECTION ACTIVE
         </div>
@@ -68,35 +68,31 @@
             </div>
             
             <div class="space-y-4">
-                @php
-                    $trades = [
-                        ['mineral' => 'Lithium', 'origin' => 'Chile', 'val' => '$24.5M', 'status' => 'VERIFIED'],
-                        ['mineral' => 'Copper', 'origin' => 'DRC', 'val' => '$12.2M', 'status' => 'PENDING_LAB'],
-                        ['mineral' => 'Gold', 'origin' => 'Tanzania', 'val' => '$8.4M', 'status' => 'EN_ROUTE'],
-                        ['mineral' => 'Cobalt', 'origin' => 'Australia', 'val' => '$15.1M', 'status' => 'VERIFIED'],
-                    ];
-                @endphp
-                @foreach($trades as $trade)
-                <div class="flex items-center justify-between p-4 bg-surface-container-low border border-outline-variant rounded-lg hover:border-primary transition-all group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center border border-outline-variant group-hover:bg-primary/10 transition-colors">
-                            <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">database</span>
+                @if(isset($recent_trades) && count($recent_trades) > 0)
+                    @foreach($recent_trades as $trade)
+                    <div class="flex items-center justify-between p-4 bg-surface-container-low border border-outline-variant rounded-lg hover:border-primary transition-all group">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center border border-outline-variant group-hover:bg-primary/10 transition-colors">
+                                <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">database</span>
+                            </div>
+                            <div>
+                                <div class="font-bold text-on-background">{{ $trade->mineral_type }} Shipment #{{ $trade->trade_id }}</div>
+                                <div class="text-[10px] text-on-surface-variant flex items-center gap-2 uppercase">
+                                    <span class="material-symbols-outlined text-[12px]">public</span> {{ $trade->user->name }} &bull; {{ $trade->buyer_country ?? 'GLOBAL' }}
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <div class="font-bold text-on-background">{{ $trade['mineral'] }} Shipment #{{ rand(1000, 9999) }}</div>
-                            <div class="text-[10px] text-on-surface-variant flex items-center gap-2">
-                                <span class="material-symbols-outlined text-[12px]">public</span> {{ $trade['origin'] }} → GLOBAL PORT
+                        <div class="text-right">
+                            <div class="font-data-tabular font-bold text-primary">${{ number_format($trade->value_usd / 1000000, 2) }}M</div>
+                            <div class="text-[10px] font-bold text-{{ $trade->status_color }}">
+                                {{ $trade->status_label }}
                             </div>
                         </div>
                     </div>
-                    <div class="text-right">
-                        <div class="font-data-tabular font-bold text-primary">{{ $trade['val'] }}</div>
-                        <div class="text-[10px] {{ $trade['status'] == 'VERIFIED' ? 'text-secondary' : ($trade['status'] == 'PENDING_LAB' ? 'text-tertiary' : 'text-primary') }} font-bold">
-                            {{ $trade['status'] }}
-                        </div>
-                    </div>
-                </div>
-                @endforeach
+                    @endforeach
+                @else
+                    <div class="text-center py-10 opacity-20 text-[10px] font-black uppercase tracking-[0.3em]">No Trades Detected</div>
+                @endif
             </div>
         </div>
 
@@ -217,27 +213,20 @@
             <div class="absolute top-0 right-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
             <h3 class="text-label-caps font-bold text-on-surface-variant mb-6 tracking-widest uppercase opacity-60">System Security Log</h3>
             <div class="space-y-5">
-                <div class="flex items-start gap-4">
-                    <div class="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 shadow-[0_0_8px_#4edea3]"></div>
-                    <div class="text-[11px] text-on-surface leading-relaxed">
-                        <span class="font-black text-white/40 uppercase tracking-tighter">Event Access:</span> 
-                        <span class="font-bold">World Bank Auditor</span> established secure link from Washington DC Terminal (142.12.8.xx)
+                @if(isset($recent_activities) && count($recent_activities) > 0)
+                    @foreach($recent_activities as $log)
+                    <div class="flex items-start gap-4">
+                        <div class="w-1.5 h-1.5 rounded-full bg-{{ $loop->first ? 'secondary' : 'primary' }} mt-1.5 shadow-[0_0_8px_#4edea3]"></div>
+                        <div class="text-[11px] text-on-surface leading-relaxed">
+                            <span class="font-black text-white/40 uppercase tracking-tighter">{{ $log->module }}:</span> 
+                            <span class="font-bold">{{ $log->admin->full_name ?? 'SYSTEM' }}</span> {{ $log->action_type }} 
+                            <span class="text-[9px] opacity-40 font-data-tabular italic ml-2">{{ $log->timestamp->diffForHumans() }}</span>
+                        </div>
                     </div>
-                </div>
-                <div class="flex items-start gap-4">
-                    <div class="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shadow-[0_0_8px_#adc6ff]"></div>
-                    <div class="text-[11px] text-on-surface leading-relaxed">
-                        <span class="font-black text-white/40 uppercase tracking-tighter">Registry Update:</span> 
-                        <span class="font-bold">National Authority</span> authorized Traceable Mineral Shipment #4921 (Tanzania Node)
-                    </div>
-                </div>
-                <div class="flex items-start gap-4">
-                    <div class="w-1.5 h-1.5 rounded-full bg-tertiary mt-1.5 shadow-[0_0_8px_#ffb3ad]"></div>
-                    <div class="text-[11px] text-on-surface leading-relaxed">
-                        <span class="font-black text-white/40 uppercase tracking-tighter">AI Forecaster:</span> 
-                        Intelligence models updated <span class="text-secondary font-bold">Lithium Pricing projection</span> for 2026 Q3 Corridors
-                    </div>
-                </div>
+                    @endforeach
+                @else
+                    <div class="py-10 text-center opacity-20 text-[10px] font-black uppercase tracking-widest">Logs Synced & Clear</div>
+                @endif
             </div>
         </div>
     </div>

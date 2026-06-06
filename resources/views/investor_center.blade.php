@@ -35,10 +35,10 @@
 {{-- ─── PORTFOLIO KPIs ─────────────────────────────────────────────────── --}}
 <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-10">
     @php $iStats = [
-        ['label'=>'Active Investments','val'=>'04','sub'=>'Portfolio Entities','col'=>'secondary','icon'=>'account_balance'],
-        ['label'=>'Total Invested','val'=>'$2.4M','sub'=>'Capital Deployed','col'=>'primary','icon'=>'payments'],
-        ['label'=>'Opportunities','val'=>'18','sub'=>'Available Blocks','col'=>'secondary','icon'=>'diamond'],
-        ['label'=>'JV Partnerships','val'=>'02','sub'=>'Active Ventures','col'=>'primary','icon'=>'handshake'],
+        ['label'=>'Active Investments','val'=>str_pad($stats['investments'] ?? 0, 2, '0', STR_PAD_LEFT),'sub'=>'Portfolio Entities','col'=>'secondary','icon'=>'account_balance'],
+        ['label'=>'Total Invested','val'=>$stats['total'] ?? '$0M','sub'=>'Capital Deployed','col'=>'primary','icon'=>'payments'],
+        ['label'=>'Opportunities','val'=>str_pad($stats['opps'] ?? 0, 2, '0', STR_PAD_LEFT),'sub'=>'Available Blocks','col'=>'secondary','icon'=>'diamond'],
+        ['label'=>'JV Partnerships','val'=>str_pad($stats['jvs'] ?? 0, 2, '0', STR_PAD_LEFT),'sub'=>'Active Ventures','col'=>'primary','icon'=>'handshake'],
     ]; @endphp
     @foreach($iStats as $s)
     <div class="bg-surface-container-low border border-outline-variant/30 p-6 rounded-[32px] group hover:border-{{ $s['col'] }}/40 transition-all">
@@ -53,47 +53,39 @@
     {{-- ─── LEFT: OPPORTUNITIES + PORTFOLIO ─── --}}
     <div class="lg:col-span-8 space-y-8">
 
-        {{-- Investment Opportunities Marketplace --}}
         <div class="card-premium p-10 rounded-[48px]">
             <div class="flex justify-between items-center mb-10">
                 <h2 class="text-headline-sm font-black uppercase tracking-tight flex items-center gap-3">
                     <span class="w-1.5 h-8 bg-secondary rounded-full"></span>
                     Investment Opportunities Marketplace
                 </h2>
-                <div class="flex gap-3">
-                    @foreach(['All','Mining Blocks','Processing','Gov. Auction'] as $filter)
-                    <button class="px-4 py-2 bg-surface-container-highest border border-outline-variant rounded-full text-[9px] font-black uppercase tracking-widest hover:text-secondary transition-all">{{ $filter }}</button>
-                    @endforeach
-                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                @php $opportunities = [
-                    ['id'=>'OPP-4201','title'=>'Geita Gold Exploration Block','type'=>'Mining Block','mineral'=>'Gold','region'=>'Geita, TZ','invest'=>'$5M–$20M','returns'=>'+22% est.','deadline'=>'30 Jul 2026','col'=>'secondary'],
-                    ['id'=>'OPP-4202','title'=>'Mwanza Lithium Processing Plant','type'=>'Processing Plant','mineral'=>'Lithium','region'=>'Mwanza, TZ','invest'=>'$12M+','returns'=>'+18% est.','deadline'=>'15 Aug 2026','col'=>'primary'],
-                    ['id'=>'OPP-4203','title'=>'Dodoma Government Auction Block','type'=>'Gov. Auction','mineral'=>'Copper','region'=>'Dodoma, TZ','invest'=>'$2M–$8M','returns'=>'+14% est.','deadline'=>'10 Sep 2026','col'=>'secondary'],
-                    ['id'=>'OPP-4204','title'=>'North TZ Critical Minerals Zone','type'=>'Strategic Project','mineral'=>'Rare Earth','region'=>'Arusha, TZ','invest'=>'$30M+','returns'=>'+28% est.','deadline'=>'Open','col'=>'primary'],
-                ]; @endphp
-                @foreach($opportunities as $o)
-                <div class="p-8 bg-surface-container-low border border-outline-variant/30 rounded-[32px] group hover:border-{{ $o['col'] }}/50 transition-all cursor-pointer relative overflow-hidden">
-                    <div class="absolute -top-8 -right-8 w-24 h-24 bg-{{ $o['col'] }}/5 rounded-full blur-3xl group-hover:bg-{{ $o['col'] }}/10 transition-all duration-700"></div>
-                    <div class="flex justify-between items-start mb-5">
-                        <span class="bg-{{ $o['col'] }}/10 text-{{ $o['col'] }} border border-{{ $o['col'] }}/20 text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-widest">{{ $o['type'] }}</span>
-                        <span class="text-[9px] font-bold text-on-surface-variant opacity-50 font-data-tabular">{{ $o['id'] }}</span>
+                @if(isset($opportunities) && count($opportunities) > 0)
+                    @foreach($opportunities as $o)
+                    <div class="p-8 bg-surface-container-low border border-outline-variant/30 rounded-[32px] group hover:border-secondary/50 transition-all cursor-pointer relative overflow-hidden">
+                        <div class="absolute -top-8 -right-8 w-24 h-24 bg-secondary/5 rounded-full blur-3xl group-hover:bg-secondary/10 transition-all duration-700"></div>
+                        <div class="flex justify-between items-start mb-5">
+                            <span class="bg-secondary/10 text-secondary border border-secondary/20 text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-widest">{{ $o->mineral_type }}</span>
+                            <span class="text-[9px] font-bold text-on-surface-variant opacity-50 font-data-tabular">OP-{{ $o->id }}</span>
+                        </div>
+                        <h3 class="text-[15px] font-black text-on-background uppercase tracking-tight leading-tight mb-3">{{ $o->title }}</h3>
+                        <div class="grid grid-cols-2 gap-3 text-[9px] font-bold text-on-surface-variant uppercase mb-6">
+                            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">location_on</span>{{ $o->location }}</div>
+                            <div class="flex items-center gap-2 text-secondary"><span class="material-symbols-outlined text-[14px]">payments</span>${{ number_format($o->estimated_value / 1000000, 1) }}M</div>
+                        </div>
+                        <div class="flex items-center justify-between pt-5 border-t border-outline-variant/20">
+                            <span class="text-[9px] font-bold text-on-surface-variant opacity-40 uppercase">Status: {{ $o->status }}</span>
+                            <button class="px-5 py-2.5 bg-secondary/10 text-secondary border border-secondary/20 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-secondary hover:text-black transition-all">Apply Now</button>
+                        </div>
                     </div>
-                    <h3 class="text-[15px] font-black text-on-background uppercase tracking-tight leading-tight mb-3">{{ $o['title'] }}</h3>
-                    <div class="grid grid-cols-2 gap-3 text-[9px] font-bold text-on-surface-variant uppercase mb-6">
-                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">diamond</span>{{ $o['mineral'] }}</div>
-                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">location_on</span>{{ $o['region'] }}</div>
-                        <div class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">payments</span>{{ $o['invest'] }}</div>
-                        <div class="flex items-center gap-2 text-{{ $o['col'] }}"><span class="material-symbols-outlined text-[14px]">trending_up</span>{{ $o['returns'] }}</div>
+                    @endforeach
+                @else
+                    <div class="col-span-2 py-20 text-center opacity-20 border border-dashed border-outline-variant rounded-[40px]">
+                        <p class="text-[10px] font-black uppercase tracking-[.3em]">No Open Opportunities</p>
                     </div>
-                    <div class="flex items-center justify-between pt-5 border-t border-outline-variant/20">
-                        <span class="text-[9px] font-bold text-on-surface-variant opacity-40 uppercase">Deadline: {{ $o['deadline'] }}</span>
-                        <button class="px-5 py-2.5 bg-{{ $o['col'] }}/10 text-{{ $o['col'] }} border border-{{ $o['col'] }}/20 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-{{ $o['col'] }} hover:text-black transition-all">Apply Now</button>
-                    </div>
-                </div>
-                @endforeach
+                @endif
             </div>
         </div>
 
@@ -125,24 +117,45 @@
             </div>
 
             <div class="space-y-5">
-                @php $jvs = [
-                    ['name'=>'AngloGold × North Star Geita JV','equity'=>'60/40','status'=>'GOV. VERIFICATION','col'=>'primary'],
-                    ['name'=>'Tanzania Lithium Processing JV','equity'=>'51/49','status'=>'APPROVED','col'=>'secondary'],
-                ]; @endphp
-                @foreach($jvs as $jv)
-                <div class="flex items-center justify-between p-6 bg-surface-container-low border border-outline-variant/30 rounded-3xl group hover:border-{{ $jv['col'] }}/40 transition-all">
-                    <div class="flex items-center gap-5">
-                        <div class="w-12 h-12 bg-surface-container-highest border border-outline-variant rounded-2xl flex items-center justify-center text-{{ $jv['col'] }}">
-                            <span class="material-symbols-outlined text-2xl">handshake</span>
+                @if(isset($applications) && count($applications) > 0)
+                    @foreach($applications as $app)
+                    <div class="flex items-center justify-between p-6 bg-surface-container-low border border-outline-variant/30 rounded-3xl group hover:border-secondary/40 transition-all">
+                        <div class="flex items-center gap-5">
+                            <div class="w-12 h-12 bg-surface-container-highest border border-outline-variant rounded-2xl flex items-center justify-center text-secondary">
+                                <span class="material-symbols-outlined text-2xl">account_balance_wallet</span>
+                            </div>
+                            <div>
+                                <div class="text-[13px] font-black text-on-background uppercase">{{ $app->opportunity->title ?? 'Strategic Project' }}</div>
+                                <div class="text-[9px] font-bold text-on-surface-variant uppercase opacity-60 mt-1">Application ID: APP-{{ $app->id }}</div>
+                            </div>
                         </div>
-                        <div>
-                            <div class="text-[13px] font-black text-on-background uppercase">{{ $jv['name'] }}</div>
-                            <div class="text-[9px] font-bold text-on-surface-variant uppercase opacity-60 mt-1">Equity Split: {{ $jv['equity'] }}</div>
-                        </div>
+                        <span class="bg-secondary/10 text-secondary border border-secondary/20 text-[9px] font-black px-4 py-1.5 rounded-full">{{ strtoupper($app->status) }}</span>
                     </div>
-                    <span class="bg-{{ $jv['col'] }}/10 text-{{ $jv['col'] }} border border-{{ $jv['col'] }}/20 text-[9px] font-black px-4 py-1.5 rounded-full">{{ $jv['status'] }}</span>
-                </div>
-                @endforeach
+                    @endforeach
+                @endif
+
+                @if(isset($jvs) && count($jvs) > 0)
+                    @foreach($jvs as $jv)
+                    <div class="flex items-center justify-between p-6 bg-surface-container-low border border-outline-variant/30 rounded-3xl group hover:border-primary/40 transition-all">
+                        <div class="flex items-center gap-5">
+                            <div class="w-12 h-12 bg-surface-container-highest border border-outline-variant rounded-2xl flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-2xl">handshake</span>
+                            </div>
+                            <div>
+                                <div class="text-[13px] font-black text-on-background uppercase">{{ $jv->venture_name }}</div>
+                                <div class="text-[9px] font-bold text-on-surface-variant uppercase opacity-60 mt-1">JV Entity ID: TZ-JV-{{ $jv->id }}</div>
+                            </div>
+                        </div>
+                        <span class="bg-primary/10 text-primary border border-primary/20 text-[9px] font-black px-4 py-1.5 rounded-full">{{ strtoupper(str_replace('_', ' ', $jv->status)) }}</span>
+                    </div>
+                    @endforeach
+                @endif
+
+                @if((!isset($applications) || count($applications) == 0) && (!isset($jvs) || count($jvs) == 0))
+                    <div class="p-10 border border-dashed border-outline-variant rounded-3xl text-center opacity-30">
+                        <p class="text-[10px] font-black uppercase tracking-widest">No active ventures found</p>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

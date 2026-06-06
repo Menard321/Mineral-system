@@ -52,42 +52,78 @@
             </div>
 
             <div class="space-y-6">
-                @php
-                    $cases = [
-                        ['id' => 'CAS-4102', 'entity' => 'Geita Sub-Mine 04', 'type' => 'UNLICENSED MINING', 'status' => 'IN INVESTIGATION', 'threat' => 'CRITICAL', 'officer' => 'Officer Sarah L.'],
-                        ['id' => 'CAS-4103', 'entity' => 'Tradelink Logistics', 'type' => 'EXPORT VOL. BREACH', 'status' => 'EVIDENCE GATHERING', 'threat' => 'HIGH', 'officer' => 'Officer Mike R.'],
-                    ];
-                @endphp
-                @foreach($cases as $c)
-                <div class="p-6 bg-surface-container-low border border-outline-variant/50 hover:border-error/40 rounded-3xl transition-all group/case relative overflow-hidden">
-                    <div class="absolute inset-y-0 left-0 w-1 bg-{{ $c['threat'] == 'CRITICAL' ? 'error uppercase animate-pulse' : 'error/30' }}"></div>
-                    <div class="flex flex-col md:flex-row justify-between gap-8 relative z-10">
-                        <div class="flex gap-6">
-                            <div class="w-14 h-14 bg-surface-container-highest border border-outline-variant rounded-2xl flex items-center justify-center text-on-surface-variant group-hover/case:text-error transition-all group-hover/case:scale-105 duration-500">
-                                <span class="material-symbols-outlined text-3xl">local_police</span>
-                            </div>
-                            <div>
-                                <div class="flex items-center gap-3 mb-1">
-                                    <span class="text-[9px] font-black text-error uppercase tracking-[0.2em] font-data-tabular">CASE ID: {{ $c['id'] }}</span>
-                                    <span class="w-1 h-1 bg-outline rounded-full"></span>
-                                    <span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest">{{ $c['type'] }}</span>
+                @if(isset($companies) && count($companies) > 0)
+                    @foreach($companies as $c)
+                    <div class="p-6 bg-surface-container-low border border-outline-variant/50 hover:border-error/40 rounded-3xl transition-all group/case relative overflow-hidden">
+                        <div class="absolute inset-y-0 left-0 w-1 bg-{{ $c->status_color == 'secondary' ? 'secondary' : 'error animate-pulse' }}"></div>
+                        <div class="flex flex-col md:flex-row justify-between gap-8 relative z-10">
+                            <div class="flex gap-6">
+                                <div class="w-14 h-14 bg-surface-container-highest border border-outline-variant rounded-2xl flex items-center justify-center text-on-surface-variant group-hover/case:text-error transition-all group-hover/case:scale-105 duration-500">
+                                    <span class="material-symbols-outlined text-3xl">apartment</span>
                                 </div>
-                                <div class="text-xl font-black text-on-background tracking-tighter uppercase mb-1">{{ $c['entity'] }}</div>
-                                <div class="text-[10px] font-bold text-on-surface-variant flex items-center gap-2 opacity-60 uppercase">
-                                    <span class="material-symbols-outlined text-[14px]">account_circle</span> ASSIGNED: {{ $c['officer'] }}
+                                <div>
+                                    <div class="flex items-center gap-3 mb-1">
+                                        <span class="text-[9px] font-black text-error uppercase tracking-[0.2em] font-data-tabular">REG: {{ $c->reg_number }}</span>
+                                        <span class="w-1 h-1 bg-outline rounded-full"></span>
+                                        <span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest">{{ $c->category }}</span>
+                                    </div>
+                                    <div class="text-xl font-black text-on-background tracking-tighter uppercase mb-1">{{ $c->name }}</div>
+                                    <div class="text-[10px] font-bold text-on-surface-variant flex items-center gap-2 opacity-60 uppercase">
+                                        <span class="material-symbols-outlined text-[14px]">account_circle</span> SUBMITTED BY: {{ $c->user->name }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="flex items-center gap-10">
-                            <div class="text-right">
-                                <div class="text-[10px] font-black text-error uppercase tracking-widest mb-1">{{ $c['status'] }}</div>
-                                <div class="text-[9px] font-bold text-on-surface-variant uppercase opacity-40">Oversight Level: 4.2</div>
+                            <div class="flex items-center gap-10">
+                                <div class="text-right">
+                                    <div class="text-[10px] font-black text-{{ $c->status_color }} uppercase tracking-widest mb-1">{{ strtoupper(str_replace('_', ' ', $c->status)) }}</div>
+                                    <div class="text-[9px] font-bold text-on-surface-variant uppercase opacity-40">Oversight Level: 4.2</div>
+                                </div>
+                                <button class="bg-error text-on-error-container px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-error/20">Verify Entity</button>
                             </div>
-                            <button class="bg-error text-on-error-container px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-error/20">Manage Case</button>
                         </div>
                     </div>
-                </div>
-                @endforeach
+                    @endforeach
+                @endif
+
+                @if(isset($licenses) && count($licenses) > 0)
+                    @foreach($licenses as $l)
+                    <div class="p-6 bg-surface-container-low border border-outline-variant/50 hover:border-primary/40 rounded-3xl transition-all group/case relative overflow-hidden">
+                        <div class="absolute inset-y-0 left-0 w-1 bg-primary"></div>
+                        <div class="flex flex-col md:flex-row justify-between gap-8 relative z-10">
+                            <div class="flex gap-6">
+                                <div class="w-14 h-14 bg-surface-container-highest border border-outline-variant rounded-2xl flex items-center justify-center text-on-surface-variant group-hover/case:text-primary transition-all group-hover/case:scale-105 duration-500">
+                                    <span class="material-symbols-outlined text-3xl">badge</span>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-3 mb-1">
+                                        <span class="text-[9px] font-black text-primary uppercase tracking-[0.2em] font-data-tabular">LIC: {{ $l->license_id }}</span>
+                                        <span class="w-1 h-1 bg-outline rounded-full"></span>
+                                        <span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest">{{ $l->type }}</span>
+                                    </div>
+                                    <div class="text-xl font-black text-on-background tracking-tighter uppercase mb-1">{{ $l->company->name ?? 'REGISTRATION PENDING' }}</div>
+                                    <div class="text-[10px] font-bold text-on-surface-variant flex items-center gap-2 opacity-60 uppercase">
+                                        <span class="material-symbols-outlined text-[14px]">account_circle</span> APPLICANT: {{ $l->user->name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-10">
+                                <div class="text-right">
+                                    <div class="text-[10px] font-black text-{{ $l->status_color }} uppercase tracking-widest mb-1">{{ strtoupper(str_replace('_', ' ', $l->status)) }}</div>
+                                    <div class="text-[9px] font-bold text-on-surface-variant uppercase opacity-40">Oversight Level: 4.2</div>
+                                </div>
+                                <button class="bg-primary text-on-primary-container px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary/20">Review App</button>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                @endif
+
+                @if((!isset($companies) || count($companies) == 0) && (!isset($licenses) || count($licenses) == 0))
+                    <div class="py-20 text-center border border-dashed border-outline-variant rounded-[40px] opacity-20">
+                        <span class="material-symbols-outlined text-6xl mb-4">fact_check</span>
+                        <div class="text-[10px] font-black uppercase tracking-[0.3em]">No Compliance Cases Logged</div>
+                    </div>
+                @endif
             </div>
 
             <button class="w-full mt-10 py-4 bg-surface-container-highest border border-outline-variant rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] text-on-surface hover:text-error transition-all">
@@ -102,31 +138,34 @@
                 Entity Risk & Reputation Matrix
              </h2>
              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                @php
-                    $entities = [
-                        ['name' => 'AngloGold T. Ltd', 'score' => 9.8, 'status' => 'OPTIMAL', 'col' => 'secondary'],
-                        ['name' => 'North Star Mining', 'score' => 8.4, 'status' => 'MONITORED', 'col' => 'primary'],
-                        ['name' => 'Rapid Trade DSM', 'score' => 4.2, 'status' => 'HIGH RISK', 'col' => 'error'],
-                        ['name' => 'Vance Mining Grp', 'score' => 6.1, 'status' => 'WARNING', 'col' => 'error'],
-                    ];
-                @endphp
-                @foreach($entities as $e)
-                <div class="p-6 bg-surface-container-low border border-outline-variant rounded-[32px] group/entity hover:border-{{ $e['col'] }}/50 transition-all cursor-pointer">
-                    <div class="flex justify-between items-start mb-6">
-                        <div>
-                             <div class="text-[12px] font-black text-on-background uppercase tracking-tight">{{ $e['name'] }}</div>
-                             <div class="text-[9px] font-black text-{{ $e['col'] }} uppercase tracking-widest mt-1">{{ $e['status'] }}</div>
+                @if(isset($companies) && count($companies) > 0)
+                    @foreach($companies as $c)
+                    @php
+                        $score = $c->complianceRecord->compliance_score ?? 100.0;
+                        $status = $c->complianceRecord->status ?? 'COMPLIANT';
+                        $col = $status == 'COMPLIANT' ? 'secondary' : ($status == 'WARNING' ? 'primary' : 'error');
+                    @endphp
+                    <div class="p-6 bg-surface-container-low border border-outline-variant rounded-[32px] group/entity hover:border-{{ $col }}/50 transition-all cursor-pointer">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="flex-1 pr-4">
+                                 <div class="text-[12px] font-black text-on-background uppercase tracking-tight truncate">{{ $c->name }}</div>
+                                 <div class="text-[9px] font-black text-{{ $col }} uppercase tracking-widest mt-1">{{ $status }}</div>
+                            </div>
+                            <div class="text-right shrink-0">
+                                 <div class="text-2xl font-black text-on-background font-data-tabular">{{ number_format($score / 10, 1) }}</div>
+                                 <div class="text-[8px] font-bold text-on-surface-variant uppercase opacity-40">Matrix Score</div>
+                            </div>
                         </div>
-                        <div class="text-right">
-                             <div class="text-2xl font-black text-on-background font-data-tabular">{{ $e['score'] }}</div>
-                             <div class="text-[8px] font-bold text-on-surface-variant uppercase opacity-40">Compliance Score</div>
+                        <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                            <div class="h-full bg-{{ $col }} transition-all duration-[2000ms]" style="width: {{ $score }}%"></div>
                         </div>
                     </div>
-                    <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
-                        <div class="h-full bg-{{ $e['col'] }} transition-all duration-[2000ms]" style="width: {{ $e['score'] * 10 }}%"></div>
+                    @endforeach
+                @else
+                    <div class="col-span-2 py-10 text-center opacity-20">
+                        <p class="text-[10px] font-black uppercase tracking-widest">No entities registered for matrix analysis</p>
                     </div>
-                </div>
-                @endforeach
+                @endif
              </div>
         </div>
     </div>

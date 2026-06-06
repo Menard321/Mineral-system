@@ -39,14 +39,14 @@
         <!-- Live Market Intelligence Deck -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             @php
-                $stats = [
-                    ['label' => 'Active Trades', 'val' => '1,242', 'sub' => '+12 today', 'col' => 'primary'],
-                    ['label' => 'Mkt Value (Tsh)', 'val' => '42.8B', 'sub' => 'Sovereign Est.', 'col' => 'secondary'],
-                    ['label' => 'Export Ratio', 'val' => '68%', 'sub' => 'International', 'col' => 'primary'],
+                $mkt_stats = [
+                    ['label' => 'Active Trades', 'val' => $trade_stats['active'] ?? '0', 'sub' => 'Market Orders', 'col' => 'primary'],
+                    ['label' => 'Total Value', 'val' => '$' . number_format(($trade_stats['value'] ?? 0) / 1000000, 1) . 'M', 'sub' => 'Sovereign Est.', 'col' => 'secondary'],
+                    ['label' => 'Export Ratio', 'val' => ($trade_stats['total'] > 0 ? (int)(($trade_stats['active'] / $trade_stats['total']) * 100) : 0) . '%', 'sub' => 'International', 'col' => 'primary'],
                     ['label' => 'Compliance', 'val' => '100%', 'sub' => 'Full Audit', 'col' => 'secondary'],
                 ];
             @endphp
-            @foreach($stats as $s)
+            @foreach($mkt_stats as $s)
             <div class="bg-surface-container-low border border-outline-variant/30 p-6 rounded-[32px] group hover:border-{{ $s['col'] }}/40 transition-all">
                 <div class="text-[9px] font-black text-on-surface-variant uppercase tracking-widest mb-2 opacity-60">{{ $s['label'] }}</div>
                 <div class="text-2xl font-black text-on-background tracking-tighter mb-1 font-data-tabular">{{ $s['val'] }}</div>
@@ -82,37 +82,36 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-outline-variant/10">
-                        @php
-                            $trades = [
-                                ['id' => 'TRD-4401', 'sample' => 'B-77401', 'mineral' => 'Lithium (99.5%)', 'weight' => '12.4t', 'dest' => 'Belgium (Port Antwerp)', 'status' => 'EXPORT CLEARED', 'col' => 'secondary'],
-                                ['id' => 'TRD-4402', 'sample' => 'B-77402', 'mineral' => 'Gold Dore - 24ct', 'weight' => '42kg', 'dest' => 'United Arab Emirates', 'status' => 'LAB VERIFIED', 'col' => 'primary'],
-                                ['id' => 'TRD-4403', 'sample' => 'B-77403', 'mineral' => 'Copper Cathode', 'weight' => '120t', 'dest' => 'Domestic (DSM Hub)', 'status' => 'COMPLIANCE PENDING', 'col' => 'on-surface-variant'],
-                            ];
-                        @endphp
-                        @foreach($trades as $t)
-                        <tr class="group/row hover:bg-white/5 transition-colors">
-                            <td class="py-6">
-                                <div>
-                                    <div class="text-[14px] font-black text-on-background uppercase tracking-tight">{{ $t['id'] }}</div>
-                                    <div class="text-[10px] text-primary font-bold tracking-widest">MINER: NORTH STAR MINING</div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="flex items-center gap-3">
-                                    <span class="material-symbols-outlined text-secondary text-lg">verified</span>
+                        @if(isset($trades) && count($trades) > 0)
+                            @foreach($trades as $t)
+                            <tr class="group/row hover:bg-white/5 transition-colors">
+                                <td class="py-6">
                                     <div>
-                                         <div class="text-[11px] font-black text-on-background uppercase">{{ $t['sample'] }}</div>
-                                         <div class="text-[9px] font-bold text-on-surface-variant uppercase opacity-60">{{ $t['mineral'] }}</div>
+                                        <div class="text-[14px] font-black text-on-background uppercase tracking-tight">{{ $t->trade_id }}</div>
+                                        <div class="text-[10px] text-primary font-bold tracking-widest">MINER: {{ $t->user->name }}</div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="text-[12px] font-black text-on-background font-data-tabular uppercase tracking-tight">{{ $t['weight'] }}</td>
-                            <td class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest opacity-80">{{ $t['dest'] }}</td>
-                            <td class="text-right">
-                                <span class="bg-{{ $t['col'] }}/10 text-{{ $t['col'] }} text-[9px] font-black px-4 py-1.5 rounded-full border border-{{ $t['col'] }}/20 tracking-[0.15em] uppercase">{{ $t['status'] }}</span>
-                            </td>
-                        </tr>
-                        @endforeach
+                                </td>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <span class="material-symbols-outlined text-secondary text-lg">verified</span>
+                                        <div>
+                                             <div class="text-[11px] font-black text-on-background uppercase">{{ $t->mineral_type }}</div>
+                                             <div class="text-[9px] font-bold text-on-surface-variant uppercase opacity-60">QTY: {{ number_format($t->quantity_kg, 2) }} KG</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-[12px] font-black text-on-background font-data-tabular uppercase tracking-tight">${{ number_format($t->value_usd / 1000, 1) }}k</td>
+                                <td class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest opacity-80">{{ $t->buyer_country ?? 'DOMESTIC' }}</td>
+                                <td class="text-right">
+                                    <span class="bg-{{ $t->status_color }}/10 text-{{ $t->status_color }} text-[9px] font-black px-4 py-1.5 rounded-full border border-{{ $t->status_color }}/20 tracking-[0.15em] uppercase">{{ $t->status_label }}</span>
+                                </td>
+                            </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="5" class="py-10 text-center opacity-30 text-[10px] font-black uppercase tracking-widest">No transactions registered</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>

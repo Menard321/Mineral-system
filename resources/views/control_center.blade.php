@@ -123,34 +123,35 @@
              </div>
 
              <div class="space-y-6">
-                 @php
-                    $alerts = [
-                        ['type' => 'FRAUD', 'msg' => 'Suspicious Sample Duplication detected in B-77401', 'id' => 'SEC-9201', 'time' => '12s ago'],
-                        ['type' => 'ACCESS', 'msg' => 'Unauthorized Access Attempt from IP 192.168.1.1', 'id' => 'SEC-9202', 'time' => '4m ago'],
-                        ['type' => 'ANOMALY', 'msg' => 'Abnormal Gold Purity reading (99.9) flagged by AI', 'id' => 'SYS-4402', 'time' => '18m ago'],
-                    ];
-                 @endphp
-                 @foreach($alerts as $a)
-                 <div class="p-6 bg-surface-container-low border border-error/10 hover:border-error/40 rounded-3xl transition-all group/alert flex justify-between items-center relative overflow-hidden">
-                    <div class="flex items-start gap-6 relative z-10">
-                        <div class="w-px h-10 bg-error/20 group-hover/alert:bg-error transition-all"></div>
-                        <div>
-                            <div class="flex items-center gap-3 mb-1">
-                                <span class="text-[9px] font-black text-error uppercase tracking-widest">{{ $a['type'] }} THREAT</span>
-                                <span class="text-[9px] font-bold text-white/30 uppercase tracking-widest font-data-tabular">{{ $a['id'] }}</span>
-                            </div>
-                            <div class="text-[14px] font-black text-on-background uppercase tracking-tight leading-none mb-1">{{ $a['msg'] }}</div>
-                             <div class="text-[9px] font-bold text-on-surface-variant flex items-center gap-2 uppercase opacity-60">
-                                <span class="material-symbols-outlined text-[14px]">schedule</span> INTERCEPTED: {{ $a['time'] }}
+                 @if(isset($alerts) && count($alerts) > 0)
+                    @foreach($alerts as $a)
+                    <div class="p-6 bg-surface-container-low border border-error/10 hover:border-error/40 rounded-3xl transition-all group/alert flex justify-between items-center relative overflow-hidden">
+                        <div class="flex items-start gap-6 relative z-10">
+                            <div class="w-px h-10 bg-error/20 group-hover/alert:bg-error transition-all"></div>
+                            <div>
+                                <div class="flex items-center gap-3 mb-1">
+                                    <span class="text-[9px] font-black text-error uppercase tracking-widest">{{ strtoupper($a->source_module) }} THREAT</span>
+                                    <span class="text-[9px] font-bold text-white/30 uppercase tracking-widest font-data-tabular">{{ $a->alert_id }}</span>
+                                </div>
+                                <div class="text-[14px] font-black text-on-background uppercase tracking-tight leading-none mb-1">{{ $a->title }}</div>
+                                <div class="text-[10px] text-on-surface-variant font-medium opacity-60 mb-2">{{ $a->message }}</div>
+                                <div class="text-[9px] font-bold text-on-surface-variant flex items-center gap-2 uppercase opacity-60">
+                                    <span class="material-symbols-outlined text-[14px]">schedule</span> INTERCEPTED: {{ $a->created_at->diffForHumans() }}
+                                </div>
                             </div>
                         </div>
+                        <div class="flex gap-4 relative z-10">
+                            <button class="bg-error text-on-error-container px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest hover:brightness-110">Suppress</button>
+                            <button class="bg-surface-container-highest text-on-surface px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest hover:border-primary border border-outline-variant">Investigate</button>
+                        </div>
                     </div>
-                    <div class="flex gap-4 relative z-10">
-                         <button class="bg-error text-on-error-container px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest hover:brightness-110">Suppress</button>
-                         <button class="bg-surface-container-highest text-on-surface px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest hover:border-primary border border-outline-variant">Investigate</button>
+                    @endforeach
+                 @else
+                    <div class="py-20 text-center border border-dashed border-outline-variant rounded-[40px] opacity-20">
+                        <span class="material-symbols-outlined text-6xl mb-4">gpp_good</span>
+                        <div class="text-[10px] font-black uppercase tracking-[0.3em]">No Threats Detected</div>
                     </div>
-                 </div>
-                 @endforeach
+                 @endif
              </div>
         </div>
     </div>

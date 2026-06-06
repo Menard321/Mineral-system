@@ -18,13 +18,13 @@
             </div>
             
             <h1 class="text-6xl lg:text-8xl font-black font-display tracking-tighter leading-[0.9] text-white">
-                The Global Platform for <span class="text-gradient">Mineral Intelligence</span>, Trade, and Compliance.
+                Verified Minerals.<br>
+                <span class="text-gradient">Trusted Trade.</span>
             </h1>
             
-            <p class="text-lg text-white/50 leading-relaxed max-w-xl font-medium">
-                The most advanced ecosystem for global mineral traceability, trade compliance, and institutional resource governance. Trusted by 24+ world governments and extraction authorities.
+            <p class="mt-8 max-w-3xl text-xl text-slate-300">
+                A world-class digital platform connecting mineral certification, laboratory intelligence, regulatory compliance, and global trade into one trusted ecosystem.
             </p>
-
             <div class="flex flex-wrap gap-5">
                 <a href="/dashboard" data-action="get-started" class="group relative px-10 py-5 bg-primary text-white font-black text-[12px] uppercase tracking-[0.2em] rounded-full overflow-hidden hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] transition-all transform hover:-translate-y-1">
                     <span class="relative z-10 flex items-center gap-3">Get Started <span class="material-symbols-outlined text-sm transform group-hover:translate-x-1 transition-transform">arrow_forward</span></span>

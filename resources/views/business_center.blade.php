@@ -35,10 +35,10 @@
 {{-- ─── QUICK STATS ─────────────────────────────────────────────────────── --}}
 <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-10">
     @php $bStats = [
-        ['label'=>'My Companies','val'=>'02','sub'=>'Active Entities','col'=>'primary','icon'=>'business'],
-        ['label'=>'Active Licenses','val'=>'05','sub'=>'Valid & Compliant','col'=>'secondary','icon'=>'badge'],
-        ['label'=>'Pending Apps','val'=>'03','sub'=>'Under Review','col'=>'primary','icon'=>'pending_actions'],
-        ['label'=>'Compliance','val'=>'9.4','sub'=>'Score /10','col'=>'secondary','icon'=>'fact_check'],
+        ['label'=>'My Companies','val'=>str_pad($stats['companies'] ?? 0, 2, '0', STR_PAD_LEFT),'sub'=>'Active Entities','col'=>'primary','icon'=>'business'],
+        ['label'=>'Active Licenses','val'=>str_pad($stats['licenses'] ?? 0, 2, '0', STR_PAD_LEFT),'sub'=>'Valid & Compliant','col'=>'secondary','icon'=>'badge'],
+        ['label'=>'Pending Apps','val'=>str_pad($stats['pending'] ?? 0, 2, '0', STR_PAD_LEFT),'sub'=>'Under Review','col'=>'primary','icon'=>'pending_actions'],
+        ['label'=>'Compliance','val'=>$stats['compliance'] ?? '0.0','sub'=>'Score /10','col'=>'secondary','icon'=>'fact_check'],
     ]; @endphp
     @foreach($bStats as $s)
     <div class="bg-surface-container-low border border-outline-variant/30 p-6 rounded-[32px] group hover:border-{{ $s['col'] }}/40 transition-all">
@@ -63,29 +63,31 @@
                 <button onclick="openModal('registerModal')" class="px-5 py-2.5 bg-surface-container-highest border border-outline-variant rounded-xl text-[9px] font-black uppercase tracking-widest hover:text-primary transition-all">+ New Entity</button>
             </div>
             <div class="space-y-5">
-                @php $companies = [
-                    ['name'=>'AngloGold Mining Tanzania Ltd','type'=>'Large Scale Mining','reg'=>'TZN-MN-20042','status'=>'VERIFIED','col'=>'secondary'],
-                    ['name'=>'North Star Exploration Co.','type'=>'Exploration Company','reg'=>'TZN-EX-20198','status'=>'UNDER REVIEW','col'=>'primary'],
-                ]; @endphp
-                @foreach($companies as $c)
-                <div class="flex flex-col md:flex-row items-start md:items-center justify-between p-6 bg-surface-container-low border border-outline-variant/30 rounded-3xl group hover:border-{{ $c['col'] }}/40 transition-all gap-6">
-                    <div class="flex items-center gap-5">
-                        <div class="w-14 h-14 bg-surface-container-highest rounded-2xl border border-outline-variant flex items-center justify-center text-{{ $c['col'] }} group-hover:scale-105 transition-transform">
-                            <span class="material-symbols-outlined text-3xl">apartment</span>
+                @if(isset($companies) && count($companies) > 0)
+                    @foreach($companies as $c)
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between p-6 bg-surface-container-low border border-outline-variant/30 rounded-3xl group hover:border-{{ $c->status_color }}/40 transition-all gap-6">
+                        <div class="flex items-center gap-5">
+                            <div class="w-14 h-14 bg-surface-container-highest rounded-2xl border border-outline-variant flex items-center justify-center text-{{ $c->status_color }} group-hover:scale-105 transition-transform">
+                                <span class="material-symbols-outlined text-3xl">apartment</span>
+                            </div>
+                            <div>
+                                <div class="text-[14px] font-black text-on-background uppercase tracking-tight">{{ $c->name }}</div>
+                                <div class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest opacity-60 mt-1">REG: {{ $c->reg_number }} &bull; {{ $c->category }}</div>
+                            </div>
                         </div>
-                        <div>
-                            <div class="text-[14px] font-black text-on-background uppercase tracking-tight">{{ $c['name'] }}</div>
-                            <div class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest opacity-60 mt-1">REG: {{ $c['reg'] }} &bull; {{ $c['type'] }}</div>
+                        <div class="flex items-center gap-4">
+                            <span class="bg-{{ $c->status_color }}/10 text-{{ $c->status_color }} border border-{{ $c->status_color }}/20 text-[9px] font-black px-4 py-1.5 rounded-full tracking-widest uppercase">{{ strtoupper(str_replace('_', ' ', $c->status)) }}</span>
+                            <button class="w-10 h-10 bg-surface-container-highest rounded-xl border border-outline-variant flex items-center justify-center hover:text-primary transition-all">
+                                <span class="material-symbols-outlined text-lg">open_in_new</span>
+                            </button>
                         </div>
                     </div>
-                    <div class="flex items-center gap-4">
-                        <span class="bg-{{ $c['col'] }}/10 text-{{ $c['col'] }} border border-{{ $c['col'] }}/20 text-[9px] font-black px-4 py-1.5 rounded-full tracking-widest uppercase">{{ $c['status'] }}</span>
-                        <button class="w-10 h-10 bg-surface-container-highest rounded-xl border border-outline-variant flex items-center justify-center hover:text-primary transition-all">
-                            <span class="material-symbols-outlined text-lg">open_in_new</span>
-                        </button>
+                    @endforeach
+                @else
+                    <div class="p-10 border border-dashed border-outline-variant rounded-3xl text-center opacity-30">
+                        <p class="text-[10px] font-black uppercase tracking-widest">No registered companies found</p>
                     </div>
-                </div>
-                @endforeach
+                @endif
             </div>
         </div>
 
@@ -109,25 +111,25 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-outline-variant/10">
-                        @php $licenses = [
-                            ['id'=>'LIC-MN-9012','name'=>'Large Scale Mining License','exp'=>'Jan 2028','status'=>'ACTIVE','col'=>'secondary'],
-                            ['id'=>'LIC-EX-4401','name'=>'Export Permit - Gold','exp'=>'Aug 2026','status'=>'ACTIVE','col'=>'secondary'],
-                            ['id'=>'LIC-EX-4402','name'=>'Prospecting License','exp'=>'Dec 2025','status'=>'EXPIRED','col'=>'error'],
-                            ['id'=>'LIC-PR-8801','name'=>'Processing Plant License','exp'=>'Jun 2027','status'=>'RENEWAL PENDING','col'=>'primary'],
-                        ]; @endphp
-                        @foreach($licenses as $l)
-                        <tr class="group/row hover:bg-white/5 transition-colors">
-                            <td class="py-5">
-                                <div class="text-[12px] font-black text-on-background uppercase">{{ $l['name'] }}</div>
-                                <div class="text-[9px] font-bold text-on-surface-variant opacity-50 font-data-tabular">{{ $l['id'] }}</div>
-                            </td>
-                            <td><span class="text-[10px] font-bold text-on-surface-variant uppercase">GOVERNMENT ISSUED</span></td>
-                            <td><span class="text-[11px] font-black text-on-background font-data-tabular {{ $l['col'] == 'error' ? 'text-error' : '' }}">{{ $l['exp'] }}</span></td>
-                            <td class="text-right">
-                                <span class="bg-{{ $l['col'] }}/10 text-{{ $l['col'] }} border border-{{ $l['col'] }}/20 text-[9px] font-black px-4 py-1.5 rounded-full">{{ $l['status'] }}</span>
-                            </td>
-                        </tr>
-                        @endforeach
+                        @if(isset($licenses) && count($licenses) > 0)
+                            @foreach($licenses as $l)
+                            <tr class="group/row hover:bg-white/5 transition-colors">
+                                <td class="py-5">
+                                    <div class="text-[12px] font-black text-on-background uppercase">{{ $l->name }}</div>
+                                    <div class="text-[9px] font-bold text-on-surface-variant opacity-50 font-data-tabular">{{ $l->license_id }}</div>
+                                </td>
+                                <td><span class="text-[10px] font-bold text-on-surface-variant uppercase">GOVERNMENT ISSUED</span></td>
+                                <td><span class="text-[11px] font-black text-on-background font-data-tabular {{ $l->status == 'expired' ? 'text-error' : '' }}">{{ $l->expires_at ? $l->expires_at->format('M Y') : 'N/A' }}</span></td>
+                                <td class="text-right">
+                                    <span class="bg-{{ $l->status_color }}/10 text-{{ $l->status_color }} border border-{{ $l->status_color }}/20 text-[9px] font-black px-4 py-1.5 rounded-full">{{ strtoupper(str_replace('_', ' ', $l->status)) }}</span>
+                                </td>
+                            </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="4" class="py-10 text-center opacity-30 text-[10px] font-black uppercase tracking-widest">No licenses found</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>

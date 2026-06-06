@@ -230,6 +230,16 @@
                 <span class="material-symbols-outlined">science</span>
                 <span class="text-label-caps font-label-caps">Laboratory</span>
             </a>
+            
+            <!-- 🧪 Layer 2 & 3 Integration -->
+            <a href="{{ route('admin.samples.receiving') }}" class="flex items-center gap-3 px-8 py-2 rounded-lg cursor-pointer transition-all {{ Request::is('admin/samples/receiving') ? 'text-primary border-l-2 border-primary ml-1' : 'text-on-surface-variant/60 hover:text-primary' }}">
+                <span class="material-symbols-outlined text-sm">qr_code_scanner</span>
+                <span class="text-[10px] font-bold uppercase tracking-widest">Sample Intake</span>
+            </a>
+            <a href="{{ route('admin.samples.certification') }}" class="flex items-center gap-3 px-8 py-2 rounded-lg cursor-pointer transition-all {{ Request::is('admin/samples/certification') ? 'text-primary border-l-2 border-primary ml-1' : 'text-on-surface-variant/60 hover:text-primary' }}">
+                <span class="material-symbols-outlined text-sm">verified_user</span>
+                <span class="text-[10px] font-bold uppercase tracking-widest">Certification</span>
+            </a>
             <a href="{{ route('admin.users_management') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('admin/users') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
                 <span class="material-symbols-outlined {{ Request::is('admin/users') ? 'text-primary' : '' }}">group</span>
                 <span class="text-label-caps font-label-caps">Users & Roles</span>

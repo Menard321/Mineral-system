@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\SampleManagementController;
+use App\Http\Controllers\AdminSampleController;
+use App\Http\Controllers\CertificatesController;
 
 /**
  * PUBLIC INTELLIGENCE SUITE (De-Restricted & Open Access)
@@ -98,46 +103,45 @@ Route::middleware(['web'])->group(function () {
     Route::group(['prefix' => 'admin'], function () use ($protect) {
         Route::get('/', function () { return redirect('/admin/dashboard'); });
         
-        Route::get('/dashboard', function () use ($protect) {
-            return $protect('dashboard'); // General Admin Overview
-        })->name('admin.dashboard');
+        Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/control-center', [AdminDashboardController::class, 'controlCenter'])->name('admin.control_center');
+        Route::get('/trade-market', [AdminDashboardController::class, 'tradeMarket'])->name('admin.trade_market');
+        Route::get('/analytics', [AdminDashboardController::class, 'analytics'])->name('admin.analytics');
+        Route::get('/compliance', [AdminDashboardController::class, 'compliance'])->name('admin.compliance');
 
-        Route::get('/control-center', function () use ($protect) {
-            return $protect('control_center'); // Specialized Mission Control
-        })->name('admin.control_center');
-
-        Route::get('/trade-market', function () use ($protect) {
-            return $protect('trade_market'); // Sovereign Market Hub
-        })->name('admin.trade_market');
-
-        Route::get('/analytics', function () use ($protect) {
-            return $protect('analytics'); // National Data Intelligence
-        })->name('admin.analytics');
-
-        Route::get('/compliance', function () use ($protect) {
-            return $protect('compliance'); // Regulatory Enforcement
-        })->name('admin.compliance');
+        // 🧪 Refined Sample Management Zone (Layers 2 & 3)
+        Route::get('/samples/receiving', [AdminSampleController::class, 'receiving'])->name('admin.samples.receiving');
+        Route::post('/samples/receive/{id}', [AdminSampleController::class, 'receive'])->name('admin.samples.receive');
+        Route::get('/samples/certification', [AdminSampleController::class, 'certification'])->name('admin.samples.certification');
+        Route::post('/samples/approve/{id}', [AdminSampleController::class, 'approve'])->name('admin.samples.approve');
 
         Route::get('/laboratory', function () use ($protect) { return $protect('laboratory'); })->name('admin.laboratory');
         Route::get('/laboratory/registration', function () use ($protect) { return $protect('laboratory_registration'); })->name('admin.laboratory.registration');
-        Route::get('/users', function () use ($protect) { return $protect('users_management'); })->name('admin.users_management');
-        Route::get('/alerts-center', function () use ($protect) { return $protect('alerts_center'); })->name('admin.alerts_center');
+        Route::get('/users', [AdminDashboardController::class, 'users'])->name('admin.users_management');
+        Route::get('/alerts-center', [AdminDashboardController::class, 'alertsCenter'])->name('admin.alerts_center');
         Route::get('/reporting', function () use ($protect) { return $protect('reporting'); });
-        Route::get('/configuration', function () use ($protect) { return $protect('configuration'); })->name('admin.configuration');
+        Route::get('/configuration', [AdminDashboardController::class, 'configuration'])->name('admin.configuration');
     });
 });
 
 // ─── USER / EXECUTIVE PORTAL ROUTES ───────────────────────────────────────
 Route::middleware(['auth'])->group(function () {
-    Route::get('/business', fn() => view('business_center'))->name('user.business');
-    Route::get('/investor', fn() => view('investor_center'))->name('user.investor');
+    Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/business', [UserDashboardController::class, 'business'])->name('user.business');
+    Route::get('/investor', [UserDashboardController::class, 'investor'])->name('user.investor');
+    Route::get('/user-alerts', [UserDashboardController::class, 'alerts'])->name('user.alerts');
     Route::get('/profile', fn() => view('profile'))->name('user.profile');
 
-    Route::get('/samples', fn() => view('generaldashboard'))->name('user.samples');
-    Route::get('/trade', fn() => view('generaldashboard'))->name('user.trade');
-    Route::get('/certificates', fn() => view('generaldashboard'))->name('user.certificates');
+    // 🟢 Layer 1 Sample Center
+    Route::get('/samples', [SampleManagementController::class, 'index'])->name('user.samples.index');
+    Route::get('/samples/register', [SampleManagementController::class, 'create'])->name('user.samples.register');
+    Route::post('/samples/store', [SampleManagementController::class, 'store'])->name('user.samples.store');
+    
+    // 🏆 Certificates & Lifecycle Tracking
+    Route::get('/certificates', [CertificatesController::class, 'index'])->name('user.certificates');
+    Route::get('/certificates/{id}', [CertificatesController::class, 'show'])->name('user.certificates.show');
+
     Route::get('/user-analytics', fn() => view('generaldashboard'))->name('user.analytics');
     Route::get('/vault', fn() => view('generaldashboard'))->name('user.vault');
     Route::get('/compliance-status', fn() => view('generaldashboard'))->name('user.compliance');
-    Route::get('/user-alerts', fn() => view('alerts_center'))->name('user.alerts');
 });

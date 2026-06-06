@@ -71,40 +71,39 @@
             </div>
 
             <div class="flex-1 overflow-y-auto space-y-4 pr-2 custom-scrollbar">
-                @php
-                    $alerts = [
-                        ['id' => 'AL-9201', 'type' => 'CRITICAL', 'module' => 'SYSTEM', 'msg' => 'Unauthorized Access Attempt from IP: 192.168.1.18', 'time' => '12s ago', 'icon' => 'gpp_maybe'],
-                        ['id' => 'AL-9202', 'type' => 'HIGH RISK', 'module' => 'TRADE', 'msg' => 'Suspicious Mineral Price Deviation [Gold B-42] flagged.', 'time' => '4m ago', 'icon' => 'currency_exchange'],
-                        ['id' => 'AL-9203', 'type' => 'WARNING', 'module' => 'LAB', 'msg' => 'Laboratory Batch B-77402 overdue for scientific review.', 'time' => '18m ago', 'icon' => 'science'],
-                        ['id' => 'AL-9204', 'type' => 'INFO', 'module' => 'COMPLIANCE', 'msg' => 'AngloGold T. Ltd updated their license documentation.', 'time' => '42m ago', 'icon' => 'gavel'],
-                        ['id' => 'AL-9205', 'type' => 'HIGH RISK', 'module' => 'USER', 'msg' => 'Operator Dr. Menard J. initiated Sovereign Level-5 sync.', 'time' => '1h ago', 'icon' => 'fingerprint'],
-                    ];
-                @endphp
-                @foreach($alerts as $a)
-                <div class="p-6 bg-surface-container-low border border-outline-variant/30 hover:border-error/30 rounded-3xl transition-all group/item flex flex-col md:flex-row justify-between gap-6 relative overflow-hidden">
-                    <div class="absolute inset-y-0 left-0 w-1 bg-{{ $a['type'] == 'CRITICAL' ? 'error' : ($a['type'] == 'HIGH RISK' ? 'warning' : 'outline-variant') }}"></div>
-                    <div class="flex gap-5">
-                        <div class="w-12 h-12 bg-surface-container-highest border border-outline-variant rounded-2xl flex items-center justify-center text-on-surface-variant group-hover/item:text-error transition-all">
-                            <span class="material-symbols-outlined text-2xl">{{ $a['icon'] }}</span>
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-3 mb-1">
-                                <span class="text-[9px] font-black {{ $a['type'] == 'CRITICAL' ? 'text-error' : ($a['type'] == 'HIGH RISK' ? 'text-warning' : 'text-on-surface-variant') }} uppercase tracking-widest font-data-tabular">{{ $a['type'] }}</span>
-                                <span class="w-1 h-1 bg-outline rounded-full"></span>
-                                <span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest opacity-40">{{ $a['id'] }} / {{ $a['module'] }}</span>
+                @if(isset($alerts) && count($alerts) > 0)
+                    @foreach($alerts as $a)
+                    <div class="p-6 bg-surface-container-low border border-outline-variant/30 hover:border-{{ $a->severity_color }}/30 rounded-3xl transition-all group/item flex flex-col md:flex-row justify-between gap-6 relative overflow-hidden">
+                        <div class="absolute inset-y-0 left-0 w-1 bg-{{ $a->severity_color }}"></div>
+                        <div class="flex gap-5">
+                            <div class="w-12 h-12 bg-surface-container-highest border border-outline-variant rounded-2xl flex items-center justify-center text-on-surface-variant group-hover/item:text-{{ $a->severity_color }} transition-all">
+                                <span class="material-symbols-outlined text-2xl">{{ $a->severity == 'critical' ? 'gpp_maybe' : 'report' }}</span>
                             </div>
-                            <div class="text-[14px] font-black text-on-background uppercase tracking-tight mb-1">{{ $a['msg'] }}</div>
-                             <div class="text-[9px] font-bold text-on-surface-variant flex items-center gap-2 uppercase opacity-60">
-                                <span class="material-symbols-outlined text-[14px]">schedule</span> INTERCEPTED: {{ $a['time'] }}
+                            <div>
+                                <div class="flex items-center gap-3 mb-1">
+                                    <span class="text-[9px] font-black text-{{ $a->severity_color }} uppercase tracking-widest font-data-tabular">{{ strtoupper($a->severity) }}</span>
+                                    <span class="w-1 h-1 bg-outline rounded-full"></span>
+                                    <span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest opacity-40">{{ $a->alert_id }} / {{ strtoupper($a->source_module) }}</span>
+                                </div>
+                                <div class="text-[14px] font-black text-on-background uppercase tracking-tight mb-1">{{ $a->title }}</div>
+                                <div class="text-[11px] font-medium text-on-surface-variant opacity-60 uppercase mb-2">{{ $a->message }}</div>
+                                 <div class="text-[9px] font-bold text-on-surface-variant flex items-center gap-2 uppercase opacity-60">
+                                    <span class="material-symbols-outlined text-[14px]">schedule</span> INTERCEPTED: {{ $a->created_at->diffForHumans() }}
+                                </div>
                             </div>
                         </div>
+                        <div class="flex gap-3 h-fit mt-auto md:mt-0">
+                             <button class="bg-surface-container-highest text-on-surface px-5 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest border border-outline-variant hover:border-{{ $a->severity_color }} transition-all">Acknowledge</button>
+                             <button class="bg-{{ $a->severity_color }} text-on-{{ $a->severity_color }}-container px-5 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all">Investigate</button>
+                        </div>
                     </div>
-                    <div class="flex gap-3 h-fit mt-auto md:mt-0">
-                         <button class="bg-surface-container-highest text-on-surface px-5 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest border border-outline-variant hover:border-error transition-all">Acknowledge</button>
-                         <button class="bg-error text-on-error-container px-5 py-2.5 rounded-xl text-[9px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all">Investigate</button>
+                    @endforeach
+                @else
+                    <div class="py-32 text-center opacity-20">
+                        <span class="material-symbols-outlined text-6xl mb-4">security</span>
+                        <div class="text-[10px] font-black uppercase tracking-[0.3em]">No Active Alerts</div>
                     </div>
-                </div>
-                @endforeach
+                @endif
             </div>
         </div>
     </div>

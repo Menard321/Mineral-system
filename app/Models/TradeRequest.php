@@ -13,6 +13,7 @@ class TradeRequest extends Model
 
     public function user(): BelongsTo { return $this->belongsTo(User::class); }
     public function certificate(): BelongsTo { return $this->belongsTo(Certificate::class, 'certificate_id'); }
+    public function documents() { return $this->morphMany(Document::class, 'owner'); }
 
     public static function generateId(): string
     {
