@@ -1,344 +1,278 @@
 @extends('layouts.executive')
 
-@section('title', 'GMITE Executive - Intelligence Portal')
+@section('title', 'GMITE - Global Mineral Operations Workspace')
 
 @section('content')
-<!-- Executive Top Header (Control Bar) -->
-<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4 bg-surface-container-low p-4 rounded-2xl border border-outline-variant shadow-lg shadow-black/20">
-    <div class="flex items-center gap-4">
-        <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20">
-            <span class="material-symbols-outlined text-primary text-3xl animate-pulse">terminal</span>
+<!-- Terminal Synchronization Header -->
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
+    <div class="flex items-center gap-6">
+        <div class="relative">
+             <div class="absolute inset-0 bg-primary/20 rounded-2xl blur-3xl animate-pulse"></div>
+             <div class="relative w-20 h-20 bg-surface-container-low border border-primary/40 rounded-[28px] flex items-center justify-center text-primary shadow-2xl">
+                 <span class="material-symbols-outlined text-4xl animate-[spin_10s_linear_infinite]">terminal</span>
+             </div>
         </div>
         <div>
-            <h1 class="text-headline-md font-bold tracking-tighter text-on-background">EXECUTIVE TERMINAL <span class="text-primary italic">v4.0</span></h1>
-            <div class="flex items-center gap-3 text-[10px] font-bold text-on-surface-variant uppercase tracking-[0.2em]">
-                <span id="current-date">04 JUN 2026</span>
-                <span class="w-1 h-1 bg-outline-variant rounded-full"></span>
-                <span id="current-time" class="text-secondary font-data-tabular">19:37:21 GMT+3</span>
-                <span class="w-1 h-1 bg-outline-variant rounded-full"></span>
-                <span class="text-secondary flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_5px_#4edea3]"></span>
-                    DATA SYNC: OPERATIONAL
-                </span>
-            </div>
+             <div class="flex items-center gap-4">
+                <h1 class="text-display-lg font-black text-on-background tracking-tighter uppercase leading-none">Intelligence Terminal</h1>
+                <span class="bg-secondary/10 text-secondary text-[10px] font-black px-3 py-1 rounded-full border border-secondary/20 tracking-[0.2em] uppercase">Sovereign Node 01</span>
+             </div>
+             <p class="text-[11px] text-on-surface-variant font-bold tracking-[0.3em] uppercase mt-2 opacity-60 font-data-tabular">Session Operator: {{ Auth::user()->name ?? 'Executive' }} | Sync Level: 04</p>
         </div>
     </div>
-    
-    <div class="flex flex-wrap gap-2">
-        <button class="px-4 py-2 bg-surface-container-high rounded-lg border border-outline-variant text-[10px] font-bold hover:bg-surface-container-highest transition-all flex items-center gap-2 uppercase tracking-widest text-on-surface">
-            <span class="material-symbols-outlined text-sm text-primary">picture_as_pdf</span> Generate Executive Report
+    <div class="flex flex-wrap gap-4">
+        <button onclick="triggerExecutiveAction('Initialize Data Export')" class="px-8 py-4 bg-surface-container-low text-on-surface rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] border border-outline-variant hover:border-primary transition-all flex items-center gap-4 shadow-xl">
+            <span class="material-symbols-outlined text-xl">database</span>
+            Sync Ledger
         </button>
-        <a href="/intelligence-map" class="px-4 py-2 bg-surface-container-high rounded-lg border border-outline-variant text-[10px] font-bold hover:bg-surface-container-highest transition-all flex items-center gap-2 uppercase tracking-widest text-on-surface">
-            <span class="material-symbols-outlined text-sm text-primary">public</span> Open Global Map
-        </a>
-        <div class="flex items-center bg-surface-container-high rounded-lg border border-outline-variant px-2">
-            <span class="material-symbols-outlined text-sm text-on-surface-variant px-2">schedule</span>
-            <select class="bg-transparent border-none focus:ring-0 text-[10px] font-bold text-on-surface uppercase py-2 cursor-pointer outline-none">
-                <option>Live</option>
-                <option>1h</option>
-                <option selected>24h</option>
-                <option>7d</option>
-                <option>30d</option>
-            </select>
-        </div>
-        <div class="relative group/notif">
-            <button class="w-10 h-10 bg-surface-container-high rounded-lg border border-outline-variant flex items-center justify-center relative hover:bg-surface-container-highest">
-                <span class="material-symbols-outlined text-on-surface">notifications</span>
-                <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full animate-ping"></span>
-                <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
-            </button>
-            <!-- Dropdown placeholder -->
-        </div>
+        <button onclick="triggerExecutiveAction('Activate High-Security Stream')" class="px-8 py-4 bg-primary text-on-primary-container rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] hover:brightness-110 active:scale-95 transition-all flex items-center gap-4 shadow-2xl shadow-primary/20">
+            <span class="material-symbols-outlined text-xl">security</span>
+            Secure Stream
+        </button>
     </div>
 </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <!-- Main Dashboard Section -->
-    <div class="lg:col-span-9 space-y-6">
-        
-        <!-- GLOBAL KPI DASHBOARD -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            @php
-                $kpis = [
-                    ['label' => 'Total Minerals', 'val' => '12,842', 'change' => '+2.4%', 'color' => 'primary', 'icon' => 'diamond'],
-                    ['label' => 'Trade Volume', 'val' => '$4.2B', 'change' => '+12.5%', 'color' => 'secondary', 'icon' => 'payments'],
-                    ['label' => 'Compliance Rate', 'val' => '94.2%', 'change' => '-0.4%', 'color' => 'tertiary', 'icon' => 'fact_check'],
-                    ['label' => 'Market Growth', 'val' => '+6.8%', 'change' => '+1.1%', 'color' => 'primary', 'icon' => 'trending_up'],
-                ];
-            @endphp
-            @foreach($kpis as $kpi)
-            <div class="bg-surface-container-high border border-outline-variant p-4 rounded-2xl relative overflow-hidden group hover:border-{{ $kpi['color'] }}/50 transition-all cursor-pointer">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest">{{ $kpi['label'] }}</span>
-                    <span class="material-symbols-outlined text-{{ $kpi['color'] }} text-sm">{{ $kpi['icon'] }}</span>
-                </div>
-                <div class="text-2xl font-bold text-on-background font-data-tabular">{{ $kpi['val'] }}</div>
-                <div class="text-[9px] font-bold {{ str_contains($kpi['change'], '+') ? 'text-secondary' : 'text-error' }} mt-1 flex items-center gap-1 uppercase">
-                    {{ $kpi['change'] }} VS PREVIOUS PERIOD
-                </div>
-                <div class="absolute bottom-0 left-0 h-1 bg-{{ $kpi['color'] }} w-0 group-hover:w-full transition-all duration-500"></div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Main Command Layer -->
+    <div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-5 gap-6">
+        @php
+            $kpis = [
+                ['label' => 'Active Samples', 'val' => '142', 'sub' => 'SCIENTIFIC VALIDATION', 'col' => 'primary', 'icon' => 'science'],
+                ['label' => 'Pending Trades', 'val' => '18', 'sub' => 'MARKET EXECUTION', 'col' => 'secondary', 'icon' => 'currency_exchange'],
+                ['label' => 'Certs Issued', 'val' => '1,204', 'sub' => 'SOVEREIGN TRUST', 'col' => 'primary', 'icon' => 'verified'],
+                ['label' => 'Compliance', 'val' => '94.2', 'sub' => 'REGULATORY SCORE', 'col' => 'secondary', 'icon' => 'gavel'],
+                ['label' => 'Active Alerts', 'val' => '02', 'sub' => 'RISK DETECTION', 'col' => 'error', 'icon' => 'notifications_active'],
+            ];
+        @endphp
+        @foreach($kpis as $k)
+        <div class="bg-surface-container-low border border-outline-variant/30 p-8 rounded-[40px] relative overflow-hidden group hover:border-{{ $k['col'] }}/50 transition-all cursor-pointer">
+            <div class="absolute -top-10 -right-10 w-24 h-24 bg-{{ $k['col'] }}/5 rounded-full blur-3xl group-hover:bg-{{ $k['col'] }}/10 transition-all duration-700"></div>
+            <div class="flex justify-between items-start mb-6">
+                 <span class="material-symbols-outlined text-{{ $k['col'] }} text-2xl animate-pulse">{{ $k['icon'] }}</span>
+                 <span class="text-[8px] font-black text-{{ $k['col'] }} uppercase tracking-widest font-data-tabular">LIVE_FEED</span>
             </div>
-            @endforeach
+            <div class="text-4xl font-black text-on-background tracking-tighter font-data-tabular mb-1">{{ $k['val'] }}</div>
+            <div class="text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-60">{{ $k['sub'] }}</div>
         </div>
+        @endforeach
+    </div>
 
-        <!-- REAL-TIME MARKET CHARTS -->
-        <div class="card-premium p-6 rounded-3xl relative overflow-hidden min-h-[400px]">
-             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-                <div>
-                    <h2 class="text-headline-sm font-bold flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary">query_stats</span>
-                        Live Mineral Market Analytics
-                    </h2>
-                    <p class="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">Real-time valuation across global corridors</p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button class="px-3 py-1 bg-surface-container-highest rounded border border-outline-variant text-[10px] font-bold text-on-surface hover:text-primary transition-colors flex items-center gap-2 uppercase">
-                        <span class="material-symbols-outlined text-xs">diamond</span> Select Mineral
-                    </button>
-                    <button class="px-3 py-1 bg-surface-container-highest rounded border border-outline-variant text-[10px] font-bold text-on-surface hover:text-primary transition-colors flex items-center gap-2 uppercase">
-                        <span class="material-symbols-outlined text-xs">compare</span> Compare
-                    </button>
-                    <button class="px-3 py-1 bg-surface-container-highest rounded border border-outline-variant text-[10px] font-bold text-on-surface hover:text-primary transition-colors flex items-center gap-2 uppercase">
-                        <span class="material-symbols-outlined text-xs">download</span> Export
-                    </button>
-                    <button id="refresh-data" class="w-8 h-8 bg-surface-container-highest rounded border border-outline-variant flex items-center justify-center text-on-surface hover:text-secondary transition-all active:rotate-180">
-                         <span class="material-symbols-outlined text-sm">refresh</span>
-                    </button>
-                </div>
-             </div>
-
-             <!-- Chart Canvas Visual -->
-             <div class="h-64 w-full relative">
-                <div class="absolute inset-0 flex items-end justify-between px-2">
-                    @php $points = [62, 58, 65, 72, 68, 75, 82, 90, 88, 95, 102, 110, 105, 115, 120, 118, 125, 130, 127, 135]; @endphp
-                    @foreach($points as $idx => $p)
-                        <div class="flex-1 flex flex-col items-center justify-end h-full group/col">
-                             <div class="w-full max-w-[20px] bg-primary/10 border-t border-primary/30 rounded-t-sm transition-all duration-1000 relative {{ $idx == count($points)-1 ? 'bg-primary/40 border-primary' : '' }}" style="height: {{ $p }}px">
-                                 @if($idx == count($points)-1)
-                                    <div class="absolute -top-10 left-1/2 -translate-x-1/2 flex flex-col items-center">
-                                         <div class="bg-primary text-on-primary-container text-[8px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap mb-1">NOW</div>
-                                         <div class="w-px h-10 bg-primary animate-pulse"></div>
-                                    </div>
-                                 @endif
-                                 <div class="absolute inset-0 opacity-0 group-hover/col:opacity-100 bg-primary/20 pointer-events-none transition-opacity"></div>
-                             </div>
-                        </div>
-                    @endforeach
-                </div>
-                <!-- Grid Lines -->
-                <div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-10">
-                     @for($i=0; $i<5; $i++) <div class="w-full h-px bg-on-surface"></div> @endfor
-                </div>
-             </div>
-
-             <div class="flex justify-between mt-8 text-[10px] font-bold text-on-surface-variant/40 tracking-widest uppercase px-4 border-t border-outline-variant/30 pt-4">
-                 <span>19:00</span>
-                 <span>19:15</span>
-                 <span>19:30</span>
-                 <span class="text-primary">PRESENT (NOW)</span>
-             </div>
-        </div>
-
-        <!-- MOVABLE MINERAL INTELLIGENCE MODULE -->
-        <div class="bg-surface-container-low border border-outline-variant p-6 rounded-3xl relative min-h-[300px] overflow-hidden" id="intelligence-canvas">
-             <div class="flex justify-between items-center mb-6 z-10 relative">
-                <h2 class="text-headline-sm font-bold flex items-center gap-3">
-                    <span class="material-symbols-outlined text-secondary">drag_pan</span>
-                    Mineral Intelligence Objects
+    <!-- Center Intelligence Column -->
+    <div class="lg:col-span-8 space-y-8">
+        
+        <!-- Live Global Activity Stream (Ticker Style) -->
+        <div class="card-premium p-10 rounded-[48px] relative overflow-hidden h-[450px] flex flex-col group">
+            <div class="flex justify-between items-center mb-10 shrink-0">
+                <h2 class="text-headline-sm font-black tracking-tight text-on-background uppercase flex items-center gap-4">
+                    <span class="w-1.5 h-8 bg-primary rounded-full"></span>
+                    Operational Activity Stream
                 </h2>
+                <div class="flex gap-4">
+                     <div class="flex items-center gap-2 bg-surface-container-highest px-4 py-2 rounded-xl border border-outline-variant">
+                         <span class="w-2 h-2 rounded-full bg-secondary animate-pulse shadow-[0_0_8px_#4edea3]"></span>
+                         <span class="text-[9px] font-black text-on-surface uppercase tracking-widest">Real-time</span>
+                     </div>
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto space-y-4 pr-4 custom-scrollbar scroll-smooth" id="ticker-container">
+                 @php
+                    $events = [
+                        ['type' => 'LAB', 'msg' => 'Sample SMP-921 Initial Spectrum Scan Completed', 'time' => '12s ago', 'col' => 'secondary', 'icon' => 'analytics'],
+                        ['type' => 'TRADE', 'msg' => 'Export Request TRD-410 cleared for South Port', 'time' => '1m ago', 'col' => 'primary', 'icon' => 'lan'],
+                        ['type' => 'CERT', 'msg' => 'Lithium Assay A-14 Authorized by Chief Tech', 'time' => '4m ago', 'col' => 'secondary', 'icon' => 'verified'],
+                        ['type' => 'COMPLIANCE', 'msg' => 'AngloGold T. Ltd License Verification Success', 'time' => '12m ago', 'col' => 'primary', 'icon' => 'gavel'],
+                        ['type' => 'SYSTEM', 'msg' => 'Secure Node Sync 04 Handshake Completed', 'time' => '18m ago', 'col' => 'on-surface-variant', 'icon' => 'sync_alt'],
+                        ['type' => 'ALERT', 'msg' => 'Mismatched Gold Purity on Batch B-92 Flagged', 'time' => '22m ago', 'col' => 'error', 'icon' => 'warning'],
+                    ];
+                 @endphp
+                 @foreach($events as $e)
+                 <div class="flex items-start gap-6 p-6 bg-surface-container-low border border-outline-variant/20 rounded-3xl group/item hover:border-{{ $e['col'] }}/40 transition-all duration-500">
+                    <div class="w-12 h-12 bg-surface-container-highest border border-outline-variant rounded-2xl flex items-center justify-center text-{{ $e['col'] }} shrink-0 group-hover/item:scale-110 transition-transform">
+                         <span class="material-symbols-outlined text-2xl">{{ $e['icon'] }}</span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-1">
+                            <span class="text-[9px] font-black text-{{ $e['col'] }} uppercase tracking-widest font-data-tabular">{{ $e['type'] }}</span>
+                            <span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+                            <span class="text-[9px] font-bold text-on-surface-variant italic opacity-40">{{ $e['time'] }}</span>
+                        </div>
+                        <div class="text-[14px] font-black text-on-background uppercase tracking-tight leading-none">{{ $e['msg'] }}</div>
+                    </div>
+                    <span class="material-symbols-outlined text-xl text-white/5 opacity-0 group-hover/item:opacity-100 transition-opacity">north_east</span>
+                 </div>
+                 @endforeach
+            </div>
+        </div>
+
+        <!-- GIS Activity Map Visualization -->
+        <div class="card-premium p-10 rounded-[48px] relative overflow-hidden min-h-[500px]">
+             <div class="flex justify-between items-start mb-10 relative z-10">
+                <div>
+                     <h2 class="text-headline-sm font-black tracking-tight text-on-background uppercase mb-2">GIS Mineral Activity Map</h2>
+                     <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest opacity-60">Global mining sites and trade flow routes</p>
+                </div>
+                <button class="px-6 py-3 bg-surface-container-highest border border-outline-variant rounded-xl text-[9px] font-black uppercase tracking-widest text-on-surface hover:text-primary transition-all shadow-xl">Expand GIS Intelligence</button>
+             </div>
+
+             <!-- Mock Map Layer -->
+             <div class="absolute inset-0 bg-[#08090a] opacity-40 rounded-[48px]"></div>
+             <div class="relative h-[300px] w-full flex items-center justify-center">
+                 <div class="w-3/4 h-3/4 border border-white/5 rounded-full flex items-center justify-center animate-[spin_20s_linear_infinite] opacity-5">
+                    <div class="w-1/2 h-1/2 border border-primary/20 rounded-full"></div>
+                 </div>
+                 <!-- Map Markers -->
+                 @foreach(['top-20 left-40', 'bottom-40 left-64', 'top-40 right-48', 'bottom-20 right-20'] as $pos)
+                    <div class="absolute {{ $pos }} flex flex-col items-center gap-2 group/marker">
+                         <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/40 group-hover/marker:scale-125 transition-all">
+                             <div class="w-2 h-2 rounded-full bg-primary animate-ping"></div>
+                         </div>
+                         <div class="px-3 py-1 bg-surface-container-high border border-outline-variant rounded-full text-[8px] font-black uppercase tracking-widest whitespace-nowrap opacity-0 group-hover/marker:opacity-100 transition-opacity">SITE NODE {{ rand(10, 99) }}</div>
+                    </div>
+                 @endforeach
+             </div>
+
+             <div class="absolute bottom-10 left-10 right-10 flex justify-between items-center relative z-10 border-t border-white/5 pt-8">
+                <div class="flex gap-12">
+                     <div>
+                        <div class="text-[8px] font-black text-white/30 uppercase tracking-widest mb-1">Peak Site</div>
+                        <div class="text-xl font-black text-on-background uppercase">NORTH LAKE HUB</div>
+                     </div>
+                     <div>
+                        <div class="text-[8px] font-black text-white/30 uppercase tracking-widest mb-1">Active Flow</div>
+                        <div class="text-xl font-black text-secondary uppercase tracking-tighter">84.2/HR</div>
+                     </div>
+                </div>
                 <div class="flex gap-2">
-                    <button class="px-3 py-1 bg-surface-container-high rounded border border-outline-variant text-[10px] font-bold text-on-surface hover:text-primary transition-colors flex items-center gap-2 uppercase">
-                        <span class="material-symbols-outlined text-xs">add</span> Add Node
-                    </button>
-                    <button class="px-3 py-1 bg-surface-container-high rounded border border-outline-variant text-[10px] font-bold text-on-surface hover:text-tertiary transition-colors flex items-center gap-2 uppercase">
-                        <span class="material-symbols-outlined text-xs">restart_alt</span> Reset Layout
-                    </button>
+                     <span class="w-2 h-2 rounded-full bg-primary"></span>
+                     <span class="w-2 h-2 rounded-full bg-secondary opacity-40"></span>
+                     <span class="w-2 h-2 rounded-full bg-error opacity-40"></span>
                 </div>
-             </div>
-
-             <!-- Draggable Mineral Nodes -->
-             <div id="node-lithium" class="absolute top-20 left-20 w-48 glass p-4 rounded-2xl border border-primary/30 cursor-move z-20 hover:scale-105 transition-transform draggable-node">
-                <div class="flex justify-between items-start mb-2">
-                    <div class="text-[9px] font-bold text-primary uppercase">Active Node: LI</div>
-                    <span class="material-symbols-outlined text-xs text-on-surface-variant cursor-pointer hover:text-error">push_pin</span>
-                </div>
-                <div class="text-lg font-bold text-on-background">Lithium Carbonate</div>
-                <div class="flex justify-between mt-2 font-data-tabular">
-                    <div class="text-[10px] text-on-surface-variant">Demand: <span class="text-secondary font-bold">HIGH</span></div>
-                    <div class="text-[10px] text-on-surface-variant">Supply: <span class="text-error font-bold">LOW</span></div>
-                </div>
-                <div class="mt-2 text-xl font-bold text-primary">$14.2K <span class="text-[10px] text-secondary font-bold">↑ 2.1%</span></div>
-             </div>
-
-             <div id="node-copper" class="absolute top-40 right-20 w-48 glass p-4 rounded-2xl border border-secondary/30 cursor-move z-20 hover:scale-105 transition-transform draggable-node">
-                <div class="flex justify-between items-start mb-2">
-                    <div class="text-[9px] font-bold text-secondary uppercase">Active Node: CU</div>
-                    <span class="material-symbols-outlined text-xs text-on-surface-variant cursor-pointer">push_pin</span>
-                </div>
-                <div class="text-lg font-bold text-on-background">Copper Refined</div>
-                <div class="flex justify-between mt-2 font-data-tabular">
-                    <div class="text-[10px] text-on-surface-variant">Demand: <span class="text-on-background font-bold">STEADY</span></div>
-                    <div class="text-[10px] text-on-surface-variant">Supply: <span class="text-secondary font-bold">OPTIMAL</span></div>
-                </div>
-                <div class="mt-2 text-xl font-bold text-secondary">$8.9K <span class="text-[10px] text-on-surface-variant font-bold">~ 0.0%</span></div>
-             </div>
-             
-             <!-- Decorative GIS-like background grid -->
-             <div class="absolute inset-0 grid grid-cols-12 grid-rows-12 opacity-5 pointer-events-none">
-                @for($i=0; $i<144; $i++) <div class="border border-on-surface"></div> @endfor
              </div>
         </div>
     </div>
 
-    <!-- Right Sidebar Intelligence Layer -->
-    <div class="lg:col-span-3 space-y-6">
+    <!-- Right Sidebar Operational Metrics -->
+    <div class="lg:col-span-4 space-y-8">
         
-        <!-- COMPLIANCE PANEL (MINI) -->
-        <div class="card-premium p-5 rounded-2xl border-l-4 border-l-secondary">
-             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-label-caps font-bold text-secondary uppercase tracking-widest flex items-center gap-2">
-                    <span class="material-symbols-outlined text-sm">gavel</span>
-                    Compliance Panel
-                </h3>
+        <!-- Performance Insights Panel -->
+        <div class="bg-surface-container-low border border-outline-variant p-8 rounded-[48px] relative overflow-hidden">
+             <div class="absolute top-0 right-0 p-8 opacity-10">
+                <span class="material-symbols-outlined text-6xl">insights</span>
              </div>
-             <div class="space-y-3">
-                 <div class="p-3 bg-surface-container-high rounded border border-outline-variant relative group">
-                    <div class="text-[10px] font-bold text-primary mb-1 uppercase">New Application</div>
-                    <div class="text-[11px] font-bold">Project: North lithium Expansion</div>
-                    <div class="flex gap-2 mt-3">
-                         <button class="flex-1 py-1 bg-secondary text-on-secondary text-[8px] font-bold rounded uppercase">Approve License</button>
-                         <button class="flex-1 py-1 bg-error text-on-error text-[8px] font-bold rounded uppercase">Reject</button>
+             <h3 class="text-label-caps font-black text-on-surface-variant mb-10 tracking-[0.3em] uppercase opacity-60">Success Intelligence</h3>
+             
+             <div class="space-y-10">
+                 <div class="space-y-3">
+                    <div class="flex justify-between text-[11px] font-black uppercase tracking-widest">
+                        <span class="text-on-surface-variant">Sample Success Rate</span>
+                        <span class="text-primary font-data-tabular">98.4%</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-primary" style="width: 98.4%"></div>
                     </div>
                  </div>
-                 <button class="w-full py-1.5 bg-surface-container-lowest border border-outline-variant rounded text-[9px] font-bold uppercase tracking-widest hover:text-primary">View Full Audit Report</button>
+
+                 <div class="space-y-3">
+                    <div class="flex justify-between text-[11px] font-black uppercase tracking-widest">
+                        <span class="text-on-surface-variant">Trade Execution rate</span>
+                        <span class="text-secondary font-data-tabular">82.1%</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-secondary" style="width: 82.1%"></div>
+                    </div>
+                 </div>
+
+                 <div class="grid grid-cols-2 gap-4 pt-4">
+                    <div class="p-6 bg-surface-container-high border border-outline-variant rounded-[32px] text-center group hover:border-primary transition-all cursor-pointer">
+                        <div class="text-2xl font-black text-on-background font-data-tabular mb-1">04.2<span class="text-xs opacity-40 ml-1">H</span></div>
+                        <div class="text-[8px] font-black text-on-surface-variant uppercase tracking-widest">Avg Lab Turnaround</div>
+                    </div>
+                    <div class="p-6 bg-surface-container-high border border-outline-variant rounded-[32px] text-center group hover:border-secondary transition-all cursor-pointer">
+                        <div class="text-2xl font-black text-secondary font-data-tabular mb-1">88<span class="text-xs opacity-40 ml-1">/100</span></div>
+                        <div class="text-[8px] font-black text-on-surface-variant uppercase tracking-widest">Operational Score</div>
+                    </div>
+                 </div>
              </div>
         </div>
 
-        <!-- SECURITY & SYSTEM HEALTH -->
-        <div class="card-premium p-5 rounded-2xl border border-error/20 bg-error/5">
-             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-label-caps font-bold text-error uppercase tracking-widest flex items-center gap-2">
-                    <span class="material-symbols-outlined text-sm">security</span>
-                    Security Integrity
-                </h3>
-                <span class="w-2 h-2 rounded-full bg-error animate-pulse shadow-[0_0_8px_#ffb4ab]"></span>
+        <!-- Intelligent Alerts & Notifications Hub -->
+        <div class="card-premium p-8 rounded-[40px] border border-error/20 bg-error-[2%]">
+             <div class="flex justify-between items-center mb-10">
+                 <h3 class="text-label-caps font-black text-error tracking-[0.2em] uppercase flex items-center gap-3">
+                     <span class="material-symbols-outlined text-xl">notifications_active</span>
+                     Alert Intelligence
+                 </h3>
+                 <span class="w-10 h-10 bg-error/10 text-error rounded-xl flex items-center justify-center border border-error/20 animate-pulse">
+                     <span class="material-symbols-outlined text-xl">radar</span>
+                 </span>
              </div>
-             <div class="space-y-3">
-                <button class="w-full py-2 bg-error text-on-error rounded text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:opacity-90">
-                    <span class="material-symbols-outlined text-xs">lock</span> Lock System
-                </button>
-                <div class="p-3 bg-error/10 border border-error/20 rounded-lg">
-                    <div class="text-[11px] font-bold text-error uppercase">Anomaly Detected</div>
-                    <p class="text-[9px] text-on-surface-variant mt-1 leading-tight">Unauthorized login attempt from restricted geographic block IP: 142.12.8.xx</p>
-                    <button class="mt-2 text-[9px] font-bold text-error underline uppercase">Investigate Threat</button>
-                </div>
-             </div>
-        </div>
-
-        <!-- LIVE ACTIVITY FEED -->
-        <div class="bg-surface-container-low border border-outline-variant p-5 rounded-3xl h-[400px] flex flex-col">
-            <h3 class="text-label-caps font-bold text-on-surface-variant mb-6 uppercase tracking-[0.2em] flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">history</span>
-                Live Activity Feed
-            </h3>
-            <div class="flex-1 overflow-y-auto space-y-4 custom-scrollbar pr-2">
-                @php
-                    $activities = [
-                        ['type' => 'TRADE', 'msg' => 'Copper Shipment #4928 Verified in Port of Busan', 'time' => '1m ago', 'col' => 'primary'],
-                        ['type' => 'AUTH', 'msg' => 'Level 05 Admin Login: Dr. Vance', 'time' => '4m ago', 'col' => 'secondary'],
-                        ['type' => 'COMPLIANCE', 'msg' => 'Violation Issued: Amazon Sector G-4', 'time' => '12m ago', 'col' => 'error'],
-                        ['type' => 'MARKET', 'msg' => 'Lithium Price Surge detected +4.2%', 'time' => '18m ago', 'col' => 'secondary'],
-                        ['type' => 'SYSTEM', 'msg' => 'Global Database Sync successful', 'time' => '24m ago', 'col' => 'primary'],
+             
+             <div class="space-y-4">
+                 @php
+                    $alerts = [
+                        ['msg' => 'Suspicious Mineral Price Deviation flagged in Trade-410.', 'type' => 'CRITICAL', 'col' => 'error'],
+                        ['msg' => 'Laboratory certificate G-92 expiring in 48 hours.', 'type' => 'WARNING', 'col' => 'warning'],
                     ];
-                @endphp
-                @foreach($activities as $act)
-                <div class="flex gap-4 group">
-                    <div class="w-0.5 h-12 bg-{{ $act['col'] }}/30 group-hover:bg-{{ $act['col'] }} transition-all flex items-center justify-center">
-                         <div class="w-2 h-2 rounded-full bg-{{ $act['col'] }} shadow-[0_0_5px_#{{ $act['col'] }}]"></div>
+                 @endphp
+                 @foreach($alerts as $a)
+                 <div class="p-6 bg-surface-container-low border border-{{ $a['col'] }}/20 rounded-3xl group cursor-pointer hover:border-{{ $a['col'] }}/50 transition-all">
+                    <div class="text-[8px] font-black text-{{ $a['col'] }} uppercase tracking-widest mb-1">{{ $a['type'] }} THREAT</div>
+                    <p class="text-[11px] font-bold text-on-surface leading-tight uppercase tracking-tight">{{ $a['msg'] }}</p>
+                    <div class="mt-4 flex gap-4">
+                        <button class="text-[9px] font-black text-{{ $a['col'] }} uppercase tracking-widest underline">Resolve Node</button>
+                        <button class="text-[9px] font-black text-on-surface-variant uppercase tracking-widest">Acknowledge</button>
                     </div>
-                    <div>
-                        <div class="text-[11px] font-bold text-on-background group-hover:text-{{ $act['col'] }} transition-colors">{{ $act['msg'] }}</div>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="text-[9px] font-bold text-on-surface-variant uppercase">{{ $act['type'] }}</span>
-                            <span class="w-1 h-1 bg-outline-variant rounded-full"></span>
-                            <span class="text-[9px] text-on-surface-variant italic">{{ $act['time'] }}</span>
-                        </div>
+                 </div>
+                 @endforeach
+             </div>
+        </div>
+
+        <!-- Sovereign Identity & Compliance Summary -->
+        <div class="p-10 bg-surface-container-low border border-outline-variant rounded-[48px] space-y-8 h-fit">
+            <h3 class="text-label-caps font-black text-on-surface-variant tracking-[0.3em] uppercase opacity-60">Identity Compliance Score</h3>
+            <div class="text-center">
+                 <div class="relative inline-flex items-center justify-center">
+                    <svg class="w-24 h-24 transform -rotate-90">
+                        <circle cx="48" cy="48" r="42" stroke="currentColor" stroke-width="8" fill="transparent" class="text-surface-container-highest" />
+                        <circle cx="48" cy="48" r="42" stroke="currentColor" stroke-width="8" fill="transparent" stroke-dasharray="263.8" stroke-dashoffset="15.8" class="text-secondary" />
+                    </svg>
+                    <div class="absolute text-center">
+                        <div class="text-2xl font-black text-on-background font-data-tabular">94</div>
+                        <div class="text-[7px] font-black text-secondary tracking-widest uppercase">OPTIMAL</div>
                     </div>
-                </div>
-                @endforeach
+                 </div>
+                 <div class="mt-8 text-[9px] font-black text-on-surface-variant uppercase tracking-widest opacity-60 leading-relaxed px-4">
+                    Your institutional compliance rating is currently 94.2. Regulatory audits are synchronized across nodes.
+                 </div>
             </div>
-            <div class="pt-4 border-t border-outline-variant/30 mt-4 flex gap-2">
-                <button class="flex-1 py-2 bg-surface-container-high rounded text-[9px] font-bold uppercase tracking-widest border border-outline-variant hover:text-primary">Search Logs</button>
-                 <button class="flex-1 py-2 bg-surface-container-high rounded text-[9px] font-bold uppercase tracking-widest border border-outline-variant hover:text-primary">Export Logs</button>
-            </div>
+            <button class="w-full py-4 bg-surface-container-high border border-outline-variant rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] text-on-surface hover:text-secondary transition-all">
+                Full Regulatory Brief
+            </button>
         </div>
     </div>
 </div>
 
 <script>
-    // Real-time time display
-    function updateLiveTime() {
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString('en-GB') + ' GMT+3';
-        const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+    // Live Ticker Data Simulation Heartbeat
+    setInterval(() => {
+        const stream = document.getElementById('ticker-container');
+        const firstItem = stream.children[0];
+        const clone = firstItem.cloneNode(true);
         
-        document.getElementById('current-time').textContent = timeStr;
-        document.getElementById('current-date').textContent = dateStr;
-    }
-    setInterval(updateLiveTime, 1000);
-    updateLiveTime();
+        // Randomize the time for effect
+        clone.querySelector('.italic').textContent = Math.floor(Math.random() * 60) + 's ago';
+        
+        stream.appendChild(clone);
+        stream.removeChild(firstItem);
+    }, 4000);
 
-    // Movable Nodes Logic (Simple Native implementation)
-    document.querySelectorAll('.draggable-node').forEach(node => {
-        let isDragging = false;
-        let startX, startY, initialLeft, initialTop;
-
-        node.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            startX = e.clientX;
-            startY = e.clientY;
-            initialLeft = node.offsetLeft;
-            initialTop = node.offsetTop;
-            node.style.zIndex = 1000;
+    // GIS Map Pulse
+    setInterval(() => {
+        const markers = document.querySelectorAll('.animate-ping');
+        markers.forEach(m => {
+            m.style.opacity = Math.random() > 0.5 ? '1' : '0.5';
         });
-
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            const dx = e.clientX - startX;
-            const dy = e.clientY - startY;
-            node.style.left = (initialLeft + dx) + 'px';
-            node.style.top = (initialTop + dy) + 'px';
-        });
-
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            node.style.zIndex = 20;
-        });
-    });
-
-    // Refresh Data simulation
-    document.getElementById('refresh-data').addEventListener('click', function() {
-        const bars = document.querySelectorAll('.group\/col div:first-child');
-        bars.forEach(bar => {
-            const h = Math.floor(Math.random() * 100) + 50;
-            bar.style.height = h + 'px';
-        });
-        updateLiveTime();
-    });
+    }, 1000);
 </script>
-
-<style>
-    .glass {
-        background: rgba(18, 20, 23, 0.85);
-        backdrop-filter: blur(12px);
-    }
-    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #343537; border-radius: 2px; }
-    
-    #intelligence-canvas {
-        background-image: 
-            radial-gradient(circle at 10% 20%, rgba(77, 142, 255, 0.05) 0%, transparent 20%),
-            radial-gradient(circle at 80% 90%, rgba(79, 222, 163, 0.05) 0%, transparent 20%);
-    }
-</style>
 @endsection

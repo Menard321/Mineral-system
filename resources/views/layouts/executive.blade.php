@@ -97,61 +97,86 @@
     </div>
 
     <div class="flex flex-1 overflow-hidden">
-        <!-- Executive Sidebar (Intelligence Only, No Admin Links) -->
-        <aside class="w-64 border-r border-white/5 bg-surface flex flex-col py-6 overflow-y-auto">
-            <div class="px-6 mb-8">
-                 <div class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-2 font-label-caps">Main Command</div>
+        <!-- Fintech-Grade Intelligence Sidebar -->
+        <aside class="w-64 border-r border-white/5 bg-surface flex flex-col py-6 overflow-y-auto shrink-0 shadow-[20px_0_40px_rgba(0,0,0,0.4)]">
+            <div class="px-6 mb-10">
+                 <div class="text-[9px] font-black text-white/30 uppercase tracking-[0.4em] mb-4 font-label-caps flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-primary/40"></span>
+                    Operational Core
+                 </div>
             </div>
-            <nav class="space-y-1">
-                <a href="/" class="flex items-center gap-4 px-6 py-3 transition-all {{ Request::is('/') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
-                    <span class="material-symbols-outlined text-lg">home</span>
-                    <span class="text-[11px] font-bold uppercase tracking-widest font-label-caps">Market Dashboard</span>
+            
+            <nav class="space-y-0.5 px-3">
+                <a href="/dashboard" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('dashboard') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
+                    <span class="material-symbols-outlined text-xl">grid_view</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest">Dashboard</span>
                 </a>
-                <a href="/mineral-atlas" class="flex items-center gap-4 px-6 py-3 transition-all {{ Request::is('mineral-atlas') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
-                    <span class="material-symbols-outlined text-lg">public</span>
-                    <span class="text-[11px] font-bold uppercase tracking-widest font-label-caps">Intelligence Atlas</span>
+                
+                <a href="/samples" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('samples*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
+                    <span class="material-symbols-outlined text-xl">science</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest">Samples Center</span>
                 </a>
-                <a href="/intelligence-map" class="flex items-center gap-4 px-6 py-3 transition-all {{ Request::is('intelligence-map') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
-                    <span class="material-symbols-outlined text-lg">map</span>
-                    <span class="text-[11px] font-bold uppercase tracking-widest font-label-caps">Global MAP</span>
+
+                <a href="/trade" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('trade*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
+                    <span class="material-symbols-outlined text-xl">currency_exchange</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest">Trade Intel</span>
                 </a>
-                <a href="/trade-oversight" class="flex items-center gap-4 px-6 py-3 transition-all {{ Request::is('trade-oversight') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
-                    <span class="material-symbols-outlined text-lg">currency_exchange</span>
-                    <span class="text-[11px] font-bold uppercase tracking-widest font-label-caps">Trade Oversight</span>
+
+                <a href="/certificates" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('certificates*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
+                    <span class="material-symbols-outlined text-xl">workspace_premium</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest">Certificates</span>
                 </a>
-                <a href="/mineral-governance" class="flex items-center gap-4 px-6 py-3 transition-all {{ Request::is('mineral-governance') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
-                    <span class="material-symbols-outlined text-lg">diamond</span>
-                    <span class="text-[11px] font-bold uppercase tracking-widest font-label-caps">Mineral Registry</span>
+
+                <a href="/user-analytics" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('user-analytics*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
+                    <span class="material-symbols-outlined text-xl">analytics</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest">Analytics</span>
                 </a>
-                <a href="/analytics" class="flex items-center gap-4 px-6 py-3 transition-all {{ Request::is('analytics') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
-                    <span class="material-symbols-outlined text-lg">query_stats</span>
-                    <span class="text-[11px] font-bold uppercase tracking-widest font-label-caps">Analytics</span>
+
+                <a href="/business" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('business*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
+                    <span class="material-symbols-outlined text-xl">business</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest">Business Hub</span>
                 </a>
-                <a href="/compliance" class="flex items-center gap-4 px-6 py-3 transition-all {{ Request::is('compliance') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
-                    <span class="material-symbols-outlined text-lg">gavel</span>
-                    <span class="text-[11px] font-bold uppercase tracking-widest font-label-caps">Compliance</span>
+
+                <a href="/investor" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('investor*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
+                    <span class="material-symbols-outlined text-xl">attach_money</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest">Investor Hub</span>
                 </a>
-                <a href="/laboratory" class="flex items-center gap-4 px-6 py-3 transition-all {{ Request::is('laboratory') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
-                    <span class="material-symbols-outlined text-lg">science</span>
-                    <span class="text-[11px] font-bold uppercase tracking-widest font-label-caps">Laboratory</span>
+
+                <div class="h-px bg-white/5 mx-5 my-6"></div>
+                <div class="px-5 mb-4">
+                    <div class="text-[9px] font-black text-white/30 uppercase tracking-[0.4em] font-label-caps">Compliance & Safety</div>
+                </div>
+
+                <a href="/vault" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('vault*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
+                    <span class="material-symbols-outlined text-xl">folder_managed</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest">Doc Vault</span>
+                </a>
+
+                <a href="/compliance-status" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('compliance-status*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
+                    <span class="material-symbols-outlined text-xl">gavel</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest">Compliance</span>
+                </a>
+
+                <a href="/user-alerts" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('user-alerts*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
+                    <span class="material-symbols-outlined text-xl">notifications_active</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest">Alerts Center</span>
+                </a>
+
+                <div class="h-px bg-white/5 mx-5 my-6"></div>
+
+                <a href="/profile" class="flex items-center gap-4 px-5 py-3.5 rounded-xl transition-all {{ Request::is('profile*') ? 'executive-sidebar-active' : 'text-white/40 hover:text-white hover:bg-white/5' }}">
+                    <span class="material-symbols-outlined text-xl">account_circle</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest">Security Profile</span>
                 </a>
             </nav>
             
-            <div class="mt-auto px-6 py-8 space-y-4">
-                 <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                     <div class="text-[9px] font-bold text-white/30 uppercase mb-2 font-label-caps tracking-widest">Access Status</div>
-                     <div class="flex items-center justify-between">
-                         <div class="text-[10px] font-bold text-secondary uppercase font-label-caps">{{ Auth::user()->is_admin ? 'SOVEREIGN DIRECTOR' : 'EXECUTIVE OFFICER' }}</div>
-                         <div class="w-2 h-2 rounded-full bg-secondary animate-pulse shadow-[0_0_8px_#4edea3]"></div>
-                     </div>
-                 </div>
-
-                 <!-- Institutional Logout Terminal -->
+            <div class="mt-auto px-6 py-10 space-y-4">
+                 <!-- Sovereign Logout Terminal -->
                  <form action="{{ route('logout') }}" method="POST" class="w-full">
                     @csrf
-                    <button type="submit" class="w-full flex items-center gap-4 px-6 py-4 bg-red-500/5 border border-red-500/10 text-red-500/60 rounded-xl hover:bg-red-500 hover:text-white hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] transition-all cursor-pointer group">
-                        <span class="material-symbols-outlined text-lg group-hover:rotate-180 transition-transform duration-500">logout</span>
-                        <span class="text-[11px] font-bold uppercase tracking-widest font-label-caps">Terminate Session</span>
+                    <button type="submit" class="w-full h-12 flex items-center justify-center gap-3 bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-[0_10px_30px_rgba(239,68,68,0.2)] group cursor-pointer">
+                        <span class="material-symbols-outlined text-lg group-hover:rotate-180 transition-transform duration-700">power_settings_new</span>
+                        <span class="text-[10px] font-black uppercase tracking-[0.2em]">Terminate Node</span>
                     </button>
                  </form>
             </div>

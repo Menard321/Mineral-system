@@ -126,3 +126,18 @@ Route::middleware(['web'])->group(function () {
         Route::get('/configuration', function () use ($protect) { return $protect('configuration'); })->name('admin.configuration');
     });
 });
+
+// ─── USER / EXECUTIVE PORTAL ROUTES ───────────────────────────────────────
+Route::middleware(['auth'])->group(function () {
+    Route::get('/business', fn() => view('business_center'))->name('user.business');
+    Route::get('/investor', fn() => view('investor_center'))->name('user.investor');
+    Route::get('/profile', fn() => view('profile'))->name('user.profile');
+
+    Route::get('/samples', fn() => view('generaldashboard'))->name('user.samples');
+    Route::get('/trade', fn() => view('generaldashboard'))->name('user.trade');
+    Route::get('/certificates', fn() => view('generaldashboard'))->name('user.certificates');
+    Route::get('/user-analytics', fn() => view('generaldashboard'))->name('user.analytics');
+    Route::get('/vault', fn() => view('generaldashboard'))->name('user.vault');
+    Route::get('/compliance-status', fn() => view('generaldashboard'))->name('user.compliance');
+    Route::get('/user-alerts', fn() => view('alerts_center'))->name('user.alerts');
+});
