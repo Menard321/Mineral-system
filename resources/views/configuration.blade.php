@@ -1,168 +1,234 @@
 @extends('layouts.admin')
 
-@section('title', 'GMITE - System Configuration')
+@section('title', 'GMITE - System Governance & Settings')
 
 @section('content')
-<div class="flex justify-between items-center mb-8">
-    <div class="flex items-center gap-5">
-        <div class="w-14 h-14 bg-surface-container-high border border-outline-variant rounded-2xl flex items-center justify-center">
-            <span class="material-symbols-outlined text-primary text-3xl">settings_suggest</span>
+<div class="max-w-6xl mx-auto">
+    <!-- Governance Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+        <div class="flex items-center gap-6">
+            <div class="w-16 h-16 bg-surface-container-low border border-primary/30 rounded-2xl flex items-center justify-center text-primary shadow-2xl relative overflow-hidden group">
+                 <div class="absolute inset-0 bg-primary/5 animate-pulse"></div>
+                 <span class="material-symbols-outlined text-4xl relative z-10 group-hover:rotate-90 transition-transform duration-700">settings</span>
+            </div>
+            <div>
+                 <h1 class="text-display-lg font-black text-on-background tracking-tighter uppercase leading-none">System Governance</h1>
+                 <p class="text-[11px] text-on-surface-variant font-bold tracking-[0.3em] uppercase mt-2 opacity-60">National Configuration Engine [SID-880]</p>
+            </div>
         </div>
-        <div>
-            <h1 class="text-display-lg font-bold text-on-background tracking-tighter">System Configuration</h1>
-            <p class="text-body-md text-on-surface-variant uppercase tracking-widest text-[10px] font-bold">Root Environment Control Console</p>
+        <div class="flex items-center gap-4">
+             <button onclick="triggerExecutiveAction('Cloud Backup Initiation')" class="px-6 py-3 bg-primary/10 text-primary border border-primary/30 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-all flex items-center gap-3">
+                <span class="material-symbols-outlined text-sm">cloud_upload</span>
+                Manual Backup
+             </button>
+             <button onclick="triggerExecutiveAction('High Security Commit')" class="px-6 py-3 bg-primary text-on-primary-container rounded-xl font-black text-[10px] uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all flex items-center gap-3 shadow-lg shadow-primary/20">
+                <span class="material-symbols-outlined text-sm">save</span>
+                Commit Changes
+             </button>
         </div>
     </div>
-    <div class="flex gap-3">
-         <button class="bg-surface-container-high px-6 py-2.5 rounded-xl border border-outline-variant text-[11px] font-bold hover:bg-surface-container-highest transition-all uppercase tracking-widest flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm">history</span>
-            Config History
-        </button>
-        <button class="btn-primary flex items-center gap-2 shadow-lg shadow-primary/20">
-            <span class="material-symbols-outlined text-sm">save</span>
-            Save All Changes
-        </button>
-    </div>
-</div>
 
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-20">
-    <div class="lg:col-span-2 space-y-8">
-        <!-- API & Integration -->
-        <div class="card-premium p-8 rounded-3xl">
-            <h2 class="text-headline-sm font-bold mb-8 flex items-center gap-3">
-                <span class="material-symbols-outlined text-primary">api</span>
-                API & External Integrations
-            </h2>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <!-- Sidebar Settings Nav -->
+        <div class="lg:col-span-3 space-y-2">
+            @php
+                $sections = [
+                    ['id' => 'core', 'label' => 'Core Logistics', 'icon' => 'dynamic_form'],
+                    ['id' => 'security', 'label' => 'Auth & Security', 'icon' => 'gpp_good'],
+                    ['id' => 'integrations', 'label' => 'API Integrations', 'icon' => 'hub'],
+                    ['id' => 'workflow', 'label' => 'Workflow Engine', 'icon' => 'schema'],
+                    ['id' => 'modules', 'label' => 'Module Control', 'icon' => 'view_module'],
+                    ['id' => 'backup', 'label' => 'Disaster Recovery', 'icon' => 'settings_backup_restore'],
+                ];
+            @endphp
+            @foreach($sections as $s)
+            <div class="flex items-center gap-4 px-6 py-4 rounded-2xl cursor-pointer transition-all {{ $s['id'] == 'core' ? 'bg-primary/10 text-primary border border-primary/20 shadow-lg' : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface' }}" onclick="scrollToSection('{{ $s['id'] }}')">
+                <span class="material-symbols-outlined text-xl">{{ $s['icon'] }}</span>
+                <span class="text-[11px] font-black uppercase tracking-widest">{{ $s['label'] }}</span>
+            </div>
+            @endforeach
             
-            <div class="space-y-6">
+            <div class="pt-10 px-6">
+                <div class="p-6 bg-error/5 border border-error/20 rounded-3xl">
+                    <h4 class="text-[9px] font-black text-error uppercase tracking-widest mb-2 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[14px]">history_edu</span> Change Registry
+                    </h4>
+                    <p class="text-[8px] font-bold text-on-surface-variant leading-relaxed uppercase opacity-60">All modifications are cryptographically logged with SID-880 auth signature.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Configuration Panel -->
+        <div class="lg:col-span-9 space-y-12 pb-32 h-[800px] overflow-y-auto pr-6 custom-scrollbar scroll-smooth">
+            
+            <!-- CORE LOGISTICS -->
+            <section id="core" class="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <div class="flex items-center gap-4">
+                    <div class="w-1.5 h-6 bg-primary rounded-full"></div>
+                    <h2 class="text-headline-sm font-black tracking-tight text-on-background uppercase">Core System Logistics</h2>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Gateway Endpoint</label>
-                        <input type="text" value="https://api.gmite-ecosystem.gov/v4/secure" class="w-full bg-surface-container-high border border-outline-variant rounded-lg p-3 text-xs font-data-tabular text-primary outline-none focus:border-primary transition-all"/>
+                    <div class="form-group">
+                        <label class="form-label">Government System Name</label>
+                        <input type="text" class="form-input" value="GMITE Executive Terminal">
                     </div>
-                     <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Authentication Protocol</label>
-                        <select class="w-full bg-surface-container-high border border-outline-variant rounded-lg p-3 text-xs font-bold text-on-surface outline-none">
-                            <option>mTLS (Government Grade)</option>
-                            <option>OAuth 2.1 + PKCE</option>
-                            <option>LDAP / Active Directory</option>
+                    <div class="form-group">
+                        <label class="form-label">Sovereign Organization</label>
+                        <input type="text" class="form-input" value="Ministry of Minerals - Tanzania">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Base Economic Currency</label>
+                        <select class="form-input">
+                            <option>TSH (Tanzanian Shilling)</option>
+                            <option>USD (United States Dollar)</option>
+                            <option>EUR (Euro)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Regional System Timezone</label>
+                        <select class="form-input">
+                            <option>EAT (East Africa Time) - GMT+3</option>
+                            <option>CAT (Central Africa Time)</option>
                         </select>
                     </div>
                 </div>
+            </section>
 
-                <div class="p-4 bg-surface-container-low border border-outline-variant/30 rounded-xl flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="w-8 h-8 rounded bg-secondary/10 flex items-center justify-center text-secondary border border-secondary/20 font-bold text-[10px]">UP</div>
-                        <div>
-                            <div class="text-[11px] font-bold text-on-background uppercase">World Bank Data Sync</div>
-                            <div class="text-[10px] text-on-surface-variant">Last successful heartbeat: 42s ago</div>
+            <!-- AUTH & SECURITY -->
+            <section id="security" class="space-y-8">
+                <div class="flex items-center gap-4">
+                    <div class="w-1.5 h-6 bg-secondary rounded-full"></div>
+                    <h2 class="text-headline-sm font-black tracking-tight text-on-background uppercase">Security Enforcement Policy</h2>
+                </div>
+                <div class="bg-surface-container-low p-8 rounded-[40px] border border-outline-variant/30 space-y-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <div class="space-y-6">
+                            <h3 class="text-[10px] font-black text-secondary uppercase tracking-[0.2em]">Authentication Protocols</h3>
+                            <div class="space-y-4">
+                                <label class="flex items-center justify-between p-4 bg-surface-container-high rounded-2xl transition-all cursor-pointer hover:bg-secondary/10 group">
+                                    <span class="text-[11px] font-bold text-on-surface uppercase tracking-widest opacity-80 group-hover:opacity-100">Enforce Multi-Factor (MFA)</span>
+                                    <div class="w-10 h-5 bg-secondary/20 rounded-full relative p-1"><div class="absolute right-1 top-1 w-3 h-3 bg-secondary rounded-full shadow-lg"></div></div>
+                                </label>
+                                <label class="flex items-center justify-between p-4 bg-surface-container-high rounded-2xl transition-all cursor-pointer hover:bg-secondary/10 group">
+                                    <span class="text-[11px] font-bold text-on-surface uppercase tracking-widest opacity-80 group-hover:opacity-100">Zero-Trust IP Whitelisting</span>
+                                    <div class="w-10 h-5 bg-secondary/20 rounded-full relative p-1"><div class="absolute right-1 top-1 w-3 h-3 bg-secondary rounded-full shadow-lg"></div></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="space-y-6">
+                            <h3 class="text-[10px] font-black text-secondary uppercase tracking-[0.2em]">Session Governance</h3>
+                            <div class="form-group">
+                                <label class="form-label">Auto-Lock Session Timeout</label>
+                                <select class="form-input">
+                                    <option>15 Minutes (High Security)</option>
+                                    <option>30 Minutes</option>
+                                    <option>1 Hour</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <button class="text-[10px] font-bold text-primary px-3 py-1 hover:bg-primary/10 rounded">RE-SYNC</button>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- Security Policies -->
-        <div class="card-premium p-8 rounded-3xl relative overflow-hidden">
-            <div class="absolute right-0 top-0 p-8">
-                 <span class="material-symbols-outlined text-error opacity-10 text-6xl">verified_user</span>
-            </div>
-            <h2 class="text-headline-sm font-bold mb-8 flex items-center gap-3">
-                <span class="material-symbols-outlined text-error">admin_panel_settings</span>
-                Security Enforcement Policies
-            </h2>
-
-            <div class="space-y-6">
-                <div class="flex items-center justify-between group">
-                    <div class="flex-1">
-                        <div class="text-[13px] font-bold text-on-background">Multi-Level Institutional Approval</div>
-                        <p class="text-[11px] text-on-surface-variant">Require dual-key signature for mineral registry entry approval levels 04 and above.</p>
+            <!-- API INTEGRATIONS -->
+            <section id="integrations" class="space-y-8">
+                <div class="flex items-center gap-4">
+                    <div class="w-1.5 h-6 bg-primary rounded-full"></div>
+                    <h2 class="text-headline-sm font-black tracking-tight text-on-background uppercase">Sovereign API Gateways</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    @php
+                        $apis = [
+                            ['name' => 'Lab-XRF Node', 'status' => 'CONNECTED', 'sync' => '2m ago', 'col' => 'secondary'],
+                            ['name' => 'Customs-Link', 'status' => 'STANDBY', 'sync' => '1h ago', 'col' => 'primary'],
+                            ['name' => 'Gov-Notify SMS', 'status' => 'ERROR', 'sync' => 'Check Logs', 'col' => 'error'],
+                        ];
+                    @endphp
+                    @foreach($apis as $api)
+                    <div class="p-6 bg-surface-container-low border border-outline-variant rounded-3xl group cursor-pointer hover:border-{{ $api['col'] }} transition-all">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="w-10 h-10 bg-surface-container-highest rounded-xl flex items-center justify-center text-on-surface-variant group-hover:text-{{ $api['col'] }} transition-all">
+                                <span class="material-symbols-outlined text-xl">hub</span>
+                            </div>
+                            <span class="bg-{{ $api['col'] }}/10 text-{{ $api['col'] }} text-[7px] font-black px-2 py-1 rounded border border-{{ $api['col'] }}/20">{{ $api['status'] }}</span>
+                        </div>
+                        <div class="text-[12px] font-black text-on-background uppercase mb-1">{{ $api['name'] }}</div>
+                        <div class="text-[8px] font-bold text-on-surface-variant uppercase tracking-widest opacity-60">Last Sync: {{ $api['sync'] }}</div>
                     </div>
-                    <div class="w-12 h-6 bg-secondary/20 rounded-full relative border border-secondary/30 cursor-pointer">
-                         <div class="absolute right-1 top-1 w-4 h-4 bg-secondary rounded-full shadow-[0_0_8px_#4edea3]"></div>
+                    @endforeach
+                </div>
+            </section>
+
+            <!-- MODULE CONTROL -->
+            <section id="modules" class="space-y-8">
+                <div class="flex items-center gap-4">
+                    <div class="w-1.5 h-6 bg-error rounded-full"></div>
+                    <h2 class="text-headline-sm font-black tracking-tight text-on-background uppercase">System Module Governance</h2>
+                </div>
+                <div class="bg-surface-container-high p-8 rounded-[40px] border border-outline-variant/30">
+                    <p class="text-[10px] font-black text-error uppercase tracking-[0.2em] mb-8 animate-pulse">CRITICAL: Toggling modules affects national operations.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach(['Laboratory HUB', 'Trade Market', 'Intelligence Map', 'Compliance Center', 'Executive Dashboard', 'Audit Terminal'] as $module)
+                        <label class="p-6 bg-surface-container-low border border-outline-variant rounded-3xl flex items-center justify-between cursor-pointer group hover:border-primary transition-all">
+                             <span class="text-[11px] font-black text-on-surface uppercase tracking-widest">{{ $module }}</span>
+                             <div class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" checked class="sr-only peer">
+                                <div class="w-11 h-6 bg-white/5 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface-variant/40 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container peer-checked:after:bg-primary"></div>
+                             </div>
+                        </label>
+                        @endforeach
                     </div>
                 </div>
+            </section>
 
-                <div class="h-px bg-outline-variant/20"></div>
-
-                <div class="flex items-center justify-between group">
-                    <div class="flex-1">
-                        <div class="text-[13px] font-bold text-on-background">Global Trade Firewall</div>
-                        <p class="text-[11px] text-on-surface-variant">Automatically pause trades exceeding $50M value until manual Level 05 review.</p>
+            <!-- DISASTER RECOVERY -->
+            <section id="backup" class="space-y-8 mb-20">
+                <div class="flex items-center gap-4">
+                    <div class="w-1.5 h-6 bg-secondary rounded-full"></div>
+                    <h2 class="text-headline-sm font-black tracking-tight text-on-background uppercase">Sovereign Recovery & Backup</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="p-8 bg-surface-container-low border border-white/5 rounded-[40px] relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <h3 class="text-lg font-black text-on-background uppercase tracking-tighter mb-4">Daily Backup Cycle</h3>
+                        <div class="flex items-baseline gap-2 mb-6">
+                            <div class="text-3xl font-black text-secondary font-data-tabular">24H</div>
+                            <div class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Interval Active</div>
+                        </div>
+                        <p class="text-[10px] text-on-surface-variant font-bold leading-relaxed opacity-60 uppercase tracking-wide mb-8">
+                            Automated synchronization with national mineral cloud storage. Next sync in 04:12:00.
+                        </p>
+                        <button class="px-8 py-3 bg-secondary text-on-secondary-container rounded-xl font-black text-[10px] uppercase tracking-widest hover:brightness-110 transition-all">Config Schedule</button>
                     </div>
-                    <div class="w-12 h-6 bg-secondary/20 rounded-full relative border border-secondary/30 cursor-pointer">
-                         <div class="absolute right-1 top-1 w-4 h-4 bg-secondary rounded-full"></div>
+                    <div class="p-8 bg-surface-container-low border border-white/5 rounded-[40px] space-y-6">
+                        <h3 class="text-lg font-black text-on-background uppercase tracking-tighter">Disaster Recovery Mode</h3>
+                        <div class="flex items-center gap-4 text-error">
+                            <span class="material-symbols-outlined text-4xl animate-pulse">lock_person</span>
+                            <div class="text-[10px] font-black uppercase tracking-widest leading-loose">
+                                Activating this locks all external traffic and launches the system from the latest SID-Certified snapshot.
+                            </div>
+                        </div>
+                        <button class="w-full py-4 border-2 border-dashed border-error/40 text-error rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-error hover:text-white transition-all">Launch Recovery Protocol</button>
                     </div>
                 </div>
-
-                <div class="h-px bg-outline-variant/20"></div>
-
-                <div class="flex items-center justify-between group">
-                    <div class="flex-1">
-                        <div class="text-[13px] font-bold text-on-background text-error">Intrusion Auto-Lockdown</div>
-                        <p class="text-[11px] text-on-surface-variant">Revoke all active tokens if brute force threshold is breached in the 0.01% range.</p>
-                    </div>
-                    <div class="w-12 h-6 bg-error/20 rounded-full relative border border-error/30 cursor-pointer">
-                         <div class="absolute right-1 top-1 w-4 h-4 bg-error rounded-full"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <button class="mt-8 px-6 py-2 bg-error/10 text-error border border-error/20 rounded text-[11px] font-bold uppercase tracking-widest hover:bg-error hover:text-on-error transition-all">Update Security Rules</button>
-        </div>
-    </div>
-
-    <!-- Maintenance & Database -->
-    <div class="space-y-6">
-        <div class="bg-surface-container-low border border-outline-variant p-6 rounded-3xl">
-             <h3 class="text-label-caps font-bold text-on-surface-variant mb-6 uppercase flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">database</span>
-                Database & Redundancy
-             </h3>
-             
-             <div class="space-y-6">
-                <div class="p-4 bg-surface-container-high rounded-2xl border border-outline-variant">
-                    <div class="flex justify-between items-center mb-2">
-                         <span class="text-[10px] font-bold text-primary uppercase">Postgres Cluster</span>
-                         <span class="text-[9px] font-bold text-secondary">ACTIVE</span>
-                    </div>
-                     <div class="text-lg font-bold text-on-background font-data-tabular">2.4 TB / 10 TB</div>
-                     <div class="w-full bg-surface-container-lowest h-1 mt-3 rounded-full overflow-hidden">
-                        <div class="h-full bg-primary" style="width: 24%"></div>
-                     </div>
-                </div>
-
-                 <div class="grid grid-cols-2 gap-3">
-                    <button class="py-3 bg-surface-container-highest rounded-xl border border-outline-variant flex flex-col items-center gap-2 group hover:border-primary transition-all">
-                        <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">backup</span>
-                        <span class="text-[9px] font-bold uppercase">Backup Now</span>
-                    </button>
-                     <button class="py-3 bg-surface-container-highest rounded-xl border border-outline-variant flex flex-col items-center gap-2 group hover:border-tertiary transition-all">
-                        <span class="material-symbols-outlined text-on-surface-variant group-hover:text-tertiary transition-colors">restore</span>
-                        <span class="text-[9px] font-bold uppercase">Restore</span>
-                    </button>
-                </div>
-             </div>
-        </div>
-
-        <div class="bg-surface-container-low border border-outline-variant p-6 rounded-3xl border-l-4 border-l-tertiary">
-             <h3 class="text-label-caps font-bold text-tertiary mb-6 uppercase flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">emergency_home</span>
-                Critical System Reset
-             </h3>
-             <p class="text-[10px] text-on-surface-variant mb-6 leading-relaxed">Resetting the system environment will wipe all temporary caches and re-initialize API handshakes. Use only during major updates.</p>
-             <button class="w-full py-2 border border-tertiary/30 text-tertiary rounded text-[10px] font-bold uppercase tracking-widest hover:bg-tertiary hover:text-on-tertiary-container transition-all">Reset System Environment</button>
-        </div>
-
-        <div class="card-premium p-6 rounded-3xl flex flex-col items-center text-center">
-             <div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 border border-outline-variant">
-                  <span class="material-symbols-outlined text-on-surface-variant">terminal</span>
-             </div>
-             <div class="text-[11px] font-bold text-on-background uppercase mb-1">Console Access</div>
-             <p class="text-[10px] text-on-surface-variant px-4">Remote SSH access is currently locked to approved static IPs only.</p>
-             <button class="mt-6 text-[10px] font-bold text-primary hover:underline uppercase">Manage Static IPs</button>
+            </section>
         </div>
     </div>
 </div>
+
+<style>
+    .form-group { @apply space-y-2; }
+    .form-label { @apply text-[10px] font-black text-on-surface-variant uppercase tracking-[0.2em] block ml-4; }
+    .form-input { 
+        @apply w-full bg-surface-container-high border border-outline-variant rounded-2xl px-6 py-4 text-sm font-bold text-on-background focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-on-surface-variant/30; 
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #343537; border-radius: 4px; }
+</style>
+
+<script>
+    function scrollToSection(id) {
+        document.getElementById(id).scrollIntoView({behavior: 'smooth'});
+    }
+</script>
 @endsection

@@ -68,7 +68,7 @@ Route::post('/admin/authenticate', function (Request $request) {
     $password = $request->input('password');
 
     // Specified Admin Credentials
-    if ($username === 'GMITE mineral' && $password === '@menard123') {
+    if ($username === 'gmiteadmin@gmail.com' && $password === '@menard123') {
         session(['admin_authenticated' => true]);
         return redirect('/admin/dashboard');
     }
@@ -99,12 +99,30 @@ Route::middleware(['web'])->group(function () {
         Route::get('/', function () { return redirect('/admin/dashboard'); });
         
         Route::get('/dashboard', function () use ($protect) {
-            return $protect('dashboard'); // Admin-only management dashboard
+            return $protect('dashboard'); // General Admin Overview
         })->name('admin.dashboard');
 
-        Route::get('/users', function () use ($protect) { return $protect('users'); });
-        Route::get('/security', function () use ($protect) { return $protect('security'); });
+        Route::get('/control-center', function () use ($protect) {
+            return $protect('control_center'); // Specialized Mission Control
+        })->name('admin.control_center');
+
+        Route::get('/trade-market', function () use ($protect) {
+            return $protect('trade_market'); // Sovereign Market Hub
+        })->name('admin.trade_market');
+
+        Route::get('/analytics', function () use ($protect) {
+            return $protect('analytics'); // National Data Intelligence
+        })->name('admin.analytics');
+
+        Route::get('/compliance', function () use ($protect) {
+            return $protect('compliance'); // Regulatory Enforcement
+        })->name('admin.compliance');
+
+        Route::get('/laboratory', function () use ($protect) { return $protect('laboratory'); })->name('admin.laboratory');
+        Route::get('/laboratory/registration', function () use ($protect) { return $protect('laboratory_registration'); })->name('admin.laboratory.registration');
+        Route::get('/users', function () use ($protect) { return $protect('users_management'); })->name('admin.users_management');
+        Route::get('/alerts-center', function () use ($protect) { return $protect('alerts_center'); })->name('admin.alerts_center');
         Route::get('/reporting', function () use ($protect) { return $protect('reporting'); });
-        Route::get('/configuration', function () use ($protect) { return $protect('configuration'); });
+        Route::get('/configuration', function () use ($protect) { return $protect('configuration'); })->name('admin.configuration');
     });
 });

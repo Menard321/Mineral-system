@@ -1,247 +1,238 @@
-@extends('layouts.executive')
+@extends('layouts.admin')
 
-@section('title', 'GMITE - Global Analytics Intelligence')
+@section('title', 'GMITE - National Mineral Intelligence')
 
 @section('content')
+<!-- Analytics Executive Header -->
 <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
-    <div>
-        <h1 class="text-display-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary tracking-tighter">Global Analytics Dashboard</h1>
-        <p class="text-body-md text-on-surface-variant flex items-center gap-2">
-            AI-Driven Mineral Intelligence & Forecasting Network
-            <span class="px-2 py-0.5 bg-primary/10 text-primary rounded text-[9px] font-bold border border-primary/20 uppercase tracking-widest">Enterprise Mode</span>
-        </p>
+    <div class="flex items-center gap-6">
+        <div class="relative group">
+            <div class="absolute inset-0 bg-primary/20 rounded-2xl blur-2xl group-hover/brief:bg-primary/40 transition-all duration-700"></div>
+            <div class="relative w-20 h-20 bg-surface-container-low border border-primary/40 rounded-[28px] flex items-center justify-center text-primary shadow-2xl">
+                 <span class="material-symbols-outlined text-4xl animate-pulse">query_stats</span>
+            </div>
+        </div>
+        <div>
+             <div class="flex items-center gap-4">
+                <h1 class="text-display-lg font-black text-on-background tracking-tighter uppercase leading-none">Intelligence Analytics</h1>
+                <span class="bg-primary/10 text-primary text-[10px] font-black px-3 py-1 rounded-full border border-primary/20 tracking-[0.2em] uppercase">AI-Ready v2.4</span>
+             </div>
+             <p class="text-[11px] text-on-surface-variant font-bold tracking-[0.3em] uppercase mt-2 opacity-60 font-data-tabular">National Mineral Data Intelligence Centre [GMITE-INT]</p>
+        </div>
     </div>
-    <div class="flex flex-wrap gap-3">
-        <button class="bg-surface-container-high px-4 py-2 rounded-lg border border-outline-variant text-[11px] font-bold hover:bg-surface-container-highest transition-all flex items-center gap-2 uppercase tracking-wide">
-            <span class="material-symbols-outlined text-sm">compare_arrows</span>
-            Compare Countries
-        </button>
-        <button class="bg-surface-container-high px-4 py-2 rounded-lg border border-outline-variant text-[11px] font-bold hover:bg-surface-container-highest transition-all flex items-center gap-2 uppercase tracking-wide">
-            <span class="material-symbols-outlined text-sm">refresh</span>
-            Refresh Intelligence
-        </button>
-        <button class="btn-primary flex items-center gap-2 px-6">
-            <span class="material-symbols-outlined text-sm text-on-primary">monitoring</span>
-            View AI Forecast
+    <div class="flex flex-wrap gap-4">
+        <button onclick="triggerExecutiveAction('Generate National Report')" class="px-8 py-4 bg-primary text-on-primary-container rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] hover:brightness-110 transition-all flex items-center gap-4 shadow-2xl shadow-primary/20">
+            <span class="material-symbols-outlined text-xl">file_download</span>
+            Export National Report
         </button>
     </div>
 </div>
 
-<!-- Primary Stats Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <div class="card-premium p-6 rounded-2xl relative overflow-hidden group">
-        <div class="flex justify-between items-start mb-4">
-            <div class="p-2 bg-primary/10 rounded-lg"><span class="material-symbols-outlined text-primary">universal_currency_alt</span></div>
-            <div class="text-[10px] font-data-tabular text-secondary">+14.2% YoY</div>
-        </div>
-        <div class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">Global Market Value</div>
-        <div class="text-3xl font-bold text-on-background">$2.84 Trillion</div>
-        <div class="h-12 mt-4 flex items-end gap-1 px-1">
-             @foreach(range(1,15) as $i)
-             <div class="flex-1 bg-primary/20 rounded-t group-hover:bg-primary/40 transition-all" style="height: {{ rand(30, 100) }}%"></div>
-             @endforeach
-        </div>
-    </div>
-
-    <div class="card-premium p-6 rounded-2xl relative overflow-hidden group">
-        <div class="flex justify-between items-start mb-4">
-            <div class="p-2 bg-secondary/10 rounded-lg"><span class="material-symbols-outlined text-secondary">precision_manufacturing</span></div>
-            <div class="text-[10px] font-data-tabular text-secondary">+2.4% MoM</div>
-        </div>
-        <div class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">Extracted Volume (24h)</div>
-        <div class="text-3xl font-bold text-on-background">842.1K MT</div>
-        <div class="h-12 mt-4 flex items-end gap-1 px-1">
-             @foreach(range(1,15) as $i)
-             <div class="flex-1 bg-secondary/20 rounded-t group-hover:bg-secondary/40 transition-all" style="height: {{ rand(30, 100) }}%"></div>
-             @endforeach
-        </div>
-    </div>
-
-    <div class="card-premium p-6 rounded-2xl relative overflow-hidden group">
-        <div class="flex justify-between items-start mb-4">
-            <div class="p-2 bg-tertiary/10 rounded-lg"><span class="material-symbols-outlined text-tertiary">swap_calls</span></div>
-            <div class="text-[10px] font-data-tabular text-tertiary">-1.8% vs Expected</div>
-        </div>
-        <div class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">Active Trade Routes</div>
-        <div class="text-3xl font-bold text-on-background">1,402</div>
-        <div class="h-12 mt-4 flex items-end gap-1 px-1">
-             @foreach(range(1,15) as $i)
-             <div class="flex-1 bg-tertiary/20 rounded-t group-hover:bg-tertiary/40 transition-all" style="height: {{ rand(30, 100) }}%"></div>
-             @endforeach
-        </div>
-    </div>
-
-    <div class="card-premium p-6 rounded-2xl relative overflow-hidden group">
-        <div class="flex justify-between items-start mb-4">
-            <div class="p-2 bg-primary/10 rounded-lg"><span class="material-symbols-outlined text-primary">data_exploration</span></div>
-            <div class="text-[10px] font-data-tabular text-primary">AI CONFIDENCE 98%</div>
-        </div>
-        <div class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">Forecasting Horizon</div>
-        <div class="text-3xl font-bold text-on-background">Q3 - 2027</div>
-        <div class="h-12 mt-4 flex items-end gap-1 px-1">
-             @foreach(range(1,15) as $i)
-             <div class="flex-1 bg-primary/10 rounded-t group-hover:bg-primary/20 transition-all" style="height: {{ rand(30, 100) }}%"></div>
-             @endforeach
-        </div>
-    </div>
-</div>
-
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-    <!-- Production Trends Chart Area -->
-    <div class="lg:col-span-2 card-premium p-8 rounded-3xl relative overflow-hidden">
-        <div class="absolute -right-20 -top-20 w-64 h-64 bg-primary/5 rounded-full blur-[80px]"></div>
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-            <div>
-                 <h2 class="text-headline-sm font-bold text-on-background">Global Mineral Production Trends</h2>
-                 <p class="text-[11px] text-on-surface-variant">Comparative analysis across critical mineral categories (Rolling 12 Month)</p>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Executive KPI Pulse -->
+    <div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        @php
+            $kpis = [
+                ['label' => 'Samples Processed', 'val' => '142,801', 'delta' => '+12.4%', 'col' => 'primary', 'desc' => 'Total lifecycle units'],
+                ['label' => 'Certified Mkt Value', 'val' => '$4.2B', 'delta' => '+8.1%', 'col' => 'secondary', 'desc' => 'Global valuation est.'],
+                ['label' => 'Avg Turnaround', 'val' => '2.4 Hrs', 'delta' => '-14min', 'col' => 'primary', 'desc' => 'Lab efficiency index'],
+                ['label' => 'Compliance Rate', 'val' => '99.98%', 'delta' => '+0.02%', 'col' => 'secondary', 'desc' => 'National legal score'],
+            ];
+        @endphp
+        @foreach($kpis as $k)
+        <div class="bg-surface-container-low border border-outline-variant/30 p-8 rounded-[40px] relative overflow-hidden group">
+            <div class="absolute -top-10 -right-10 w-24 h-24 bg-{{ $k['col'] }}/5 rounded-full blur-3xl group-hover:bg-{{ $k['col'] }}/10 transition-all duration-700"></div>
+            <div class="text-[10px] font-black text-{{ $k['col'] }} uppercase tracking-[0.2em] mb-4">{{ $k['label'] }}</div>
+            <div class="text-4xl font-black text-on-background tracking-tighter font-data-tabular mb-1">{{ $k['val'] }}</div>
+            <div class="flex items-center gap-2">
+                <span class="text-[10px] font-black text-{{ $k['col'] }} uppercase tracking-widest font-data-tabular">{{ $k['delta'] }}</span>
+                <span class="text-[9px] font-bold text-on-surface-variant uppercase opacity-40 italic">{{ $k['desc'] }}</span>
             </div>
-            <div class="flex gap-2">
-                <span class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-highest rounded-full border border-primary/20 text-[10px] font-bold text-primary">
-                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span> LITHIUM
-                </span>
-                <span class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-highest rounded-full border border-secondary/20 text-[10px] font-bold text-secondary opacity-50">
-                    <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> COPPER
-                </span>
-                <span class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-highest rounded-full border border-tertiary/20 text-[10px] font-bold text-tertiary opacity-50">
-                    <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> COBALT
-                </span>
+        </div>
+        @endforeach
+    </div>
+
+    <!-- Science & Production Intelligence -->
+    <div class="lg:col-span-8 space-y-8">
+        
+        <!-- Mineral Production Trends (Chart Mockup) -->
+        <div class="card-premium p-10 rounded-[48px] relative overflow-hidden group/chart">
+            <div class="flex justify-between items-center mb-10">
+                <div>
+                     <h2 class="text-headline-sm font-black tracking-tight text-on-background uppercase mb-2">Production Intelligence</h2>
+                     <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest opacity-60">National output trends by mineral classification</p>
+                </div>
+                <div class="flex gap-2">
+                     @foreach(['WEEKLY', 'MONTHLY', 'ANNUAL'] as $t)
+                     <button class="px-4 py-2 bg-surface-container-highest border border-outline-variant rounded-full text-[9px] font-black uppercase tracking-widest text-on-surface hover:text-primary transition-all">{{ $t }}</button>
+                     @endforeach
+                </div>
+            </div>
+
+            <!-- Chart Visualizer Simulation -->
+            <div class="h-64 flex items-end justify-between px-4 pb-2 border-b border-outline-variant/30 relative">
+                 @for($i=0; $i<30; $i++)
+                    @php $h = rand(20, 95); @endphp
+                    <div class="flex-1 max-w-[12px] bg-primary/20 border-t-2 border-primary/40 rounded-t-sm transition-all duration-[2000ms] relative group/bar hover:bg-primary/60" style="height: {{ $h }}%">
+                         <div class="absolute -top-8 left-1/2 -translate-x-1/2 text-[8px] font-black text-primary opacity-0 group-hover/bar:opacity-100 transition-opacity">{{ $h }}k</div>
+                    </div>
+                 @endfor
+                 <div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-5 px-4 text-[8px] font-bold">
+                     <span class="border-t border-white">100k UNITS</span>
+                     <span class="border-t border-white">50k UNITS</span>
+                     <span class="border-t border-white">0 UNITS</span>
+                 </div>
+            </div>
+            <div class="flex justify-between text-[9px] font-bold text-on-surface-variant uppercase tracking-[0.3em] mt-6 opacity-40">
+                <span>01 JAN</span>
+                <span>15 JAN</span>
+                <span>30 JAN</span>
             </div>
         </div>
 
-        <div class="h-80 w-full flex items-end justify-between px-2 group">
-            <!-- Stylized CSS Chart Placeholder -->
-            @php $points = [42, 38, 45, 52, 48, 55, 62, 70, 68, 75, 82, 90]; @endphp
-            @foreach($points as $idx => $p)
-                <div class="flex flex-col items-center gap-3 w-full group/bar">
-                    <div class="w-2/3 max-w-[40px] bg-primary/10 border-t border-x border-primary/40 rounded-t-lg transition-all duration-700 relative group-hover/bar:bg-primary/30 group-hover/bar:border-primary" style="height: {{ $p*3 }}px">
-                        <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-surface-container text-white px-2 py-1 rounded text-[10px] font-bold opacity-0 group-hover/bar:opacity-100 transition-opacity border border-outline-variant pointer-events-none">
-                            {{ $p }}%
+        <!-- Laboratory Performance Intelligence -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+             <div class="bg-surface-container-low border border-outline-variant/30 p-8 rounded-[40px] space-y-8">
+                 <h3 class="text-label-caps font-black text-on-surface-variant tracking-[0.2em] uppercase opacity-60">Technician Efficacy</h3>
+                 <div class="space-y-6">
+                    @php
+                        $techs = [
+                            ['name' => 'DR. MENARD J.', 'rate' => '9.8s', 'col' => 'secondary'],
+                            ['name' => 'ENG. VANCE K.', 'rate' => '12.4s', 'col' => 'primary'],
+                            ['name' => 'SARAH L.', 'rate' => '14.1s', 'col' => 'primary'],
+                        ];
+                    @endphp
+                    @foreach($techs as $t)
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-[11px] font-black uppercase tracking-widest">
+                            <span class="text-on-surface">{{ $t['name'] }}</span>
+                            <span class="text-{{ $t['col'] }} font-data-tabular">{{ $t['rate'] }}</span>
+                        </div>
+                        <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                             <div class="h-full bg-{{ $t['col'] }}" style="width: {{ 100 - (float)$t['rate'] }}%"></div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
-        <div class="flex justify-between mt-6 px-4 text-[10px] font-bold text-on-surface-variant/60 tracking-widest uppercase">
-            <span>MAY 2025</span>
-            <span>AUG</span>
-            <span>NOV</span>
-            <span>FEB</span>
-            <span>MAY 2026</span>
+                    @endforeach
+                 </div>
+             </div>
+             <div class="bg-surface-container-low border border-outline-variant/30 p-8 rounded-[40px]">
+                 <h3 class="text-label-caps font-black text-on-surface-variant tracking-[0.2em] uppercase opacity-60">Mineral Distribution</h3>
+                 <div class="h-48 flex items-center justify-center relative">
+                    <div class="w-32 h-32 rounded-full border-[16px] border-primary/20 border-t-primary border-r-secondary flex items-center justify-center rotate-45">
+                        <div class="-rotate-45 text-center">
+                            <div class="text-2xl font-black text-on-background">64<span class="text-sm opacity-40">%</span></div>
+                            <div class="text-[8px] font-black text-primary uppercase">GOLD</div>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 space-y-1">
+                        <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary"></span><span class="text-[9px] font-bold text-on-surface-variant uppercase">Gold (64%)</span></div>
+                        <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="text-[9px] font-bold text-on-surface-variant uppercase">Lithium (22%)</span></div>
+                    </div>
+                 </div>
+             </div>
         </div>
     </div>
 
-    <!-- AI Distribution Insights -->
-    <div class="space-y-6">
-        <div class="card-premium p-6 rounded-3xl border border-secondary/20 bg-secondary/5">
-             <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
-                    <span class="material-symbols-outlined">auto_graph</span>
-                </div>
-                <h3 class="font-bold text-on-background uppercase tracking-wider text-xs">AI Market Intelligence</h3>
+    <!-- Right Data Column -->
+    <div class="lg:col-span-4 space-y-8">
+        
+        <!-- Risk & Fraud Intelligence -->
+        <div class="bg-error/5 border border-error/20 p-8 rounded-[48px] relative overflow-hidden">
+             <div class="absolute top-0 right-0 p-8 opacity-10">
+                <span class="material-symbols-outlined text-6xl">gavel</span>
              </div>
+             <h3 class="text-label-caps font-black text-error mb-8 tracking-[0.3em] uppercase opacity-60">Sovereign Risk Discovery</h3>
              
              <div class="space-y-6">
-                <div class="relative pl-6 border-l-2 border-secondary/30">
-                    <div class="text-[11px] font-bold text-on-background mb-1">SUPPLY PINCH DETECTED</div>
-                    <p class="text-[10px] text-on-surface-variant">Lithium LCE supply is trending -12% below demand capacity for Q4. Action: Strategic stockpiling advised for Level 05 parties.</p>
-                </div>
-                <div class="relative pl-6 border-l-2 border-secondary/30 opacity-70">
-                    <div class="text-[11px] font-bold text-on-background mb-1">EMERGING NICKEL HUB</div>
-                    <p class="text-[10px] text-on-surface-variant">Greenfield mining activity in Indonesian Sulawesi sector is outperforming AI baseline by 42%.</p>
-                </div>
-             </div>
-
-             <button class="mt-8 w-full py-2 bg-secondary text-on-secondary text-[11px] font-bold rounded uppercase tracking-widest hover:opacity-90">Generate AI Summary</button>
-        </div>
-
-        <div class="card-premium p-6 rounded-3xl">
-            <h3 class="text-label-caps font-bold text-on-surface-variant mb-6 uppercase tracking-widest text-center">Revenue Heat Distribution</h3>
-            <div class="space-y-4">
-                 @php
-                    $revenues = [
-                        ['c' => 'China', 'r' => '$840M', 'p' => 70, 'col' => 'primary'],
-                        ['c' => 'USA', 'r' => '$420M', 'p' => 45, 'col' => 'secondary'],
-                        ['c' => 'EU Central', 'r' => '$310M', 'p' => 30, 'col' => 'tertiary'],
-                        ['c' => 'India', 'r' => '$190M', 'p' => 15, 'col' => 'primary'],
+                @php
+                    $risks = [
+                        ['type' => 'CLUSTER', 'msg' => 'High-Frequency Gold Trade Anomaly detected in Geita Hub.', 'id' => 'ANM-9201'],
+                        ['type' => 'PATTERN', 'msg' => 'Repeated Certificate usage attempt for refined Lithium batch.', 'id' => 'SEC-4402'],
                     ];
                 @endphp
-                @foreach($revenues as $rev)
-                <div class="space-y-1.5">
-                    <div class="flex justify-between text-[11px] font-bold">
-                        <span class="text-on-background">{{ $rev['c'] }}</span>
-                        <span class="text-primary">{{ $rev['r'] }}</span>
-                    </div>
-                    <div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
-                        <div class="h-full bg-{{ $rev['col'] }}" style="width: {{ $rev['p'] }}%"></div>
+                @foreach($risks as $r)
+                <div class="flex gap-4 group">
+                    <div class="w-1 h-12 bg-error/20 group-hover:bg-error transition-all rounded-full"></div>
+                    <div>
+                        <div class="text-[8px] font-black text-error uppercase tracking-widest mb-1">{{ $r['type'] }} THREAT — {{ $r['id'] }}</div>
+                        <div class="text-[12px] font-black text-on-background uppercase tracking-tight leading-tight">{{ $r['msg'] }}</div>
                     </div>
                 </div>
                 @endforeach
+             </div>
+        </div>
+
+        <!-- Predictive Intelligence & AI Forecast -->
+        <div class="card-premium p-8 rounded-[40px] border border-secondary/20 bg-secondary-[2%] relative overflow-hidden group/ai">
+             <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-secondary/5 rounded-full blur-3xl group-hover/ai:bg-secondary/10 transition-all duration-700"></div>
+             
+             <h3 class="text-label-caps font-black text-secondary mb-10 tracking-[0.2em] uppercase flex items-center gap-3">
+                 <span class="material-symbols-outlined text-xl">psychology</span>
+                 AI Production Forecast
+             </h3>
+             <div class="space-y-8">
+                 <div class="p-6 bg-surface-container-high rounded-[32px] border border-white/5 relative z-10">
+                    <div class="text-[10px] font-black text-secondary uppercase tracking-widest mb-2">Projected Revenue [Q3 2026]</div>
+                    <div class="text-3xl font-black text-on-background font-data-tabular">$1.84B <span class="text-sm font-bold text-secondary ml-2">+14%</span></div>
+                    <p class="text-[9px] text-on-surface-variant font-bold uppercase tracking-wide mt-2 opacity-60 italic">Based on 284 active mining license expansions.</p>
+                 </div>
+                 
+                 <div class="grid grid-cols-2 gap-4 relative z-10">
+                    <div class="p-4 bg-surface-container-low border border-outline-variant rounded-2xl">
+                        <div class="text-[9px] font-black text-on-surface-variant uppercase tracking-widest mb-1">Mkt Demand</div>
+                        <div class="text-xl font-black text-on-background font-data-tabular">HIGH</div>
+                    </div>
+                    <div class="p-4 bg-surface-container-low border border-outline-variant rounded-2xl">
+                        <div class="text-[9px] font-black text-on-surface-variant uppercase tracking-widest mb-1">Risk Volatility</div>
+                        <div class="text-xl font-black text-on-background font-data-tabular text-secondary">LOW</div>
+                    </div>
+                 </div>
+             </div>
+        </div>
+
+        <!-- Report Generation Suite -->
+        <div class="bg-surface-container-low border border-outline-variant p-8 rounded-[40px] space-y-8">
+            <h3 class="text-label-caps font-black text-on-surface-variant tracking-[0.2em] uppercase opacity-60">Reporting Infrastructure</h3>
+            <div class="space-y-4">
+                <button onclick="triggerExecutiveAction('PDF National Statistic Digest')" class="w-full p-4 bg-surface-container-high border border-outline-variant rounded-2xl flex justify-between items-center group hover:border-primary transition-all">
+                    <div class="flex items-center gap-4">
+                         <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">picture_as_pdf</span>
+                         <span class="text-[10px] font-black uppercase tracking-widest text-on-surface opacity-80 group-hover:opacity-100">National Stat Digest</span>
+                    </div>
+                    <span class="material-symbols-outlined text-sm text-on-surface-variant">download</span>
+                </button>
+                <button onclick="triggerExecutiveAction('Excel Trade Velocity Export')" class="w-full p-4 bg-surface-container-high border border-outline-variant rounded-2xl flex justify-between items-center group hover:border-primary transition-all">
+                    <div class="flex items-center gap-4">
+                         <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">table_chart</span>
+                         <span class="text-[10px] font-black uppercase tracking-widest text-on-surface opacity-80 group-hover:opacity-100">Trade Velocity Sheet</span>
+                    </div>
+                    <span class="material-symbols-outlined text-sm text-on-surface-variant">download</span>
+                </button>
             </div>
-            <button class="mt-6 w-full text-center text-[10px] font-bold text-on-surface-variant hover:text-primary transition-colors cursor-pointer uppercase tracking-widest">View Detailed Financials</button>
+            <div class="p-4 bg-primary/10 border border-primary/20 rounded-2xl">
+                 <div class="flex items-center gap-2 text-primary font-black uppercase tracking-widest text-[9px] mb-2">
+                    <span class="material-symbols-outlined text-[14px]">verified</span>
+                    Digital Signature Active
+                 </div>
+                 <p class="text-[8px] font-bold text-on-surface-variant italic leading-relaxed opacity-60">Every report is cryptographically signed by the Sovereign Intelligence Node (SID:{{ rand(1000, 9999) }}).</p>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Comparison Table Section -->
-<div class="grid grid-cols-1 gap-8 pb-12">
-    <div class="card-premium p-6 rounded-3xl overflow-hidden min-h-[400px]">
-        <div class="flex justify-between items-center mb-8 px-2">
-            <h2 class="text-headline-sm font-bold text-on-background">Cross-Country Extraction Performance</h2>
-            <div class="flex gap-4">
-                <div class="flex items-center gap-2 bg-surface-container-high px-3 py-1 rounded border border-outline-variant text-[11px] font-bold">
-                    <span class="material-symbols-outlined text-sm text-on-surface-variant">calendar_today</span>
-                    LAST 30 DAYS
-                </div>
-                 <div class="flex items-center gap-2 bg-surface-container-high px-3 py-1 rounded border border-outline-variant text-[11px] font-bold cursor-pointer hover:border-primary transition-all">
-                    <span class="material-symbols-outlined text-sm">filter_alt</span>
-                    FILTERS
-                </div>
-            </div>
-        </div>
-
-        <div class="overflow-x-auto">
-             <table class="w-full text-left border-collapse">
-                <thead class="text-[10px] font-bold text-on-surface-variant/60 uppercase tracking-widest border-b border-outline-variant/30">
-                    <tr>
-                        <th class="px-6 py-4">Territory</th>
-                        <th class="px-6 py-4">Primary Mineral</th>
-                        <th class="px-6 py-4 text-right">Production (MT)</th>
-                        <th class="px-6 py-4 text-right">Revenue Cont.</th>
-                        <th class="px-6 py-4 text-center">ESG Compliance</th>
-                        <th class="px-6 py-4 text-right">Performance Δ</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-outline-variant/10 text-[11px]">
-                    @php
-                        $data = [
-                            ['country' => 'Tanzania', 'min' => 'Gold', 'prod' => '84,200', 'rev' => '$4.2B', 'esg' => 'A+', 'delta' => '+12.4%'],
-                            ['country' => 'Australia', 'min' => 'Lithium', 'prod' => '150,000', 'rev' => '$2.1B', 'esg' => 'A', 'delta' => '+8.2%'],
-                            ['country' => 'DRC', 'min' => 'Cobalt', 'prod' => '45,800', 'rev' => '$1.9B', 'esg' => 'B-', 'delta' => '-2.1%'],
-                            ['country' => 'Chile', 'min' => 'Copper', 'prod' => '210,400', 'rev' => '$5.8B', 'esg' => 'A-', 'delta' => '+4.5%'],
-                            ['country' => 'Canada', 'min' => 'Potash', 'prod' => '320,000', 'rev' => '$1.4B', 'esg' => 'A+', 'delta' => '+1.1%'],
-                        ];
-                    @endphp
-                    @foreach($data as $row)
-                    <tr class="hover:bg-primary/5 transition-colors group cursor-pointer">
-                        <td class="px-6 py-5 font-bold text-on-background">{{ $row['country'] }}</td>
-                        <td class="px-6 py-5">
-                             <div class="px-2 py-0.5 bg-surface-container-highest rounded border border-outline-variant inline-block text-[10px]">{{ $row['min'] }}</div>
-                        </td>
-                        <td class="px-6 py-5 text-right font-data-tabular">{{ $row['prod'] }}</td>
-                        <td class="px-6 py-5 text-right font-data-tabular font-bold text-primary">{{ $row['rev'] }}</td>
-                        <td class="px-6 py-5 text-center">
-                            <span class="px-3 py-1 rounded-full {{ str_starts_with($row['esg'], 'A') ? 'bg-secondary/10 text-secondary border-secondary/20' : 'bg-tertiary/10 text-tertiary border-tertiary/20' }} border text-[10px] font-bold">
-                                {{ $row['esg'] }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-5 text-right font-bold {{ str_contains($row['delta'], '+') ? 'text-secondary' : 'text-error' }}">
-                            {{ $row['delta'] }}
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-             </table>
-        </div>
-    </div>
-</div>
+<script>
+    // Live Chart Simulation Heartbeat
+    setInterval(() => {
+        const bars = document.querySelectorAll('.group\/chart div[style*="height"]');
+        bars.forEach(bar => {
+            const currentH = parseInt(bar.style.height);
+            const delta = (Math.random() - 0.5) * 8;
+            const newH = Math.max(10, Math.min(95, currentH + delta));
+            bar.style.height = newH + '%';
+            
+            const label = bar.querySelector('.group\/bar div');
+            if(label) label.textContent = Math.round(newH) + 'k';
+        });
+    }, 1500);
+</script>
 @endsection

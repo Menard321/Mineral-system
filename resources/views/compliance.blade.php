@@ -1,192 +1,212 @@
-@extends('layouts.executive')
+@extends('layouts.admin')
 
-@section('title', 'GMITE - Compliance & Audit')
+@section('title', 'GMITE - Regulatory Enforcement')
 
 @section('content')
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-    <div class="flex items-center gap-5">
-        <div class="w-14 h-14 bg-error/10 border border-error/20 rounded-2xl flex items-center justify-center">
-            <span class="material-symbols-outlined text-error text-3xl">gavel</span>
+<!-- Compliance Executive Header -->
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
+    <div class="flex items-center gap-6">
+        <div class="relative group">
+            <div class="absolute inset-0 bg-error/20 rounded-2xl blur-2xl group-hover:bg-error/40 transition-all duration-700 font-black"></div>
+            <div class="relative w-20 h-20 bg-surface-container-low border border-error/40 rounded-[28px] flex items-center justify-center text-error shadow-2xl">
+                 <span class="material-symbols-outlined text-4xl group-hover:scale-110 transition-transform duration-500">gavel</span>
+            </div>
         </div>
         <div>
-            <h1 class="text-display-lg font-bold text-on-background tracking-tighter">Compliance & Audit</h1>
-            <div class="flex items-center gap-3 mt-1 text-label-caps font-bold text-on-surface-variant">
-                <span>Enforcement Protocol v4.0</span>
-                <span class="w-1 h-1 bg-outline-variant rounded-full"></span>
-                <span class="text-error flex items-center gap-1">
-                    <span class="material-symbols-outlined text-xs">radar</span> 4 Active Violations
-                </span>
-            </div>
+             <div class="flex items-center gap-4">
+                <h1 class="text-display-lg font-black text-on-background tracking-tighter uppercase leading-none">Regulatory Enforcement</h1>
+                <span class="bg-error/10 text-error text-[10px] font-black px-3 py-1 rounded-full border border-error/20 tracking-[0.2em] uppercase animate-pulse">Live Oversight</span>
+             </div>
+             <p class="text-[11px] text-on-surface-variant font-bold tracking-[0.3em] uppercase mt-2 opacity-60 font-data-tabular">National Mineral Compliance & Law Enforcement [GMITE-REG]</p>
         </div>
     </div>
-    <div class="flex gap-3">
-        <button class="px-6 py-2.5 bg-surface-container-high rounded border border-outline-variant text-xs font-bold hover:border-primary transition-all uppercase tracking-widest flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm">assignment_late</span>
-            Open Cases
+    <div class="flex flex-wrap gap-4">
+        <button onclick="triggerExecutiveAction('Initialize Regulatory Audit')" class="px-8 py-4 bg-error text-on-error-container rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] hover:brightness-110 transition-all flex items-center gap-4 shadow-2xl shadow-error/20">
+            <span class="material-symbols-outlined text-xl">policy</span>
+            Launch Field Audit
         </button>
-        <button class="btn-primary flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm">description</span>
-            Generate Audit Report
+        <button onclick="triggerExecutiveAction('Rule Management Terminal')" class="px-8 py-4 bg-surface-container-low text-on-surface rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] border border-outline-variant hover:border-error transition-all flex items-center gap-4">
+            <span class="material-symbols-outlined text-xl">rule</span>
+            Manage Laws
         </button>
     </div>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-    <div class="bg-surface-container-low border border-outline-variant p-5 rounded-2xl">
-        <div class="flex justify-between items-start mb-4">
-            <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">License Applications</span>
-            <span class="material-symbols-outlined text-primary">feed</span>
-        </div>
-        <div class="flex items-end gap-3 font-data-tabular">
-            <span class="text-4xl font-bold text-on-background">42</span>
-            <span class="text-xs text-on-surface-variant pb-1">PENDING REVIEW</span>
-        </div>
-        <div class="w-full bg-surface-container-highest h-1.5 mt-4 rounded-full overflow-hidden">
-            <div class="bg-primary h-full w-[65%]"></div>
-        </div>
-    </div>
-
-    <div class="bg-surface-container-low border border-outline-variant p-5 rounded-2xl">
-        <div class="flex justify-between items-start mb-4">
-            <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Env. Compliance</span>
-            <span class="material-symbols-outlined text-secondary">eco</span>
-        </div>
-        <div class="flex items-end gap-3 font-data-tabular">
-            <span class="text-4xl font-bold text-secondary">94%</span>
-            <span class="text-xs text-on-surface-variant pb-1">GLOBAL RATING</span>
-        </div>
-        <div class="w-full bg-surface-container-highest h-1.5 mt-4 rounded-full overflow-hidden">
-            <div class="bg-secondary h-full w-[94%]"></div>
-        </div>
-    </div>
-
-    <div class="bg-surface-container-low border border-outline-variant p-5 rounded-2xl">
-        <div class="flex justify-between items-start mb-4">
-            <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Illegal Hotspots</span>
-            <span class="material-symbols-outlined text-error">satellite_alt</span>
-        </div>
-        <div class="flex items-end gap-3 font-data-tabular">
-            <span class="text-4xl font-bold text-error">08</span>
-            <span class="text-xs text-on-surface-variant pb-1">ACTIVE SIGNALS</span>
-        </div>
-        <div class="w-full bg-surface-container-highest h-1.5 mt-4 rounded-full overflow-hidden">
-            <div class="bg-error h-full w-[20%]"></div>
-        </div>
-    </div>
-</div>
-
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- License Approval System -->
-    <div class="card-premium p-6 rounded-2xl">
-        <div class="flex justify-between items-center mb-8 border-b border-outline-variant/30 pb-4">
-            <h2 class="text-headline-sm font-bold flex items-center gap-3">
-                <span class="material-symbols-outlined text-primary">license</span>
-                Mining License Approvals
-            </h2>
-            <button class="text-xs font-bold text-primary hover:underline uppercase">View All</button>
-        </div>
-
-        <div class="space-y-4">
-            @php
-                $licenses = [
-                    ['project' => 'Northern Cobalt Expansion', 'app' => 'Global Minera Ltd', 'impact' => 'Medium', 'status' => 'Reviewing'],
-                    ['project' => 'Katanga Deep Sea Mine', 'app' => 'Oceanic Resources', 'impact' => 'High', 'status' => 'Urgent'],
-                    ['project' => 'Amazon Sector B Exploration', 'app' => 'Eco-Trace Group', 'impact' => 'Low', 'status' => 'Pending'],
-                ];
-            @endphp
-            @foreach($licenses as $lic)
-            <div class="p-4 bg-surface-container-high rounded-xl border border-outline-variant hover:bg-surface-container-highest transition-all group">
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <div class="text-[10px] font-bold text-primary uppercase mb-1">{{ $lic['app'] }}</div>
-                        <div class="text-lg font-bold text-on-background">{{ $lic['project'] }}</div>
-                        <div class="inline-flex items-center gap-3 mt-2">
-                             <span class="text-[10px] font-bold flex items-center gap-1 {{ $lic['impact'] == 'High' ? 'text-error' : 'text-on-surface-variant' }}">
-                                <span class="material-symbols-outlined text-xs">nature</span> Impact: {{ $lic['impact'] }}
-                             </span>
-                             <span class="text-[10px] font-bold text-on-surface-variant flex items-center gap-1">
-                                <span class="material-symbols-outlined text-xs">calendar_today</span> 12 May 2026
-                             </span>
-                        </div>
-                    </div>
-                    <span class="px-3 py-1 bg-surface-container-lowest border border-outline-variant rounded text-[10px] font-bold">{{ $lic['status'] }}</span>
-                </div>
-                <div class="flex gap-2 pt-4 border-t border-outline-variant/20 opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
-                    <button class="flex-1 py-1.5 bg-secondary text-on-secondary text-[10px] font-bold rounded uppercase tracking-widest hover:opacity-90">Approve License</button>
-                    <button class="flex-1 py-1.5 bg-error text-on-error text-[10px] font-bold rounded uppercase tracking-widest hover:opacity-90">Reject License</button>
-                    <button class="w-10 py-1.5 bg-surface-container-lowest border border-outline-variant flex items-center justify-center rounded"><span class="material-symbols-outlined text-xs">info</span></button>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-
-    <!-- Enforcement Monitor -->
-    <div class="space-y-8">
-        <div class="card-premium p-6 rounded-2xl relative overflow-hidden">
-            <h2 class="text-headline-sm font-bold mb-6 flex items-center gap-3">
-                <span class="material-symbols-outlined text-error">policy</span>
-                Active Violations & Enforcement
-            </h2>
-            <div class="space-y-4">
-                <div class="flex gap-4 p-4 bg-error/5 border border-error/10 rounded-xl relative">
-                    <div class="w-10 h-10 rounded-lg bg-error/10 flex items-center justify-center text-error">
-                         <span class="material-symbols-outlined">satellite</span>
-                    </div>
-                    <div>
-                        <div class="text-[11px] font-bold text-error">VIO-9912: Illegal Surface Extraction</div>
-                        <div class="text-[10px] text-on-surface-variant mb-3">Sector F-4 (Mato Grosso Reserve). Satellite imagery confirms night activity.</div>
-                        <div class="flex gap-2">
-                             <button class="text-[10px] font-bold px-3 py-1 bg-error text-on-error rounded uppercase tracking-widest">Investigate Case</button>
-                             <button class="text-[10px] font-bold px-3 py-1 border border-error text-error rounded uppercase tracking-widest">Issue Sanction</button>
-                        </div>
-                    </div>
-                    <span class="absolute top-4 right-4 text-[9px] font-bold text-on-surface-variant">48m ago</span>
-                </div>
-
-                <div class="flex gap-4 p-4 bg-surface-container-highest border border-outline-variant rounded-xl opacity-80">
-                    <div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-on-surface-variant">
-                         <span class="material-symbols-outlined">water_drop</span>
-                    </div>
-                    <div>
-                        <div class="text-[11px] font-bold text-on-background">VIO-9908: Water Contamination</div>
-                        <div class="text-[10px] text-on-surface-variant mb-1">Tailings leak detected in local river system by automated IoT sensors.</div>
-                        <div class="text-[9px] font-bold text-secondary uppercase">Remediation in progress</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <!-- Enforcement Command Column -->
+    <div class="lg:col-span-8 space-y-8">
+        
+        <!-- Live Investigation Lifecycle -->
+        <div class="card-premium p-10 rounded-[48px] relative overflow-hidden group/incidents">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-headline-sm font-black tracking-tight text-on-background uppercase flex items-center gap-4">
+                    <span class="w-1.5 h-8 bg-error rounded-full"></span>
+                    Active Compliance Cases
+                </h2>
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+                        <input type="text" placeholder="Search cases / companies..." class="bg-surface-container-highest border border-outline-variant rounded-full pl-12 pr-6 py-2 text-[11px] font-bold text-on-surface w-64 focus:border-error outline-none transition-all">
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Compliance Calendar / Schedule -->
-        <div class="bg-surface-container-low border border-outline-variant p-6 rounded-2xl">
-             <h3 class="text-label-caps font-bold text-on-surface-variant mb-6 flex items-center gap-2 uppercase tracking-widest">
-                <span class="material-symbols-outlined text-sm">event_note</span>
-                Upcoming On-Site Audits
-             </h3>
-             <div class="grid grid-cols-1 gap-3">
-                 @php
-                    $audits = [
-                        ['date' => 'MAY 14', 'loc' => 'Andean Copper Mines', 'lead' => 'Insp. Rossi'],
-                        ['date' => 'MAY 18', 'loc' => 'Geita Gold Facility', 'lead' => 'Insp. Mbwana'],
-                        ['date' => 'MAY 22', 'loc' => 'Pilbara Lithium Plant', 'lead' => 'Insp. Thompson'],
+            <div class="space-y-6">
+                @php
+                    $cases = [
+                        ['id' => 'CAS-4102', 'entity' => 'Geita Sub-Mine 04', 'type' => 'UNLICENSED MINING', 'status' => 'IN INVESTIGATION', 'threat' => 'CRITICAL', 'officer' => 'Officer Sarah L.'],
+                        ['id' => 'CAS-4103', 'entity' => 'Tradelink Logistics', 'type' => 'EXPORT VOL. BREACH', 'status' => 'EVIDENCE GATHERING', 'threat' => 'HIGH', 'officer' => 'Officer Mike R.'],
                     ];
                 @endphp
-                @foreach($audits as $audit)
-                <div class="flex items-center justify-between p-3 bg-surface-container-high border border-outline-variant rounded-lg">
-                    <div class="flex items-center gap-4">
-                        <div class="text-center font-data-tabular">
-                            <div class="text-[9px] text-on-surface-variant font-bold leading-none">{{ explode(' ', $audit['date'])[0] }}</div>
-                            <div class="text-lg font-bold text-primary leading-none">{{ explode(' ', $audit['date'])[1] }}</div>
+                @foreach($cases as $c)
+                <div class="p-6 bg-surface-container-low border border-outline-variant/50 hover:border-error/40 rounded-3xl transition-all group/case relative overflow-hidden">
+                    <div class="absolute inset-y-0 left-0 w-1 bg-{{ $c['threat'] == 'CRITICAL' ? 'error uppercase animate-pulse' : 'error/30' }}"></div>
+                    <div class="flex flex-col md:flex-row justify-between gap-8 relative z-10">
+                        <div class="flex gap-6">
+                            <div class="w-14 h-14 bg-surface-container-highest border border-outline-variant rounded-2xl flex items-center justify-center text-on-surface-variant group-hover/case:text-error transition-all group-hover/case:scale-105 duration-500">
+                                <span class="material-symbols-outlined text-3xl">local_police</span>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-3 mb-1">
+                                    <span class="text-[9px] font-black text-error uppercase tracking-[0.2em] font-data-tabular">CASE ID: {{ $c['id'] }}</span>
+                                    <span class="w-1 h-1 bg-outline rounded-full"></span>
+                                    <span class="text-[9px] font-bold text-on-surface-variant uppercase tracking-widest">{{ $c['type'] }}</span>
+                                </div>
+                                <div class="text-xl font-black text-on-background tracking-tighter uppercase mb-1">{{ $c['entity'] }}</div>
+                                <div class="text-[10px] font-bold text-on-surface-variant flex items-center gap-2 opacity-60 uppercase">
+                                    <span class="material-symbols-outlined text-[14px]">account_circle</span> ASSIGNED: {{ $c['officer'] }}
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <div class="text-[11px] font-bold text-on-background">{{ $audit['loc'] }}</div>
-                            <div class="text-[10px] text-on-surface-variant">{{ $audit['lead'] }}</div>
+                        <div class="flex items-center gap-10">
+                            <div class="text-right">
+                                <div class="text-[10px] font-black text-error uppercase tracking-widest mb-1">{{ $c['status'] }}</div>
+                                <div class="text-[9px] font-bold text-on-surface-variant uppercase opacity-40">Oversight Level: 4.2</div>
+                            </div>
+                            <button class="bg-error text-on-error-container px-6 py-3 rounded-xl text-[9px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-error/20">Manage Case</button>
                         </div>
                     </div>
-                    <span class="material-symbols-outlined text-on-surface-variant text-sm hover:text-primary cursor-pointer transition-colors">calendar_month</span>
+                </div>
+                @endforeach
+            </div>
+
+            <button class="w-full mt-10 py-4 bg-surface-container-highest border border-outline-variant rounded-2xl text-[11px] font-black uppercase tracking-[0.3em] text-on-surface hover:text-error transition-all">
+                Access Full Enforcement Archive
+            </button>
+        </div>
+
+        <!-- Entity Compliance Scoring Registry -->
+        <div class="card-premium p-10 rounded-[48px] relative overflow-hidden group/compliance">
+             <h2 class="text-headline-sm font-black tracking-tight text-on-background uppercase mb-10 flex items-center gap-4">
+                <span class="material-symbols-outlined text-primary">assessment</span>
+                Entity Risk & Reputation Matrix
+             </h2>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @php
+                    $entities = [
+                        ['name' => 'AngloGold T. Ltd', 'score' => 9.8, 'status' => 'OPTIMAL', 'col' => 'secondary'],
+                        ['name' => 'North Star Mining', 'score' => 8.4, 'status' => 'MONITORED', 'col' => 'primary'],
+                        ['name' => 'Rapid Trade DSM', 'score' => 4.2, 'status' => 'HIGH RISK', 'col' => 'error'],
+                        ['name' => 'Vance Mining Grp', 'score' => 6.1, 'status' => 'WARNING', 'col' => 'error'],
+                    ];
+                @endphp
+                @foreach($entities as $e)
+                <div class="p-6 bg-surface-container-low border border-outline-variant rounded-[32px] group/entity hover:border-{{ $e['col'] }}/50 transition-all cursor-pointer">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                             <div class="text-[12px] font-black text-on-background uppercase tracking-tight">{{ $e['name'] }}</div>
+                             <div class="text-[9px] font-black text-{{ $e['col'] }} uppercase tracking-widest mt-1">{{ $e['status'] }}</div>
+                        </div>
+                        <div class="text-right">
+                             <div class="text-2xl font-black text-on-background font-data-tabular">{{ $e['score'] }}</div>
+                             <div class="text-[8px] font-bold text-on-surface-variant uppercase opacity-40">Compliance Score</div>
+                        </div>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-{{ $e['col'] }} transition-all duration-[2000ms]" style="width: {{ $e['score'] * 10 }}%"></div>
+                    </div>
                 </div>
                 @endforeach
              </div>
+        </div>
+    </div>
+
+    <!-- Right Regulatory Column -->
+    <div class="lg:col-span-4 space-y-8">
+        
+        <!-- Emergency Enforcement Terminal -->
+        <div class="bg-error/5 border border-error/20 p-8 rounded-[48px] relative overflow-hidden">
+             <div class="absolute top-0 right-0 p-8 opacity-10">
+                <span class="material-symbols-outlined text-6xl">not_interested</span>
+             </div>
+             <h3 class="text-label-caps font-black text-error mb-10 tracking-[0.3em] uppercase opacity-60">High-Authority Sanctions</h3>
+             <div class="space-y-4">
+                 @php
+                    $sanctions = [
+                        ['label' => 'Suspend Mining license', 'id' => 'SAN-01'],
+                        ['label' => 'Block Trade Access', 'id' => 'SAN-02'],
+                        ['label' => 'Freeze Export Permit', 'id' => 'SAN-03'],
+                        ['label' => 'Flag Entity Blacklist', 'id' => 'SAN-04'],
+                    ];
+                 @endphp
+                 @foreach($sanctions as $s)
+                 <button onclick="triggerExecutiveAction('Enforce {{ $s['label'] }} Protocol')" class="w-full flex items-center justify-between p-6 bg-surface-container-high border border-outline-variant/30 rounded-3xl group hover:border-error transition-all">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-error/10 text-error rounded-xl flex items-center justify-center border border-error/20 group-hover:scale-110 transition-transform">
+                             <span class="material-symbols-outlined text-xl">gavel</span>
+                        </div>
+                        <span class="text-[11px] font-black uppercase tracking-widest text-on-surface opacity-80 group-hover:opacity-100">{{ $s['label'] }}</span>
+                    </div>
+                    <span class="material-symbols-outlined text-lg text-on-surface-variant group-hover:text-error transition-colors">verified_user</span>
+                 </button>
+                 @endforeach
+             </div>
+        </div>
+
+        <!-- Automatic Violation Steam (AI Discovery) -->
+        <div class="card-premium p-8 rounded-[40px] border border-error/30 bg-error-[2%] relative overflow-hidden">
+             <div class="absolute -top-12 -right-12 w-48 h-48 bg-error/5 rounded-full blur-3xl opacity-40"></div>
+             <h3 class="text-label-caps font-black text-error mb-8 tracking-[0.2em] uppercase flex items-center gap-3">
+                 <span class="material-symbols-outlined text-xl animate-pulse">radar</span>
+                 Live Anomaly Radar
+             </h3>
+             <div class="space-y-6">
+                @php
+                    $alerts = [
+                        ['msg' => 'Unauthorized Export Corridor activity detected near Sub-Node 04.', 'type' => 'CRITICAL'],
+                        ['msg' => 'Environmental Clearance Certificate expired for AngloGold batch B-921.', 'type' => 'WARNING'],
+                    ];
+                @endphp
+                @foreach($alerts as $a)
+                <div class="p-6 bg-surface-container-low border border-error/10 rounded-2xl">
+                    <div class="text-[8px] font-black text-error uppercase tracking-widest mb-1">{{ $a['type'] }} THREAT</div>
+                    <p class="text-[11px] font-bold text-on-surface/80 uppercase tracking-tight leading-relaxed">{{ $a['msg'] }}</p>
+                    <div class="mt-4 flex gap-3">
+                        <button class="text-[9px] font-black text-error uppercase tracking-widest">Intervene</button>
+                        <span class="text-white/10">|</span>
+                        <button class="text-[9px] font-black text-on-surface-variant uppercase tracking-widest">Mark Clear</button>
+                    </div>
+                </div>
+                @endforeach
+             </div>
+        </div>
+
+        <!-- Audit & Digital Signature Hub -->
+        <div class="bg-surface-container-low border border-outline-variant p-8 rounded-[40px] space-y-8 h-fit">
+            <h3 class="text-label-caps font-black text-on-surface-variant tracking-[0.2em] uppercase opacity-60">Inspection Registry</h3>
+            <div class="p-6 bg-surface-container-highest rounded-[32px] border border-outline-variant flex items-center gap-5">
+                <div class="w-14 h-14 bg-secondary/10 border border-secondary/30 rounded-2xl flex items-center justify-center text-secondary relative">
+                     <span class="material-symbols-outlined text-3xl">verified</span>
+                     <div class="absolute -top-2 -right-2 w-5 h-5 bg-secondary text-on-secondary text-[8px] font-black rounded-full flex items-center justify-center border-2 border-surface-container-highest">18</div>
+                </div>
+                <div>
+                    <div class="text-[12px] font-black text-on-background uppercase tracking-tight mb-0.5">Signed Field Reports</div>
+                    <p class="text-[9px] font-bold text-on-surface-variant opacity-60 uppercase tracking-widest">Verified Q2 2026</p>
+                </div>
+            </div>
+            <p class="text-[10px] font-bold text-on-surface-variant leading-relaxed uppercase tracking-wider px-2">
+                All enforcement actions are cryptographically notarized to ensure legal admissibility in Sovereign Trade Courts.
+            </p>
         </div>
     </div>
 </div>

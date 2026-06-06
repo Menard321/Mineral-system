@@ -202,44 +202,44 @@
                 <span class="material-symbols-outlined">home</span>
                 <span class="text-label-caps font-label-caps">Executive Home</span>
             </a>
-            <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('dashboard') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
-                <span class="material-symbols-outlined">dashboard</span>
+            <a href="{{ route('admin.control_center') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('admin/control-center') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
+                <span class="material-symbols-outlined {{ Request::is('admin/control-center') ? 'text-primary' : '' }}">dashboard</span>
                 <span class="text-label-caps font-label-caps">Control Center</span>
             </a>
             <a href="/mineral-governance" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('mineral-governance') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
                 <span class="material-symbols-outlined">diamond</span>
                 <span class="text-label-caps font-label-caps">Minerals</span>
             </a>
-            <a href="/trade-oversight" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('trade-oversight') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
-                <span class="material-symbols-outlined">currency_exchange</span>
+            <a href="{{ route('admin.trade_market') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('admin/trade-market') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
+                <span class="material-symbols-outlined {{ Request::is('admin/trade-market') ? 'text-primary' : '' }}">currency_exchange</span>
                 <span class="text-label-caps font-label-caps">Trade Market</span>
             </a>
             <a href="/intelligence-map" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('intelligence-map') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
                 <span class="material-symbols-outlined">map</span>
                 <span class="text-label-caps font-label-caps">GIS Map</span>
             </a>
-            <a href="/analytics" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('analytics') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
-                <span class="material-symbols-outlined">query_stats</span>
+            <a href="{{ route('admin.analytics') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('admin/analytics') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
+                <span class="material-symbols-outlined {{ Request::is('admin/analytics') ? 'text-primary' : '' }}">query_stats</span>
                 <span class="text-label-caps font-label-caps">Analytics</span>
             </a>
-            <a href="/compliance" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('compliance') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
-                <span class="material-symbols-outlined">gavel</span>
+            <a href="{{ route('admin.compliance') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('admin/compliance') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
+                <span class="material-symbols-outlined {{ Request::is('admin/compliance') ? 'text-primary' : '' }}">gavel</span>
                 <span class="text-label-caps font-label-caps">Compliance</span>
             </a>
             <a href="/laboratory" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('laboratory') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
                 <span class="material-symbols-outlined">science</span>
                 <span class="text-label-caps font-label-caps">Laboratory</span>
             </a>
-            <a href="/users" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('users') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
-                <span class="material-symbols-outlined">group</span>
+            <a href="{{ route('admin.users_management') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('admin/users') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
+                <span class="material-symbols-outlined {{ Request::is('admin/users') ? 'text-primary' : '' }}">group</span>
                 <span class="text-label-caps font-label-caps">Users & Roles</span>
             </a>
-            <a href="/security" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('security') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
-                <span class="material-symbols-outlined">security</span>
+            <a href="{{ route('admin.alerts_center') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('admin/alerts-center') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
+                <span class="material-symbols-outlined {{ Request::is('admin/alerts-center') ? 'text-primary' : '' }}">security</span>
                 <span class="text-label-caps font-label-caps">Alerts Center</span>
             </a>
-            <a href="/configuration" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('configuration') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
-                <span class="material-symbols-outlined">settings</span>
+            <a href="{{ route('admin.configuration') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-all {{ Request::is('admin/configuration') ? 'sidebar-item-active' : 'text-on-surface-variant hover:bg-surface-container-highest' }}">
+                <span class="material-symbols-outlined {{ Request::is('admin/configuration') ? 'text-primary' : '' }}">settings</span>
                 <span class="text-label-caps font-label-caps">Settings</span>
             </a>
         </nav>

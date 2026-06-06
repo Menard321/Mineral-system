@@ -135,77 +135,182 @@
     <!-- Sidebar actions & Analytics -->
     <div class="space-y-6">
         <!-- Quick Actions -->
-        <div class="bg-surface-container-high border border-outline-variant p-6 rounded-xl">
-            <h3 class="text-label-caps font-bold text-on-surface-variant mb-4">EXECUTIVE ACTIONS</h3>
-            <div class="grid grid-cols-1 gap-3">
-                <a href="/reporting" class="btn-primary w-full flex items-center justify-center gap-2">
+        <div class="bg-surface-container-high border border-outline-variant p-6 rounded-xl relative overflow-hidden group/actions">
+            <!-- Institutional Background Accents -->
+            <div class="absolute -top-12 -right-12 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover/actions:bg-primary/20 transition-all duration-700"></div>
+            
+            <h3 class="text-label-caps font-bold text-on-surface-variant mb-6 tracking-[0.2em] flex items-center justify-between">
+                EXECUTIVE ACTIONS
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+            </h3>
+            
+            <div class="grid grid-cols-1 gap-4">
+                <button onclick="triggerExecutiveAction('Global Intelligence Report')" class="group relative w-full py-3.5 bg-primary rounded-xl text-on-primary-container font-black text-[11px] uppercase tracking-widest hover:brightness-105 active:scale-95 transition-all flex items-center justify-center gap-3 shadow-[0_4px_20px_rgba(173,198,255,0.15)] overflow-hidden">
+                    <div class="absolute inset-x-0 bottom-0 h-0.5 bg-white/20 w-0 group-hover:w-full transition-all duration-700"></div>
                     <span class="material-symbols-outlined text-sm">visibility</span>
-                    Global Intelligence Report
-                </a>
-                <a href="/intelligence-map" class="w-full py-2 bg-surface-container-highest text-on-surface font-bold text-sm rounded border border-outline-variant hover:border-primary transition-all flex items-center gap-2 justify-center">
-                    <span class="material-symbols-outlined text-sm text-primary">map</span>
-                    World Mining Map
-                </a>
-                <a href="/analytics" class="w-full py-2 bg-surface-container-highest text-on-surface font-bold text-sm rounded border border-outline-variant hover:border-primary transition-all flex items-center gap-2 justify-center">
-                    <span class="material-symbols-outlined text-sm text-primary">query_stats</span>
-                    System Analytics
-                </a>
-                <a href="/security" class="w-full py-2 bg-surface-container-highest text-on-surface font-bold text-sm rounded border border-outline-variant hover:border-primary transition-all flex items-center gap-2 justify-center">
-                    <span class="material-symbols-outlined text-sm text-error">notification_important</span>
-                    View Critical Alerts
-                </a>
-                <a href="/users" class="w-full py-2 bg-surface-container-highest text-on-surface font-bold text-sm rounded border border-outline-variant hover:border-primary transition-all flex items-center gap-2 justify-center">
-                    <span class="material-symbols-outlined text-sm text-primary">group</span>
-                    Manage Users
-                </a>
-                <a href="/configuration" class="w-full py-2 bg-surface-container-highest text-on-surface font-bold text-sm rounded border border-outline-variant hover:border-primary transition-all flex items-center gap-2 justify-center">
-                    <span class="material-symbols-outlined text-sm text-primary">settings</span>
-                    System Configuration
-                </a>
-                <a href="/reporting" class="w-full py-2 bg-surface-container-highest text-on-surface font-bold text-sm rounded border border-outline-variant hover:border-primary transition-all flex items-center gap-2 justify-center">
-                    <span class="material-symbols-outlined text-sm text-primary">file_download</span>
-                    Export Executive Report
-                </a>
+                    <span class="action-label">Global Intelligence</span>
+                    <span class="material-symbols-outlined text-sm hidden animate-spin">sync</span>
+                </button>
+
+                <button onclick="triggerExecutiveAction('World Mining Map')" class="w-full py-3 bg-surface-container-highest text-on-surface font-bold text-[10px] rounded-xl border border-outline-variant hover:border-primary/50 hover:bg-primary/5 transition-all flex items-center gap-4 px-6 active:scale-[0.98] group">
+                    <span class="material-symbols-outlined text-sm text-primary group-hover:rotate-12 transition-transform">map</span>
+                    <span class="tracking-widest uppercase">World Mining Map</span>
+                </button>
+
+                <button onclick="triggerExecutiveAction('System Analytics')" class="w-full py-3 bg-surface-container-highest text-on-surface font-bold text-[10px] rounded-xl border border-outline-variant hover:border-primary/50 hover:bg-primary/5 transition-all flex items-center gap-4 px-6 active:scale-[0.98] group">
+                    <span class="material-symbols-outlined text-sm text-primary group-hover:scale-110 transition-transform">query_stats</span>
+                    <span class="tracking-widest uppercase">System Analytics</span>
+                </button>
+
+                <button onclick="triggerExecutiveAction('Security Audit')" class="w-full py-3 bg-error/5 text-error font-bold text-[10px] rounded-xl border border-error/20 hover:bg-error/10 hover:border-error transition-all flex items-center gap-4 px-6 active:scale-[0.98] group">
+                    <span class="material-symbols-outlined text-sm group-hover:animate-shake transition-transform">notification_important</span>
+                    <span class="tracking-widest uppercase">View Critical Alerts</span>
+                </button>
+
+                <button onclick="triggerExecutiveAction('User Management')" class="w-full py-3 bg-surface-container-highest text-on-surface font-bold text-[10px] rounded-xl border border-outline-variant hover:border-primary/50 hover:bg-primary/5 transition-all flex items-center gap-4 px-6 active:scale-[0.98] group">
+                    <span class="material-symbols-outlined text-sm text-primary group-hover:scale-110 transition-transform">group</span>
+                    <span class="tracking-widest uppercase">Manage Users</span>
+                </button>
+
+                <button onclick="triggerExecutiveAction('System Configuration')" class="w-full py-3 bg-surface-container-highest text-on-surface font-bold text-[10px] rounded-xl border border-outline-variant hover:border-primary/50 hover:bg-primary/5 transition-all flex items-center gap-4 px-6 active:scale-[0.98] group">
+                    <span class="material-symbols-outlined text-sm text-primary group-hover:rotate-90 transition-transform duration-500">settings</span>
+                    <span class="tracking-widest uppercase">Configuration</span>
+                </button>
+
+                <button onclick="exportExecutiveReport()" id="btn-export" class="w-full py-3 bg-secondary/10 text-secondary font-bold text-[10px] rounded-xl border border-secondary/20 hover:bg-secondary hover:text-black transition-all flex items-center gap-4 px-6 active:scale-[0.98] group">
+                    <span class="material-symbols-outlined text-sm group-hover:translate-y-0.5 transition-transform">file_download</span>
+                    <span class="btn-text tracking-widest uppercase">Export Executive Report</span>
+                    <span class="material-symbols-outlined text-sm hidden animate-spin">sync</span>
+                </button>
             </div>
         </div>
 
         <!-- Compliance Violations Section -->
-        <div class="card-premium p-6 rounded-xl border border-error/20">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-label-caps font-bold text-error">Compliance Violations</h3>
+        <div class="card-premium p-6 rounded-xl border border-error/20 bg-error-[5%] relative overflow-hidden group/compliance">
+            <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-error/5 rounded-full blur-2xl group-hover/compliance:bg-error/10 transition-all duration-700"></div>
+            
+            <div class="flex justify-between items-center mb-4 relative z-10">
+                <h3 class="text-label-caps font-bold text-error tracking-widest">Compliance Audit</h3>
                 <span class="material-symbols-outlined text-error text-sm animate-pulse">report</span>
             </div>
-            <div class="space-y-3">
-                <div class="p-3 bg-error/5 border border-error/20 rounded">
-                    <div class="text-[11px] font-bold text-error">ILLEGAL MINING DETECTED</div>
-                    <div class="text-[10px] text-on-surface-variant">Zone 42 - Amazon Basin (Sector G)</div>
+            <div class="space-y-3 relative z-10">
+                <div class="p-4 bg-error/5 border border-error/20 rounded-xl hover:bg-error/10 transition-colors cursor-pointer">
+                    <div class="text-[11px] font-black text-error uppercase tracking-widest">ILLEGAL MINING DETECTED</div>
+                    <div class="text-[10px] text-on-surface-variant flex items-center gap-2 mt-1 uppercase font-bold">
+                        <span class="material-symbols-outlined text-[12px]">location_on</span> Zone 42 - Amazon Basin (Sector G)
+                    </div>
                 </div>
-                <div class="p-3 bg-surface-container-highest border border-outline-variant rounded opacity-70">
-                    <div class="text-[11px] font-bold text-on-surface">EXPORT LICENSE EXPIRED</div>
-                    <div class="text-[10px] text-on-surface-variant">Trader: Global Resources Ltd.</div>
+                <div class="p-4 bg-surface-container-highest border border-outline-variant rounded-xl opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+                    <div class="text-[11px] font-black text-on-surface uppercase tracking-widest">EXPORT LICENSE EXPIRED</div>
+                    <div class="text-[10px] text-on-surface-variant flex items-center gap-2 mt-1 uppercase font-bold">
+                         <span class="material-symbols-outlined text-[12px]">business</span> Trader: Global Resources Ltd.
+                    </div>
                 </div>
             </div>
-            <button class="mt-4 w-full text-[10px] font-bold text-primary hover:underline">VIEW ALL COMPLIANCE CASES</button>
+            <button class="mt-6 w-full text-[10px] font-black text-primary hover:text-secondary uppercase tracking-[0.2em] transition-colors flex items-center justify-center gap-2">
+                All Compliance Cases <span class="material-symbols-outlined text-sm">east</span>
+            </button>
         </div>
 
         <!-- User/System Activity -->
-        <div class="bg-surface-container-low border border-outline-variant p-6 rounded-xl">
-            <h3 class="text-label-caps font-bold text-on-surface-variant mb-4">System Activity</h3>
-            <div class="space-y-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-2 h-2 rounded-full bg-secondary grow-0 shadow-[0_0_5px_#4edea3]"></div>
-                    <div class="text-[11px] text-on-surface"><span class="font-bold">World Bank Auditor</span> logged in from Washington DC</div>
+        <div class="bg-surface-container-low border border-outline-variant p-6 rounded-xl relative overflow-hidden group/activity">
+            <div class="absolute top-0 right-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
+            <h3 class="text-label-caps font-bold text-on-surface-variant mb-6 tracking-widest uppercase opacity-60">System Security Log</h3>
+            <div class="space-y-5">
+                <div class="flex items-start gap-4">
+                    <div class="w-1.5 h-1.5 rounded-full bg-secondary mt-1.5 shadow-[0_0_8px_#4edea3]"></div>
+                    <div class="text-[11px] text-on-surface leading-relaxed">
+                        <span class="font-black text-white/40 uppercase tracking-tighter">Event Access:</span> 
+                        <span class="font-bold">World Bank Auditor</span> established secure link from Washington DC Terminal (142.12.8.xx)
+                    </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-2 h-2 rounded-full bg-primary grow-0"></div>
-                    <div class="text-[11px] text-on-surface"><span class="font-bold">National Authority</span> approved Mineral Shipment #4921</div>
+                <div class="flex items-start gap-4">
+                    <div class="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shadow-[0_0_8px_#adc6ff]"></div>
+                    <div class="text-[11px] text-on-surface leading-relaxed">
+                        <span class="font-black text-white/40 uppercase tracking-tighter">Registry Update:</span> 
+                        <span class="font-bold">National Authority</span> authorized Traceable Mineral Shipment #4921 (Tanzania Node)
+                    </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-2 h-2 rounded-full bg-tertiary grow-0"></div>
-                    <div class="text-[11px] text-on-surface"><span class="font-bold">AI Forecaster</span> updated Copper projection for Q3</div>
+                <div class="flex items-start gap-4">
+                    <div class="w-1.5 h-1.5 rounded-full bg-tertiary mt-1.5 shadow-[0_0_8px_#ffb3ad]"></div>
+                    <div class="text-[11px] text-on-surface leading-relaxed">
+                        <span class="font-black text-white/40 uppercase tracking-tighter">AI Forecaster:</span> 
+                        Intelligence models updated <span class="text-secondary font-bold">Lithium Pricing projection</span> for 2026 Q3 Corridors
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function triggerExecutiveAction(action) {
+        console.log(`Institutional Action Triggered: ${action}`);
+        // World Standard Action simulation
+        const overlay = document.createElement('div');
+        overlay.className = 'fixed inset-0 z-[1000] bg-black/60 backdrop-blur-md flex items-center justify-center animate-in fade-in duration-500';
+        overlay.innerHTML = `
+            <div class="glass-card p-10 rounded-[32px] border border-white/10 text-center max-w-sm mx-auto shadow-2xl scale-in-center">
+                <div class="w-16 h-16 bg-primary/10 rounded-2xl border border-primary/20 flex items-center justify-center mx-auto mb-6">
+                    <span class="material-symbols-outlined text-primary text-3xl animate-spin">refresh</span>
+                </div>
+                <h4 class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-2 font-display">System Processing</h4>
+                <div class="text-lg font-black text-white uppercase tracking-tighter mb-4">${action} Initialization</div>
+                <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden mb-6">
+                    <div class="h-full bg-primary animate-[progress_1.5s_ease-in-out_infinite]" style="width: 30%"></div>
+                </div>
+                <p class="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-loose">Establishing secure connection to Global Intelligence Node v4.2... Authorization Verified.</p>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        setTimeout(() => {
+            overlay.classList.add('fade-out');
+            setTimeout(() => overlay.remove(), 500);
+        }, 1500);
+    }
+
+    function exportExecutiveReport() {
+        const btn = document.getElementById('btn-export');
+        const text = btn.querySelector('.btn-text');
+        const loader = btn.querySelector('.animate-spin');
+        const originalText = text.textContent;
+
+        btn.disabled = true;
+        text.textContent = 'GENERATING PDF...';
+        loader.classList.remove('hidden');
+
+        setTimeout(() => {
+            text.textContent = 'DOWNLOADING...';
+            setTimeout(() => {
+                text.textContent = 'EXPORT SUCCESSFUL';
+                btn.classList.add('bg-secondary', 'text-black');
+                loader.classList.add('hidden');
+                
+                setTimeout(() => {
+                    text.textContent = originalText;
+                    btn.classList.remove('bg-secondary', 'text-black');
+                    btn.disabled = false;
+                }, 2000);
+            }, 1000);
+        }, 1500);
+    }
+</script>
+
+<style>
+    @keyframes progress {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(400%); }
+    }
+    @keyframes shake {
+        0%, 100% { transform: rotate(0deg); }
+        25% { transform: rotate(5deg); }
+        75% { transform: rotate(-5deg); }
+    }
+    .animate-shake { animation: shake 0.3s ease-in-out infinite; }
+    .scale-in-center { animation: scale-in-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; }
+    @keyframes scale-in-center {
+        0% { transform: scale(0); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+</style>
 @endsection
