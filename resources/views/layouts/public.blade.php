@@ -16,6 +16,7 @@
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
                         display: ['Outfit', 'sans-serif'],
                     },
+                    },
                     colors: {
                         primary: "#3B82F6",
                         secondary: "#10B981",
@@ -26,6 +27,7 @@
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 3s linear infinite',
                     },
                     keyframes: {
                         float: {
@@ -65,9 +67,15 @@
                     <a href="#services" class="hover:text-primary transition-colors">Services</a>
                     <a href="#features" class="hover:text-primary transition-colors">Features</a>
                     <a href="/events-center" class="hover:text-primary transition-colors">Events</a>
-                    <a href="/dashboard" class="flex items-center gap-2 text-primary">
-                        <span class="material-symbols-outlined text-sm">dashboard</span> Dashboard Access
-                    </a>
+                    @auth
+                        <a href="/dashboard" class="flex items-center gap-2 text-primary">
+                            <span class="material-symbols-outlined text-sm">dashboard</span> Dashboard 
+                        </a>
+                    @else
+                        <button onclick="toggleAuthModal(true, 'register')" class="flex items-center gap-2 hover:text-primary transition-colors cursor-pointer outline-none">
+                            <span class="material-symbols-outlined text-sm">dashboard</span> Dashboard 
+                        </button>
+                    @endauth
                 </div>
             </div>
 
@@ -78,8 +86,44 @@
                         EN
                     </div>
                 </div>
-                <a href="/login" class="px-6 py-2.5 text-[11px] font-bold uppercase tracking-widest text-white hover:text-primary transition-colors">Log In</a>
-                <a href="/register" class="px-7 py-3 bg-primary text-white font-bold text-[11px] uppercase tracking-[0.2em] rounded-full hover:shadow-[0_0_25px_rgba(59,130,246,0.4)] transition-all transform hover:-translate-y-0.5 active:scale-95">Register</a>
+                @auth
+                    <div class="flex items-center gap-4 pl-6 border-l border-white/10 relative group/profile">
+                        <div class="flex flex-col items-end cursor-pointer">
+                            <span class="text-[10px] font-black text-white hover:text-primary transition-colors uppercase tracking-tighter">{{ Auth::user()->name }}</span>
+                            <span class="text-[8px] font-bold {{ Auth::user()->is_admin ? 'text-primary' : 'text-white/30' }} uppercase tracking-widest">{{ Auth::user()->is_admin ? 'Sovereign Administrator' : 'Intelligence Officer' }}</span>
+                        </div>
+                        <div class="relative">
+                            <button class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary/20 transition-all group-hover/profile:border-primary cursor-pointer">
+                                <span class="material-symbols-outlined text-white/40 group-hover/profile:text-primary">person</span>
+                            </button>
+                            <!-- Profile Dropdown -->
+                            <div class="absolute top-full right-0 mt-4 w-48 bg-[#0C0D10] border border-white/10 rounded-2xl shadow-2xl hidden group-hover/profile:block animate-in fade-in slide-in-from-top-2 duration-200 z-[200]">
+                                <div class="p-2 space-y-1">
+                                    @if(Auth::user()->is_admin)
+                                        <a href="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all cursor-pointer">
+                                            <span class="material-symbols-outlined text-sm">admin_panel_settings</span> Admin Panel
+                                        </a>
+                                    @endif
+                                    <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all cursor-pointer">
+                                        <span class="material-symbols-outlined text-sm">dashboard</span> Dashboard
+                                    </a>
+                                    <a href="/profile/settings" class="flex items-center gap-3 px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all cursor-pointer">
+                                        <span class="material-symbols-outlined text-sm">settings</span> Profile Settings
+                                    </a>
+                                    <form action="{{ route('logout') }}" method="POST" class="w-full">
+                                        @csrf
+                                        <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-[10px] font-black text-red-500/50 uppercase tracking-widest hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all cursor-pointer">
+                                            <span class="material-symbols-outlined text-sm">logout</span> Log Out
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <button onclick="toggleAuthModal(true, 'login')" class="px-6 py-2.5 text-[11px] font-bold uppercase tracking-widest text-white hover:text-primary transition-colors">Log In</button>
+                    <button onclick="toggleAuthModal(true, 'register')" class="px-7 py-3 bg-primary text-white font-bold text-[11px] uppercase tracking-[0.2em] rounded-full hover:shadow-[0_0_25px_rgba(59,130,246,0.4)] transition-all transform hover:-translate-y-0.5 active:scale-95">Register</button>
+                @endauth
             </div>
         </nav>
     </header>
@@ -101,7 +145,7 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-sm text-white/50 leading-relaxed font-medium">
                     <div class="space-y-6">
-                        <p>GMITE (Global Mineral Intelligence, Trade & Ecosystem) is the world's most advanced enterprise platform designed for the comprehensive management of mineral extraction, trade corridors, and institutional compliance.</p>
+                        <p>GMITE (Global Mineral Intelligence, Trade and Ecosystem) is the world's most advanced enterprise platform designed for the comprehensive management of mineral extraction, trade corridors, and institutional compliance.</p>
                         <p>Our mandate is to provide sovereign nations and global corporations with a unified data-sync environment where real-time intelligence meets regulatory authority.</p>
                     </div>
                     <div class="space-y-6">
@@ -120,9 +164,126 @@
                 </div>
 
                 <div class="flex gap-4">
-                     <a href="/dashboard" class="px-10 py-5 bg-primary text-white font-black text-[12px] uppercase tracking-[0.2em] rounded-full hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] transition-all">Enter Dashboard</a>
+                     @auth
+                        <a href="/dashboard" class="px-10 py-5 bg-primary text-white font-black text-[12px] uppercase tracking-[0.2em] rounded-full hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] transition-all">Enter Dashboard</a>
+                     @else
+                        <button onclick="toggleAuthModal(true, 'register')" class="px-10 py-5 bg-primary text-white font-black text-[12px] uppercase tracking-[0.2em] rounded-full hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] transition-all">Enter Dashboard</button>
+                     @endauth
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal (Login/Register) -->
+    <div id="auth-modal" class="fixed inset-0 z-[250] hidden flex items-center justify-center p-6">
+        <div class="absolute inset-0 bg-dark/80 backdrop-blur-2xl" onclick="toggleAuthModal(false)"></div>
+        <div class="glass-card w-full max-w-xl p-8 sm:p-12 rounded-[40px] relative z-10 overflow-y-auto max-h-full shadow-2xl animate-in zoom-in duration-300">
+            <button onclick="toggleAuthModal(false)" class="absolute top-8 right-8 w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-red-500 transition-all group">
+                <span class="material-symbols-outlined text-white/40 group-hover:text-white">close</span>
+            </button>
+            
+            <!-- Auth Tabs -->
+            <div class="flex gap-8 border-b border-white/5 mb-10">
+                <button onclick="switchAuthTab('login')" id="tab-login" class="pb-4 text-sm font-black uppercase tracking-[0.2em] transition-all border-b-2 border-transparent text-white/30">Login</button>
+                <button onclick="switchAuthTab('register')" id="tab-register" class="pb-4 text-sm font-black uppercase tracking-[0.2em] transition-all border-b-2 border-primary text-primary">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="form-login" action="{{ route('user.login') }}" method="POST" class="hidden space-y-6">
+                @csrf
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-white/30 uppercase tracking-widest pl-4">Email Address</label>
+                    <input type="email" name="email" required class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-sm text-white focus:border-primary focus:ring-0 transition-all" placeholder="admin@gmite.int">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-white/30 uppercase tracking-widest pl-4">Password</label>
+                    <input type="password" name="password" required class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-sm text-white focus:border-primary focus:ring-0 transition-all" placeholder="••••••••">
+                </div>
+                <div class="flex items-center gap-2 pl-2">
+                    <input type="checkbox" name="remember" id="remember" class="w-4 h-4 rounded bg-white/5 border-white/10 text-primary focus:ring-0 focus:ring-offset-0">
+                    <label for="remember" class="text-[10px] font-bold text-white/30 uppercase tracking-widest">Remember this terminal</label>
+                </div>
+                <button type="submit" id="btn-login" class="w-full py-5 bg-primary text-white font-black text-[12px] uppercase tracking-[0.3em] rounded-2xl hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all active:scale-95 flex items-center justify-center gap-3">
+                    <span class="btn-text">Access Dashboard</span>
+                    <span class="material-symbols-outlined animate-spin hidden text-sm">sync</span>
+                </button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="form-register" action="{{ route('register') }}" method="POST" class="space-y-6">
+                @csrf
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                    <!-- Name -->
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] pl-4">Full Identity Name</label>
+                        <div class="relative group">
+                            <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary transition-colors text-lg">person</span>
+                            <input type="text" name="name" required class="w-full bg-white/5 border border-white/10 rounded-2xl pl-14 pr-6 py-4 text-sm text-white focus:border-primary focus:ring-0 transition-all placeholder:text-white/10" placeholder="Alexander Hamilton">
+                        </div>
+                    </div>
+                    <!-- Email -->
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] pl-4">Intelligence Email</label>
+                        <div class="relative group">
+                            <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary transition-colors text-lg">mail</span>
+                            <input type="email" name="email" required class="w-full bg-white/5 border border-white/10 rounded-2xl pl-14 pr-6 py-4 text-sm text-white focus:border-primary focus:ring-0 transition-all placeholder:text-white/10" placeholder="authority@gmite.com">
+                        </div>
+                    </div>
+                    <!-- Phone -->
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] pl-4">Secure Contact Line</label>
+                        <div class="relative group">
+                            <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary transition-colors text-lg">call</span>
+                            <input type="tel" name="phone_number" required class="w-full bg-white/5 border border-white/10 rounded-2xl pl-14 pr-6 py-4 text-sm text-white focus:border-primary focus:ring-0 transition-all placeholder:text-white/10" placeholder="+255 ...">
+                        </div>
+                    </div>
+                    <!-- Country -->
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] pl-4">Jurisdiction</label>
+                        <div class="relative group">
+                            <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary transition-colors text-lg">public</span>
+                            <select name="country" required class="w-full bg-white/5 border border-white/10 rounded-2xl pl-14 pr-10 py-4 text-sm text-white focus:border-primary focus:ring-0 transition-all appearance-none cursor-pointer">
+                                <option value="" disabled selected class="text-black bg-white italic">Select Region</option>
+                                <option value="Tanzania" class="text-black bg-white">Tanzania (HQ)</option>
+                                <option value="USA" class="text-black bg-white">United States</option>
+                                <option value="Kenya" class="text-black bg-white">Kenya</option>
+                                <option value="Rwanda" class="text-black bg-white">Rwanda</option>
+                                <option value="Congo" class="text-black bg-white">Congo (DRC)</option>
+                                <option value="Zambia" class="text-black bg-white">Zambia</option>
+                                <option value="South Africa" class="text-black bg-white">South Africa</option>
+                                <option value="Global" class="text-black bg-white">International</option>
+                            </select>
+                            <span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-white/20 pointer-events-none">expand_more</span>
+                        </div>
+                    </div>
+                    <!-- Password -->
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] pl-4">Security Key</label>
+                        <div class="relative group">
+                            <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary transition-colors text-lg">lock</span>
+                            <input type="password" name="password" required class="w-full bg-white/5 border border-white/10 rounded-2xl pl-14 pr-6 py-4 text-sm text-white focus:border-primary focus:ring-0 transition-all placeholder:text-white/10" placeholder="••••••••">
+                        </div>
+                    </div>
+                    <!-- Confirm Password -->
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] pl-4">Verify Key</label>
+                        <div class="relative group">
+                            <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary transition-colors text-lg">shield</span>
+                            <input type="password" name="password_confirmation" required class="w-full bg-white/5 border border-white/10 rounded-2xl pl-14 pr-6 py-4 text-sm text-white focus:border-primary focus:ring-0 transition-all placeholder:text-white/10" placeholder="••••••••">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" id="btn-register" class="w-full py-5 bg-primary text-white font-black text-[13px] uppercase tracking-[0.4em] rounded-[20px] hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] hover:-translate-y-1 transition-all active:scale-95 flex items-center justify-center gap-4 group">
+                        <span class="btn-text">Initialize Intelligence Access</span>
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">bolt</span>
+                        <span class="material-symbols-outlined animate-spin hidden text-sm">sync</span>
+                    </button>
+                    <p class="text-[9px] font-bold text-white/20 text-center uppercase tracking-[0.3em] mt-6 leading-relaxed">
+                        Initializing access binds this node to the <span class="text-white/40">Sovereign Data Protection Protocols</span> v4.2
+                    </p>
+                </div>
         </div>
     </div>
 
@@ -181,18 +342,7 @@
                 </div>
 
                 <!-- Column 2: Products & Modules -->
-                <div>
-                    <h5 class="text-[11px] font-black text-white uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
-                        <span class="w-1 h-3 bg-secondary rounded-full"></span> Core Systems
-                    </h5>
-                    <ul class="space-y-4 text-sm text-white/40 font-medium">
-                        <li><a href="/intelligence-map" class="flex items-center gap-2 hover:text-white transition-colors"><span class="material-symbols-outlined text-xs text-primary">public</span> Intelligence Map</a></li>
-                        <li><a href="/trade-oversight" class="flex items-center gap-2 hover:text-white transition-colors"><span class="material-symbols-outlined text-xs text-primary">currency_exchange</span> Trade Oversight</a></li>
-                        <li><a href="/compliance" class="flex items-center gap-2 hover:text-white transition-colors"><span class="material-symbols-outlined text-xs text-primary">gavel</span> Compliance Auditor</a></li>
-                        <li><a href="/laboratory" class="flex items-center gap-2 hover:text-white transition-colors"><span class="material-symbols-outlined text-xs text-primary">science</span> Laboratory Terminal</a></li>
-                        <li><a href="/admin/configuration" class="flex items-center gap-2 hover:text-white transition-colors"><span class="material-symbols-outlined text-xs text-primary">terminal</span> API Core Access</a></li>
-                    </ul>
-                </div>
+               
 
                 <!-- Column 3: Global Support -->
                 <div>
@@ -209,35 +359,24 @@
                 </div>
 
                 <!-- Column 4: Legal & Security -->
-                <div>
-                    <h5 class="text-[11px] font-black text-white uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
-                        <span class="w-1 h-3 bg-red-400 rounded-full"></span> Governance
-                    </h5>
-                    <ul class="space-y-4 text-sm text-white/40 font-medium">
-                        <li><a href="/compliance" class="hover:text-primary transition-colors">Privacy Declaration</a></li>
-                        <li><a href="/compliance" class="hover:text-primary transition-colors">Terms of Engagement</a></li>
-                        <li><a href="/compliance" class="hover:text-primary transition-colors">Cookie Policy</a></li>
-                        <li><a href="/compliance" class="hover:text-primary transition-colors">Secure Data Standard</a></li>
-                        <li><a href="/mineral-governance" class="hover:text-primary transition-colors">Regulatory Framework</a></li>
-                    </ul>
-                </div>
+                
 
                 <!-- Column 5: Contact Intelligence -->
                 <div class="space-y-8">
                     <div>
                         <h5 class="text-[11px] font-black text-white uppercase tracking-[0.3em] mb-6">Headquarters</h5>
                         <p class="text-sm text-white/40 font-medium leading-relaxed">
-                            Trans-Global Operations Hub<br>
-                            Administrative District SW-2<br>
-                            Geneva, Switzerland
+                            Magufuli House, Floor 14<br>
+                            Victoria Area, Bagamoyo Road<br>
+                            Dar es Salaam, Tanzania
                         </p>
                     </div>
                     <div class="space-y-3">
-                        <a href="mailto:intelligence@gmite.int" class="flex items-center gap-3 text-sm text-white/40 hover:text-white transition-colors">
-                            <span class="material-symbols-outlined text-primary text-sm">mail</span> intelligence@gmite.int
+                        <a href="mailto:gmiteminerals@gmail.com" class="flex items-center gap-3 text-sm text-white/40 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-primary text-sm">mail</span> gmiteminerals@gmail.com
                         </a>
                         <div class="flex items-center gap-3 text-sm text-white/40">
-                            <span class="material-symbols-outlined text-primary text-sm">schedule</span> 09:00 - 18:00 CET
+                            <span class="material-symbols-outlined text-primary text-sm">schedule</span> 07:30 - 17:30 EAT
                         </div>
                     </div>
                 </div>
@@ -354,6 +493,107 @@
                 document.body.style.overflow = 'auto';
             }
         }
+
+        function toggleAuthModal(show, tab = 'register') {
+            const modal = document.getElementById('auth-modal');
+            if (show) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                switchAuthTab(tab);
+            } else {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function switchAuthTab(tab) {
+            const formLogin = document.getElementById('form-login');
+            const formRegister = document.getElementById('form-register');
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+
+            if (tab === 'login') {
+                formLogin.classList.remove('hidden');
+                formRegister.classList.add('hidden');
+                tabLogin.classList.add('text-primary', 'border-primary');
+                tabLogin.classList.remove('text-white/30', 'border-transparent');
+                tabRegister.classList.remove('text-primary', 'border-primary');
+                tabRegister.classList.add('text-white/30', 'border-transparent');
+            } else {
+                formLogin.classList.add('hidden');
+                formRegister.classList.remove('hidden');
+                tabRegister.classList.add('text-primary', 'border-primary');
+                tabRegister.classList.remove('text-white/30', 'border-transparent');
+                tabLogin.classList.remove('text-primary', 'border-primary');
+                tabLogin.classList.add('text-white/30', 'border-transparent');
+            }
+        }
+
+        // Optimized AJAX Multi-Auth System
+        document.addEventListener('DOMContentLoaded', () => {
+            const forms = {
+                'form-register': 'btn-register',
+                'form-login': 'btn-login'
+            };
+
+            Object.entries(forms).forEach(([formId, btnId]) => {
+                const form = document.getElementById(formId);
+                const btn = document.getElementById(btnId);
+                
+                if (form) {
+                    form.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        
+                        // Start High-Speed loading state
+                        const btnText = btn.querySelector('.btn-text');
+                        const btnIcon = btn.querySelector('.material-symbols-outlined');
+                        const originalText = btnText.textContent;
+                        
+                        btn.disabled = true;
+                        btnText.textContent = formId === 'form-register' ? 'Initializing Profile...' : 'Authenticating...';
+                        btnIcon.classList.remove('hidden');
+                        
+                        try {
+                            const formData = new FormData(form);
+                            const response = await fetch(form.action, {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    'Accept': 'application/json'
+                                }
+                            });
+
+                            const data = await response.json();
+
+                            if (response.ok) {
+                                // Success - Smooth redirect
+                                btnText.textContent = 'Redirecting...';
+                                window.location.href = data.redirect || '/dashboard';
+                            } else {
+                                // Error handling
+                                btn.disabled = false;
+                                btnText.textContent = originalText;
+                                btnIcon.classList.add('hidden');
+                                
+                                // Show first error
+                                if (data.errors) {
+                                    const firstError = Object.values(data.errors)[0][0];
+                                    alert(firstError);
+                                } else {
+                                    alert(data.message || 'Authentication Failed');
+                                }
+                            }
+                        } catch (error) {
+                            btn.disabled = false;
+                            btnText.textContent = originalText;
+                            btnIcon.classList.add('hidden');
+                            console.error('Auth Error:', error);
+                        }
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>

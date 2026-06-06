@@ -178,9 +178,12 @@
                         <span class="material-symbols-outlined text-sm">person</span>
                     </div>
                 </div>
-                <a href="/admin/logout" class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-[0_4px_15px_rgba(239,68,68,0.1)]" title="Terminate Session">
-                    <span class="material-symbols-outlined text-sm">logout</span>
-                </a>
+                <form action="{{ route('logout') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-[0_4px_15px_rgba(239,68,68,0.1)]" title="Terminate Session">
+                        <span class="material-symbols-outlined text-sm">logout</span>
+                    </button>
+                </form>
             </div>
         </div>
     </nav>

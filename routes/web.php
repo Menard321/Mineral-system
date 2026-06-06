@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 
 /**
  * PUBLIC INTELLIGENCE SUITE (De-Restricted & Open Access)
@@ -12,7 +13,12 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('generaldashboard');
-})->name('dashboard');
+})->name('dashboard')->middleware('auth');
+
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('user.login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout']); // Fail-safe fallback for manual entry
 
 Route::get('/events-center', function () {
     return view('events_center');
@@ -94,7 +100,7 @@ Route::middleware(['web'])->group(function () {
         
         Route::get('/dashboard', function () use ($protect) {
             return $protect('dashboard'); // Admin-only management dashboard
-        });
+        })->name('admin.dashboard');
 
         Route::get('/users', function () use ($protect) { return $protect('users'); });
         Route::get('/security', function () use ($protect) { return $protect('security'); });

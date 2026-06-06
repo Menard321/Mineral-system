@@ -49,16 +49,16 @@
                 <span>System Health: OPTIMAL</span>
             </div>
             
-            <!-- ADMIN SECURE GATEWAY -->
-            <button onclick="toggleAdminTerminal(true)" class="flex items-center gap-3 group outline-none">
+            <!-- ADMIN SECURE GATEWAY (Unified) -->
+            <a href="/" class="flex items-center gap-3 group outline-none">
                 <div class="text-right hidden md:block">
                     <div class="text-[9px] font-bold text-white/40 uppercase tracking-widest leading-none mb-1">Restricted</div>
-                    <div class="text-[10px] font-black text-white uppercase tracking-tighter">Admin Login</div>
+                    <div class="text-[10px] font-black text-white uppercase tracking-tighter">Unified Login</div>
                 </div>
                 <div class="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all shadow-[0_4px_15px_rgba(173,198,255,0.1)]">
                     <span class="material-symbols-outlined text-xl">admin_panel_settings</span>
                 </div>
-            </button>
+            </a>
         </div>
     </nav>
 
@@ -137,11 +137,23 @@
                 </a>
             </nav>
             
-            <div class="mt-auto px-6 py-8">
+            <div class="mt-auto px-6 py-8 space-y-4">
                  <div class="p-4 rounded-xl bg-white/5 border border-white/10">
-                     <div class="text-[9px] font-bold text-white/30 uppercase mb-2">Access Status</div>
-                     <div class="text-[10px] font-bold text-secondary">EXECUTIVE DIRECTOR</div>
+                     <div class="text-[9px] font-bold text-white/30 uppercase mb-2 font-label-caps tracking-widest">Access Status</div>
+                     <div class="flex items-center justify-between">
+                         <div class="text-[10px] font-bold text-secondary uppercase font-label-caps">{{ Auth::user()->is_admin ? 'SOVEREIGN DIRECTOR' : 'EXECUTIVE OFFICER' }}</div>
+                         <div class="w-2 h-2 rounded-full bg-secondary animate-pulse shadow-[0_0_8px_#4edea3]"></div>
+                     </div>
                  </div>
+
+                 <!-- Institutional Logout Terminal -->
+                 <form action="{{ route('logout') }}" method="POST" class="w-full">
+                    @csrf
+                    <button type="submit" class="w-full flex items-center gap-4 px-6 py-4 bg-red-500/5 border border-red-500/10 text-red-500/60 rounded-xl hover:bg-red-500 hover:text-white hover:shadow-[0_0_20px_rgba(239,68,68,0.3)] transition-all cursor-pointer group">
+                        <span class="material-symbols-outlined text-lg group-hover:rotate-180 transition-transform duration-500">logout</span>
+                        <span class="text-[11px] font-bold uppercase tracking-widest font-label-caps">Terminate Session</span>
+                    </button>
+                 </form>
             </div>
         </aside>
 
