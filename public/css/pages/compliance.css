@@ -1,0 +1,139 @@
+/* ============================================================
+ * GMITE — Compliance & Enforcement Page Styles
+ * Covers: compliance.blade.php, admin/compliance/index.blade.php
+ * ============================================================ */
+
+/* ── Page Base ─────────────────────────────────────────────── */
+.compliance-page {
+    background: #0A0B0D;
+    min-height: 100vh;
+}
+
+/* ── Case Status Badges ────────────────────────────────────── */
+.case-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.case-badge-open {
+    background: rgba(255, 180, 171, 0.1);
+    border: 1px solid rgba(255, 180, 171, 0.3);
+    color: #ffb4ab;
+}
+
+.case-badge-investigation {
+    background: rgba(253, 224, 71, 0.1);
+    border: 1px solid rgba(253, 224, 71, 0.3);
+    color: #FDE047;
+}
+
+.case-badge-closed {
+    background: rgba(78, 222, 163, 0.1);
+    border: 1px solid rgba(78, 222, 163, 0.3);
+    color: #4edea3;
+}
+
+/* ── Enforcement Action Buttons ────────────────────────────── */
+.enforcement-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid;
+    width: 100%;
+}
+
+.enforcement-btn-danger {
+    background: rgba(255, 72, 72, 0.08);
+    border-color: rgba(255, 72, 72, 0.25);
+    color: #ff8080;
+}
+.enforcement-btn-danger:hover {
+    background: rgba(255, 72, 72, 0.18);
+    border-color: rgba(255, 72, 72, 0.5);
+}
+
+.enforcement-btn-warning {
+    background: rgba(253, 224, 71, 0.08);
+    border-color: rgba(253, 224, 71, 0.25);
+    color: #FDE047;
+}
+.enforcement-btn-warning:hover {
+    background: rgba(253, 224, 71, 0.18);
+    border-color: rgba(253, 224, 71, 0.5);
+}
+
+.enforcement-btn-primary {
+    background: rgba(173, 198, 255, 0.08);
+    border-color: rgba(173, 198, 255, 0.25);
+    color: #adc6ff;
+}
+.enforcement-btn-primary:hover {
+    background: rgba(173, 198, 255, 0.18);
+    border-color: rgba(173, 198, 255, 0.5);
+}
+
+/* ── Case Card ─────────────────────────────────────────────── */
+.case-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(66, 71, 84, 0.5);
+    border-radius: 16px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.case-card:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(173, 198, 255, 0.2);
+}
+
+/* ── Risk Score Indicator ──────────────────────────────────── */
+.risk-score-high {
+    color: #ffb4ab;
+    background: rgba(255, 180, 171, 0.1);
+}
+.risk-score-medium {
+    color: #FDE047;
+    background: rgba(253, 224, 71, 0.1);
+}
+.risk-score-low {
+    color: #4edea3;
+    background: rgba(78, 222, 163, 0.1);
+}
+
+/* ── Evidence Table ────────────────────────────────────────── */
+.evidence-table th {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(194, 198, 214, 0.5);
+    padding: 10px 16px;
+    text-align: left;
+    border-bottom: 1px solid rgba(66, 71, 84, 0.4);
+}
+
+.evidence-table td {
+    padding: 14px 16px;
+    font-size: 12px;
+    color: #e3e2e5;
+    border-bottom: 1px solid rgba(66, 71, 84, 0.2);
+}
+
+.evidence-table tr:hover td {
+    background: rgba(173, 198, 255, 0.03);
+}

@@ -29,6 +29,12 @@ Route::get('/events-center', function () {
     return view('events_center');
 })->name('miec');
 
+Route::get('/samples/{id}/archive', [AdminSampleController::class, 'archive'])
+    ->name('samples.archive');
+
+
+
+
 Route::get('/mineral-atlas', function () {
     return view('mineral_atlas');
 })->name('atlas');

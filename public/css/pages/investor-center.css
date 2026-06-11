@@ -1,0 +1,72 @@
+/* ============================================================
+ * GMITE — Investor Center Page Styles (investor_center.blade.php)
+ * ============================================================ */
+
+/* ── Page Base ─────────────────────────────────────────────── */
+.investor-page {
+    background: #050A15;
+    min-height: 100vh;
+}
+
+/* ── Portfolio Value Card ──────────────────────────────────── */
+.portfolio-card {
+    background: linear-gradient(145deg, rgba(59,130,246,0.08), rgba(17,24,39,0.9));
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    border-radius: 28px;
+    backdrop-filter: blur(16px);
+    transition: all 0.4s ease;
+}
+
+.portfolio-card:hover {
+    border-color: rgba(59, 130, 246, 0.35);
+    box-shadow: 0 20px 60px rgba(59, 130, 246, 0.1);
+}
+
+/* ── Investment Opportunity Card ───────────────────────────── */
+.opportunity-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.opportunity-card:hover {
+    background: rgba(59, 130, 246, 0.05);
+    border-color: rgba(59, 130, 246, 0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Market Sentiment Bar ──────────────────────────────────── */
+.sentiment-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.sentiment-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 1s ease-out;
+}
+
+/* ── AI Briefing Box ───────────────────────────────────────── */
+.briefing-box {
+    border-left: 2px solid;
+    padding-left: 16px;
+}
+
+/* ── Chart Bars ────────────────────────────────────────────── */
+.chart-bar {
+    flex: 1;
+    background: linear-gradient(to top, rgba(59,130,246,0.4), rgba(59,130,246,0.05));
+    border-radius: 2px 2px 0 0;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.chart-bar:hover {
+    background: linear-gradient(to top, rgba(59,130,246,0.8), rgba(59,130,246,0.2));
+}

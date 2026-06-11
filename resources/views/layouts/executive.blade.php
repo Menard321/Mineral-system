@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="{{ asset('css/dashboard/shared.css') }}" rel="stylesheet"/>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -26,12 +27,7 @@
             },
         }
     </script>
-    <style>
-        body { background-color: #000; color: #e3e2e5; font-family: 'Inter', sans-serif; }
-        .executive-sidebar-active { background: rgba(77, 142, 255, 0.1); color: #adc6ff; border-right: 2px solid #adc6ff; }
-        .ticker-scroll { animation: ticker 40s linear infinite; }
-        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-    </style>
+    {{-- External shared.css handles core styles --}}
 </head>
 <body class="bg-background overflow-hidden h-screen flex flex-col">
     <!-- Top Nav -->

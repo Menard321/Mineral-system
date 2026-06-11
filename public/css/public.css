@@ -1,0 +1,65 @@
+/* ============================================================
+ * GMITE — Public Layout Styles (public.blade.php)
+ * Covers: landing page, nav, modals, footer
+ * ============================================================ */
+
+/* ── Base ─────────────────────────────────────────────────── */
+body {
+    background-color: #050A15;
+    color: #E2E8F0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    overflow-x: hidden;
+}
+
+/* ── Glassmorphism Components ──────────────────────────────── */
+.glass-header {
+    background: rgba(11, 18, 34, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ── Hero Gradient ─────────────────────────────────────────── */
+.hero-gradient {
+    background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+}
+
+/* ── Text Gradient ─────────────────────────────────────────── */
+.text-gradient {
+    background: linear-gradient(to right, #60A5FA, #34D399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #050A15;
+}
+::-webkit-scrollbar-thumb {
+    background: #1E293B;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #2D3F5A;
+}
+
+/* ── Float Animation (for hero elements) ──────────────────── */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}

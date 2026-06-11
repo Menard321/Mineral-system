@@ -1,0 +1,115 @@
+/* ============================================================
+ * GMITE — Mineral Atlas & Governance Pages
+ * Covers: mineral_atlas.blade.php, mineral_governance.blade.php
+ * ============================================================ */
+
+/* ── Map Container ─────────────────────────────────────────── */
+.atlas-map-container {
+    background: rgba(173, 198, 255, 0.02);
+    border: 1px solid rgba(173, 198, 255, 0.1);
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    min-height: 500px;
+}
+
+/* ── Deposit Node ──────────────────────────────────────────── */
+.deposit-node {
+    position: absolute;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.deposit-node-inner {
+    width: 16px;
+    height: 16px;
+    background: #adc6ff;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    position: relative;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 12px rgba(173, 198, 255, 0.4);
+}
+
+.deposit-node:hover .deposit-node-inner {
+    transform: scale(1.4);
+    box-shadow: 0 0 20px rgba(173, 198, 255, 0.7);
+}
+
+.deposit-node::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: rgba(173, 198, 255, 0.15);
+    animation: depositPulse 2s ease-in-out infinite;
+}
+
+@keyframes depositPulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.5); opacity: 0; }
+}
+
+/* ── Mineral Legend ────────────────────────────────────────── */
+.mineral-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.mineral-legend-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.mineral-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* ── Governance Stats Cards ────────────────────────────────── */
+.governance-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(66, 71, 84, 0.5);
+    border-radius: 20px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.governance-card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, #adc6ff, transparent);
+}
+
+/* ── Policy Status ─────────────────────────────────────────── */
+.policy-status-active {
+    color: #4edea3;
+    background: rgba(78, 222, 163, 0.08);
+    border: 1px solid rgba(78, 222, 163, 0.2);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.policy-status-review {
+    color: #FDE047;
+    background: rgba(253, 224, 71, 0.08);
+    border: 1px solid rgba(253, 224, 71, 0.2);
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+}

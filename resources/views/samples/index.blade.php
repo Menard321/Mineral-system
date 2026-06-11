@@ -6,11 +6,7 @@
     <title>GMITE | Sample Archive</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
-    <style>
-        body { background: #000; color: #fff; font-family: 'Rajdhani', sans-serif; }
-        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .neon-border { border: 1px solid rgba(255, 215, 0, 0.3); box-shadow: 0 0 15px rgba(255, 215, 0, 0.1); }
-    </style>
+    <link href="{{ asset('css/pages/samples.css') }}" rel="stylesheet"/>
 </head>
 <body class="p-8">
     <div class="max-w-6xl mx-auto">

@@ -3,12 +3,7 @@
 @section('title', 'NMCE-CC | Compliance Enforcement')
 
 @section('content')
-<style>
-    .case-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid rgba(255, 255, 255, 0.03); }
-    .case-card:hover { border-color: rgba(173, 198, 255, 0.2); transform: translateY(-4px); background: rgba(255,255,255,0.02); }
-    .risk-badge { padding: 4px 12px; border-radius: 6px; font-size: 9px; font-weight: 900; letter-spacing: 0.1em; }
-    .status-dot { width: 8px; h-8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
-</style>
+{{-- Styles: public/css/pages/compliance.css (loaded via admin layout) --}}
 
 <div class="space-y-10">
     <!-- Header -->

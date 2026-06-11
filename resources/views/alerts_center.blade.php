@@ -206,8 +206,5 @@
     </div>
 </div>
 
-<style>
-    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #343537; border-radius: 4px; }
-</style>
+{{-- Scrollbar styles are in public/css/dashboard/shared.css --}}
 @endsection

@@ -59,6 +59,8 @@
             @csrf
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+
                 <!-- Section 1: Mineral Identity -->
                 <div class="space-y-6">
                     <h3 class="text-yellow-500/80 uppercase font-bold tracking-widest text-xs border-l-2 border-yellow-500 pl-3">I. Mineral Identity</h3>

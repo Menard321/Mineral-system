@@ -1,0 +1,87 @@
+/* ============================================================
+ * GMITE — Alerts Center Page (alerts_center.blade.php)
+ * ============================================================ */
+
+/* ── Alert Item ────────────────────────────────────────────── */
+.alert-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    border: 1px solid;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.alert-item-critical {
+    background: rgba(255, 72, 72, 0.04);
+    border-color: rgba(255, 72, 72, 0.2);
+}
+.alert-item-critical:hover {
+    background: rgba(255, 72, 72, 0.08);
+    border-color: rgba(255, 72, 72, 0.4);
+}
+
+.alert-item-warning {
+    background: rgba(253, 224, 71, 0.04);
+    border-color: rgba(253, 224, 71, 0.2);
+}
+.alert-item-warning:hover {
+    background: rgba(253, 224, 71, 0.08);
+    border-color: rgba(253, 224, 71, 0.4);
+}
+
+.alert-item-info {
+    background: rgba(173, 198, 255, 0.04);
+    border-color: rgba(173, 198, 255, 0.2);
+}
+.alert-item-info:hover {
+    background: rgba(173, 198, 255, 0.08);
+    border-color: rgba(173, 198, 255, 0.4);
+}
+
+.alert-item-success {
+    background: rgba(78, 222, 163, 0.04);
+    border-color: rgba(78, 222, 163, 0.2);
+}
+.alert-item-success:hover {
+    background: rgba(78, 222, 163, 0.08);
+    border-color: rgba(78, 222, 163, 0.4);
+}
+
+/* ── Alert Icon ────────────────────────────────────────────── */
+.alert-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ── Alert Priority Badge ──────────────────────────────────── */
+.alert-priority {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+/* ── Unread Indicator ──────────────────────────────────────── */
+.unread-dot {
+    width: 8px;
+    height: 8px;
+    background: #ffb4ab;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: alertPulse 2s ease-in-out infinite;
+}
+
+@keyframes alertPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 180, 171, 0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(255, 180, 171, 0); }
+}

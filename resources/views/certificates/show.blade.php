@@ -159,11 +159,15 @@
             <div class="space-y-4 mb-8">
                 <div class="flex justify-between items-center text-[11px] border-b border-white/5 pb-3">
                     <span class="text-white/40 uppercase tracking-widest font-black">Cert ID</span>
-                    <span class="text-white font-mono font-bold">{{ $sample->certificate->cert_id }}</span>
+                    <span class="text-white font-mono font-bold">
+                        {{ $sample->certificate?->cert_id ?? 'Certificate Not Generated' }}
+                    </span>
                 </div>
                 <div class="flex justify-between items-center text-[11px] border-b border-white/5 pb-3">
                     <span class="text-white/40 uppercase tracking-widest font-black">Issued By</span>
-                    <span class="text-white font-bold">{{ $sample->certificate->issued_by }}</span>
+                    <span class="text-white font-mono font-bold">
+                        {{ $sample->certificate?->cert_id ?? 'Certificate Not Generated' }}
+                    </span>
                 </div>
                 <div class="flex justify-between items-center text-[11px] border-b border-white/5 pb-3">
                     <span class="text-white/40 uppercase tracking-widest font-black">Signing Authority</span>
@@ -180,7 +184,9 @@
                 </div>
                 <div class="flex justify-between items-center text-[11px] pt-4">
                     <span class="text-white/40 uppercase tracking-widest font-black">Expiration</span>
-                    <span class="text-error font-bold uppercase">{{ $sample->certificate->expires_at ? \Carbon\Carbon::parse($sample->certificate->expires_at)->format('d M Y') : 'N/A' }}</span>
+                   <span class="text-error font-bold uppercase">
+                        {{ $sample->certificate?->expires_at ? \Carbon\Carbon::parse($sample->certificate->expires_at)->format('d M Y') : 'N/A' }}
+                    </span>
                 </div>
             </div>
             

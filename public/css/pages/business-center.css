@@ -1,0 +1,64 @@
+/* ============================================================
+ * GMITE — Business Center Page Styles (business_center.blade.php)
+ * ============================================================ */
+
+/* ── Page Base ─────────────────────────────────────────────── */
+.business-center-page {
+    background-color: #050A15;
+    min-height: 100vh;
+}
+
+/* ── Hero Banner ───────────────────────────────────────────── */
+.business-hero-gradient {
+    background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(99,102,241,0.05) 50%, transparent 100%);
+}
+
+/* ── Stat Cards ────────────────────────────────────────────── */
+.stat-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Service Cards ─────────────────────────────────────────── */
+.service-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.service-card:hover {
+    background: rgba(59, 130, 246, 0.05);
+    border-color: rgba(59, 130, 246, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Section Divider ───────────────────────────────────────── */
+.section-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent);
+}
+
+/* ── Pulse Indicator ───────────────────────────────────────── */
+.pulse-live {
+    width: 8px;
+    height: 8px;
+    background: #4edea3;
+    border-radius: 50%;
+    animation: livePulse 2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(78, 222, 163, 0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 8px rgba(78, 222, 163, 0); }
+}

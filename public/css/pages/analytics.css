@@ -1,0 +1,97 @@
+/* ============================================================
+ * GMITE — Analytics Page Styles (analytics.blade.php)
+ * ============================================================ */
+
+/* ── KPI Cards ─────────────────────────────────────────────── */
+.kpi-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(66, 71, 84, 0.5);
+    border-radius: 20px;
+    padding: 24px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.kpi-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(173, 198, 255, 0.02));
+    pointer-events: none;
+}
+
+.kpi-card:hover {
+    border-color: rgba(173, 198, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* ── Chart Container ───────────────────────────────────────── */
+.chart-container {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(66, 71, 84, 0.4);
+    border-radius: 20px;
+    padding: 24px;
+}
+
+/* ── Data Table ────────────────────────────────────────────── */
+.data-table-header {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: rgba(194, 198, 214, 0.4);
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(66, 71, 84, 0.4);
+}
+
+.data-table-row {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(66, 71, 84, 0.15);
+    transition: background 0.15s ease;
+}
+
+.data-table-row:hover {
+    background: rgba(173, 198, 255, 0.03);
+}
+
+/* ── Trend Indicators ──────────────────────────────────────── */
+.trend-up::before {
+    content: '↑ ';
+    color: #4edea3;
+}
+
+.trend-down::before {
+    content: '↓ ';
+    color: #ffb4ab;
+}
+
+/* ── Filter Tabs ───────────────────────────────────────────── */
+.filter-tab {
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.filter-tab.active {
+    background: rgba(173, 198, 255, 0.15);
+    border-color: rgba(173, 198, 255, 0.3);
+    color: #adc6ff;
+}
+
+.filter-tab:not(.active) {
+    color: rgba(194, 198, 214, 0.4);
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(66, 71, 84, 0.4);
+}
+
+.filter-tab:not(.active):hover {
+    color: rgba(194, 198, 214, 0.8);
+    background: rgba(255, 255, 255, 0.06);
+}

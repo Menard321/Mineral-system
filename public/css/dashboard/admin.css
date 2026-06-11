@@ -1,0 +1,35 @@
+/* Admin Dashboard Layout Styles */
+
+.glass {
+    background: rgba(18, 20, 23, 0.7);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(66, 71, 84, 0.5);
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-item-active {
+    background: rgba(77, 142, 255, 0.15);
+    color: #adc6ff;
+    border-left: 3px solid #adc6ff;
+}
+
+.btn-primary {
+    background-color: #4d8eff;
+    color: #001a42;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #6da2ff;
+    box-shadow: 0 4px 12px rgba(77, 142, 255, 0.2);
+}
+
+.btn-primary:active {
+    scale: 0.98;
+}
+
+/* Specific Ticker Adjustments for Admin */
+.ticker-scroll {
+    animation: ticker 30s linear infinite;
+}

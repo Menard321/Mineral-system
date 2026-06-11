@@ -1,0 +1,107 @@
+/* 
+ * GMITE Enterprise - Shared Dashboard Components
+ * -----------------------------------------------
+ * This file contains the core design tokens and components
+ * used across the entire administrative and user dashboards.
+ */
+
+:root {
+    --primary-color: #adc6ff;
+    --secondary-color: #4edea3;
+    --error-color: #ffb4ab;
+    --background-color: #000000;
+    --surface-color: #0C0D0F;
+    --outline-variant: #424754;
+    --on-surface-variant: #c2c6d6;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.05);
+}
+
+/* Base Body Styles */
+body { 
+    background-color: var(--background-color); 
+    color: #e3e2e5; 
+    font-family: 'Inter', sans-serif; 
+    margin: 0;
+}
+
+/* Premium Card Components */
+.card-premium { 
+    background: var(--glass-bg); 
+    backdrop-filter: blur(20px); 
+    border: 1px solid var(--glass-border); 
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-premium:hover {
+    border-color: rgba(173, 198, 255, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Typography & Layout */
+.font-data-tabular { 
+    font-variant-numeric: tabular-nums; 
+}
+
+.font-display { 
+    font-family: 'Inter', sans-serif; 
+}
+
+/* Dashboard Sidebar & Navigation */
+.executive-sidebar-active { 
+    background: rgba(77, 142, 255, 0.1); 
+    color: var(--primary-color); 
+    border-right: 2px solid var(--primary-color); 
+}
+
+/* Animations */
+.ticker-scroll { 
+    animation: ticker 40s linear infinite; 
+}
+
+@keyframes ticker { 
+    0% { transform: translateX(100%); } 
+    100% { transform: translateX(-100%); } 
+}
+
+@keyframes progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(400%); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+}
+
+.animate-shake { 
+    animation: shake 0.3s ease-in-out infinite; 
+}
+
+.scale-in-center { 
+    animation: scale-in-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; 
+}
+
+@keyframes scale-in-center {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Scrollbar Customization */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

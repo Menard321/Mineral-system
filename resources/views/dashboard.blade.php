@@ -285,21 +285,4 @@
     }
 </script>
 
-<style>
-    @keyframes progress {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(400%); }
-    }
-    @keyframes shake {
-        0%, 100% { transform: rotate(0deg); }
-        25% { transform: rotate(5deg); }
-        75% { transform: rotate(-5deg); }
-    }
-    .animate-shake { animation: shake 0.3s ease-in-out infinite; }
-    .scale-in-center { animation: scale-in-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; }
-    @keyframes scale-in-center {
-        0% { transform: scale(0); opacity: 1; }
-        100% { transform: scale(1); opacity: 1; }
-    }
-</style>
 @endsection

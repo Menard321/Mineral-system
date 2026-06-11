@@ -216,15 +216,7 @@
     </div>
 </div>
 
-<style>
-    .form-group { @apply space-y-2; }
-    .form-label { @apply text-[10px] font-black text-on-surface-variant uppercase tracking-[0.2em] block ml-4; }
-    .form-input { 
-        @apply w-full bg-surface-container-high border border-outline-variant rounded-2xl px-6 py-4 text-sm font-bold text-on-background focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-on-surface-variant/30; 
-    }
-    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #343537; border-radius: 4px; }
-</style>
+{{-- Form + scrollbar styles are in public/css/dashboard/admin.css --}}
 
 <script>
     function scrollToSection(id) {

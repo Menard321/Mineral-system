@@ -1,0 +1,106 @@
+/* ============================================================
+ * GMITE — Trade Pages (trade_market.blade.php, trade_oversight.blade.php)
+ * ============================================================ */
+
+/* ── Trade Table ───────────────────────────────────────────── */
+.trade-table-wrapper {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid rgba(66, 71, 84, 0.4);
+}
+
+.trade-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.trade-table thead th {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 14px 20px;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: rgba(194, 198, 214, 0.4);
+    text-align: left;
+    border-bottom: 1px solid rgba(66, 71, 84, 0.4);
+    white-space: nowrap;
+}
+
+.trade-table tbody tr {
+    border-bottom: 1px solid rgba(66, 71, 84, 0.15);
+    transition: background 0.15s ease;
+}
+
+.trade-table tbody tr:hover {
+    background: rgba(173, 198, 255, 0.03);
+}
+
+.trade-table tbody td {
+    padding: 16px 20px;
+    font-size: 13px;
+    color: #e3e2e5;
+    vertical-align: middle;
+}
+
+/* ── Trade Status Pills ────────────────────────────────────── */
+.trade-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.trade-status-approved  { background: rgba(78,222,163,0.1);  border: 1px solid rgba(78,222,163,0.3);  color: #4edea3; }
+.trade-status-pending   { background: rgba(253,224,71,0.1);  border: 1px solid rgba(253,224,71,0.3);  color: #FDE047; }
+.trade-status-rejected  { background: rgba(255,72,72,0.1);   border: 1px solid rgba(255,72,72,0.3);   color: #ff8080; }
+.trade-status-transit   { background: rgba(173,198,255,0.1); border: 1px solid rgba(173,198,255,0.3); color: #adc6ff; }
+
+/* ── Mineral Type Icon ─────────────────────────────────────── */
+.mineral-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ── Trade Value Display ───────────────────────────────────── */
+.trade-value {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    color: #adc6ff;
+}
+
+/* ── Live Feed Indicator ───────────────────────────────────── */
+.live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #4edea3;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    background: #4edea3;
+    border-radius: 50%;
+    animation: liveBlink 1.5s ease-in-out infinite;
+    box-shadow: 0 0 8px rgba(78, 222, 163, 0.5);
+}
+
+@keyframes liveBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}

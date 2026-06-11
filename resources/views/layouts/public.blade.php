@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="{{ asset('css/public.css') }}" rel="stylesheet"/>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -15,7 +16,6 @@
                     fontFamily: {
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
                         display: ['Outfit', 'sans-serif'],
-                    },
                     },
                     colors: {
                         primary: "#3B82F6",
@@ -39,15 +39,7 @@
             },
         }
     </script>
-    <style>
-        body { background-color: #050A15; color: #E2E8F0; }
-        .glass-header { background: rgba(11, 18, 34, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .hero-gradient { background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%); }
-        .text-gradient { background: linear-gradient(to right, #60A5FA, #34D399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
-    </style>
+    {{-- Styles externalized to public/css/public.css --}}
 </head>
 <body class="selection:bg-primary selection:text-white overflow-x-hidden">
     
@@ -333,30 +325,14 @@
                     </h5>
                     <ul class="space-y-4 text-sm text-white/40 font-medium tracking-tight">
                         <li><a href="/" class="hover:text-primary transition-colors">Home Terminal</a></li>
-                        <li><button onclick="toggleAboutModal(true)" class="hover:text-primary transition-colors cursor-pointer outline-none">About Authority</button></li>
-                        <li><a href="#features" class="hover:text-primary transition-colors">Platform Features</a></li>
-                        <li><a href="#services" class="hover:text-primary transition-colors">Sovereign Services</a></li>
-                        <li><a href="/dashboard" class="hover:text-primary transition-colors">Executive Dashboard</a></li>
-                        <li><a href="/dashboard" class="hover:text-primary transition-colors">News & Updates</a></li>
+                        <li><button onclick="toggleAboutModal(true)" class="hover:text-primary transition-colors cursor-pointer outline-none">About Authority</button></li>   
+                        <li><a href="/events_center" class="hover:text-primary transition-colors">News & Updates</a></li>
                     </ul>
                 </div>
 
                 <!-- Column 2: Products & Modules -->
                
 
-                <!-- Column 3: Global Support -->
-                <div>
-                    <h5 class="text-[11px] font-black text-white uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
-                        <span class="w-1 h-3 bg-accent rounded-full"></span> Support Center
-                    </h5>
-                    <ul class="space-y-4 text-sm text-white/40 font-medium">
-                        <li><a href="/dashboard" class="hover:text-primary transition-colors">Technical Help Center</a></li>
-                        <li><a href="/dashboard" class="hover:text-primary transition-colors">User Documentation</a></li>
-                        <li><a href="/dashboard" class="hover:text-primary transition-colors">System Status: <span class="text-secondary font-black">OK</span></a></li>
-                        <li><a href="/dashboard" class="hover:text-primary transition-colors">Raise Support Ticket</a></li>
-                        <li><a href="/dashboard" class="hover:text-primary transition-colors">Knowledge Base</a></li>
-                    </ul>
-                </div>
 
                 <!-- Column 4: Legal & Security -->
                 
@@ -405,45 +381,17 @@
             <!-- Bottom Section: Language & Rights -->
             <div class="pt-12 flex flex-col lg:flex-row justify-between items-center gap-12 mb-12">
                 <div class="flex flex-wrap justify-center gap-4">
-                    @foreach(['LinkedIn', 'X-Twitter', 'YouTube', 'Facebook', 'GitHub'] as $social)
+                    @foreach(['X-Twitter', 'YouTube', 'Facebook','instagram'] as $social)
                         <a href="#" class="px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold text-white/30 uppercase tracking-widest hover:bg-primary hover:text-white hover:border-primary transition-all">{{ $social }}</a>
                     @endforeach
                 </div>
                 
-                <!-- CUSTOM SOVEREIGN LANGUAGE SELECTOR -->
-                <div class="relative inline-block text-left" id="language-gate">
-                    <button onclick="toggleLanguageDropdown()" class="flex items-center gap-4 bg-white/5 border border-white/10 p-2 rounded-full pr-6 hover:bg-white/10 transition-all outline-none">
-                        <div class="flex items-center gap-3 pl-4">
-                            <span class="material-symbols-outlined text-sm text-primary">language</span>
-                            <span id="current-lang" class="text-[10px] font-black text-white uppercase tracking-widest">English (US)</span>
-                        </div>
-                        <span class="material-symbols-outlined text-xs text-white/20 transition-transform" id="lang-chevron">expand_more</span>
-                    </button>
-                    
-                    <!-- HIGH-CONTRAST DROPDOWN -->
-                    <div id="lang-dropdown" class="absolute bottom-full mb-4 right-0 w-48 bg-[#0C0D10] border border-white/10 rounded-2xl shadow-2xl hidden animate-in slide-in-from-bottom-2 duration-200 z-[200]">
-                        <div class="p-2 space-y-1">
-                            <button onclick="selectLang('English (US)')" class="w-full text-left px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all">English (US)</button>
-                            <button onclick="selectLang('Mandarin (中文)')" class="w-full text-left px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all">Mandarin (中文)</button>
-                            <button onclick="selectLang('Spanish (ES)')" class="w-full text-left px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all">Spanish (ES)</button>
-                            <button onclick="selectLang('Arabic (العربية)')" class="w-full text-left px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all">Arabic (العربية)</button>
-                            <button onclick="selectLang('French (FR)')" class="w-full text-left px-4 py-3 text-[10px] font-black text-white/50 uppercase tracking-widest hover:text-white hover:bg-primary/20 rounded-xl transition-all">French (FR)</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                
 
             <div class="flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-white/10 mt-12 pt-8 border-t border-white/5">
                 <div class="flex gap-10">
                     <span>© 2026 GMITE ECOSYSTEM Authority.</span>
-                    <a href="#" class="hover:text-white/20 transition-colors">Sitemap</a>
-                    <a href="#" class="hover:text-white/20 transition-colors">Developer Portal</a>
-                </div>
-                <div class="flex items-center gap-6">
-                    <span>Platform Version: 4.2.0-STABLE</span>
-                    <span class="text-secondary/20 flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_5px_#4edea3] opacity-20"></span> API Status: Secure</span>
-                </div>
-            </div>
+                 
         </div>
 
         <!-- Scroll to Top -->
